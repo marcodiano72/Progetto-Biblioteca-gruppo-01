@@ -153,13 +153,6 @@ public class Studente {
      * @return La stringa che descrive lo stato di sanzione.
      */
     public String getSanzione(){
-        for(Prestito p: prestitiAttivi)
-        {
-            if(!p.gestioneSanzioni().equals("Nessun ritardo riscontrato."))
-            {
-                return p.gestioneSanzioni();
-            }    
-        }
       return sanzione;
     }
     
@@ -167,8 +160,11 @@ public class Studente {
      * Imposta lo stato di sanzione dello studente.
      * @param sanzione La descrizione della sanzione da impostare.
      */
-    public void setSanzione(String sanzione){
-        this.sanzione = sanzione;
+     public void setSanzione(String sanzione){
+        for(Prestito p: prestitiAttivi){
+            if(!p.gestioneSanzioni().equals("Nessun ritardo riscontrato"));
+            this.sanzione=p.gestioneSanzioni();
+        }
     }
     
     /**

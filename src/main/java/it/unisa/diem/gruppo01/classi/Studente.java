@@ -53,7 +53,7 @@ public class Studente {
         this.matricola = matricola;
         this.email = email;
         this.sanzione = "Nessuna";
-        this.ritardo = false;
+        this.ritardo = ritardo;
         prestitiAttivi = new ArrayList<>();
      
     }
@@ -152,62 +152,54 @@ public class Studente {
      * Restituisce la descrizione della sanzione dello studente.
      * @return La stringa che descrive lo stato di sanzione.
      */
-    public String getSanzione(){
-      return sanzione;
-    }
+public String getSanzione(){ return sanzione; }
     
     /**
-     * Imposta lo stato di sanzione dello studente.
-     * @param sanzione La descrizione della sanzione da impostare.
-     */
-     public void setSanzione(String sanzione){
-        for(Prestito p: prestitiAttivi){
-            if(!p.gestioneSanzioni().equals("Nessun ritardo riscontrato"));
-            this.sanzione=p.gestioneSanzioni();
-        }
+     * Imposta la sanzione.
+     * Cerca tra i prestiti se ce n'è uno che viola le regole.
+     */
+    public void setSanzione(String sanzione){
+        this.sanzione = sanzione;
     }
     
-    /**
-     * Controlla se lo studente è attualmente in ritardo con un prestito.
-     * @return true se lo studente è in ritardo,false altrimenti.
-     */
-    public boolean isRitardo(){
-        return ritardo;
-    }
+    public boolean isRitardo(){ return ritardo; }
     
     /**
-     * Imposta lo stato di ritardo dello studente.
-     * @param ritardo Lo stato di ritardo da impostare.
-     */
+     * Imposta il flag ritardo.
+     * Scansiona i prestiti attivi. Se ne trova uno con giorni > 0, scatta il flag.
+     */
     public void setRitardo(boolean ritardo){
-        this.ritardo = ritardo;
-    }
-    
-    /**
-     * Controlla se lo studente è abilitato a effettuare nuovi prestiti.
-     * L'abilitazione è concessa se:
-     * 1. Il numero di prestiti attivi è inferiore al limite massimo ).
-     * 2. Non è in stato di ritardo).
-     *
-     * @return true se lo studente è abilitato, false altrimenti.
-     */
-    public boolean isAbilitato(){
-        if( this.contaPrestitiAttivi() < Prestito.LIMITE_PRESTITI && !(this.isRitardo())) {
-            
-            return true;
-            
-        }else{
-            return false;
+        this.ritardo = false; // Reset
+        
+        for(Prestito p : prestitiAttivi){
+            // Ora p.calcolaGiorniRitardo() funziona anche se dataRestituzione è null
+            if(p.calcolaGiorniRitardo() > 0){
+                this.ritardo = true;
+                break; // Trovato un ritardo, inutile continuare
+            }
         }
     }
     
-   
     /**
-     * Rimuove un prestito dalla lista dei prestiti attivi.
-     * @param p L'oggetto da rimuovere.
-     */
-    public void rimuoviPrestito(Prestito p){
+     * Determina se lo studente è abilitato.
+     * Forza il ricalcolo dello stato prima di rispondere.
+     */
+    public boolean isAbilitato(){
+        // 1. Aggiorna lo stato attuale (i parametri passati sono ininfluenti)
+        this.setRitardo(false); 
+        this.setSanzione(null);
+
+        // 2. Controllo Limite
+        boolean limiteSuperato = this.contaPrestitiAttivi() >= Prestito.LIMITE_PRESTITI;
         
+        // 3. Controllo Ritardo (appena ricalcolato)
+        boolean inRitardo = this.isRitardo();
+
+        // ABILITATO SE: Non ha troppi libri E non è in ritardo
+        return !limiteSuperato && !inRitardo;
+    }
+    
+    public void rimuoviPrestito(Prestito p){
         prestitiAttivi.remove(p);
     }
     

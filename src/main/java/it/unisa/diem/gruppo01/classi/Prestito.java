@@ -28,6 +28,8 @@ public class Prestito {
     
     public static final int LIMITE_PRESTITI = 3; /// Limite massimo di prestiti attivi prima che scattino le sanzioni in caso di ritardo (3).
 
+    public static final String NESSUN_RITARDO = "Nessun ritardo riscontrato.";
+    
     private Libro libro; ///< Il libro oggetto del prestito.
     private Studente studente; ///< Lo studente che ha richiesto il prestito.
     private LocalDate dataInizio;///< Data di inizio del prestito.
@@ -137,55 +139,37 @@ public class Prestito {
      * Un prestito è attivo se dataRestituzione è null.
      * @return true se il prestito è attivo, false altrimenti.
      */
-    public boolean isPrestitoAttivo(){
-        if(this.getDataRestituzione() == null){
-            return true;
-        }else{
-            return false;
-        }
+public boolean isPrestitoAttivo(){
+        return this.dataRestituzione == null;
     }
     
-    /**
-     * Calcola il numero di giorni di ritardo nella restituzione.
-     * Il calcolo viene effettuato tra la data di scadenza e la data di restituzione.
-     * Se il risultato è negativo, significa che il libro è stato restituito in anticipo o in tempo.
-     *
-     * @return Il numero di giorni di ritardo (o 0 o negativo se non in ritardo).
-     */
+/**
+     * Calcola i giorni di ritardo.
+     * CORREZIONE FONDAMENTALE: Se il libro non è stato restituito, confronta con OGGI.
+     */
     public int calcolaGiorniRitardo(){
-        return (int) ChronoUnit.DAYS.between(this.getDataScadenza(), this.getDataRestituzione());  //il metodo ChronoUnit restituisce un tipo long
+        // Se dataRestituzione è null (libro ancora in mano allo studente), usiamo OGGI
+        LocalDate dataFine = (this.dataRestituzione != null) ? this.dataRestituzione : LocalDate.now();
+        
+        long giorni = ChronoUnit.DAYS.between(this.getDataScadenza(), dataFine);
+        
+        // Ritorna i giorni solo se positivi (ritardo), altrimenti 0
+        return giorni > 0 ? (int) giorni : 0;
     }
-       
-    /**
-     * Determina il tipo di sanzione applicabile in base ai giorni di ritardo
-     * e al numero di prestiti attivi dello studente .
-     *
-     * @return Una stringa che descrive l'esito della sanzione applicabile.
-     */
-    public String gestioneSanzioni()
-    {
-        if (this.dataRestituzione == null) {
-            return "NON APPLICABILE (Prestito Attivo)";
-        }
-
-       int giorniRitardo = this.calcolaGiorniRitardo();
-        int prestitiAttivi = this.getStudente().contaPrestitiAttivi();
+        
+    public String gestioneSanzioni() {
+        int giorniRitardo = this.calcolaGiorniRitardo();
 
         if (giorniRitardo <= 0) {
-            return "Nessun ritardo riscontrato.";
+            return NESSUN_RITARDO;
         }
         
-        if (prestitiAttivi <= LIMITE_PRESTITI) {
-             return "Ritardo di " + giorniRitardo + " giorni, ma NESSUNA SANZIONE APPLICATA (limite prestiti non superato).";
-        }
-
-        // SANZIONI SOLO SE C'È RITARDO E SI SUPERA IL LIMITE DI PRESTITI
         if (giorniRitardo >= 1 && giorniRitardo <= 10) {
-            return "Categoria 1 (" + giorniRitardo + " gg di ritardo). SANZIONE: Blocco lieve , negazione prestiti fino a restituzione - LIMITE SUPERATO.";
+            return "Categoria 1 (" + giorniRitardo + " gg ritardo): Blocco lieve.";
         } else if (giorniRitardo > 10 && giorniRitardo <= 20) {
-            return "Categoria 2 (" + giorniRitardo + " gg di ritardo). SANZIONE: blocco 30 giorni post-restituzione - LIMITE SUPERATO.";
-        } else { // giorniRitardo > 20
-            return "Categoria 3 (" + giorniRitardo + " gg di ritardo). SANZIONE: blocco PERMANENTE - LIMITE SUPERATO.";
+            return "Categoria 2 (" + giorniRitardo + " gg ritardo): Blocco 30 giorni.";
+        } else { 
+            return "Categoria 3 (" + giorniRitardo + " gg ritardo): Blocco PERMANENTE.";
         }
     }
       

@@ -58,7 +58,7 @@ public class Libro {
         return numCopie;
     }
 
-    public void setNumCopia(int numCopia) {
+    public void setNumCopia(int numCopie) {
         this.numCopie = numCopie;
     }
     

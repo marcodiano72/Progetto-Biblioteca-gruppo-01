@@ -4,41 +4,69 @@
  * and open the template in the editor.
  */
 package it.unisa.diem.gruppo01.strumenti;
+import java.time.LocalDate;
 
 /**
  *
  * @author Marco Diano'
  */
 public class Libro {
-    private String codiceLibro;
+    private String ISBN; //codice libro
     private String titolo;
-    private boolean disponibile;
+    private String autore;
+    private LocalDate annoPb; //anno di pubblicazione
+    int numCopie;
     
-    public Libro(String codiceLibro, String titolo, boolean disponibile)
+    
+    
+    public Libro(String ISBN, String titolo, String autore, LocalDate annoPb, int numCopie)
     {
-        this.codiceLibro=codiceLibro;
+        this.ISBN=ISBN;
         this.titolo=titolo;
-        this.disponibile=disponibile;
+        this.autore=autore;
+        this.annoPb=annoPb;
+        this.numCopie=numCopie;
+        
     }
     
-    public String getCodiceLibro()
+    public String getISBN()
     {
-        return codiceLibro;
+        return ISBN;
     }
-    
+   
     public String getTitolo()
     {
         return titolo;
     }
     
-    public boolean isDisponibile()
+    public String getAutore()
     {
-        return disponibile;
+        return autore;
     }
     
-    public void setDisponibile(boolean disponibile)
+    public LocalDate getAnnoPb()
     {
-        this.disponibile=disponibile;
+        return annoPb;
+    }
+
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
+    }
+
+    public void setNumCopia(int numCopia) {
+        this.numCopie = numCopie;
+    }
+    
+    public boolean isDisponibile()
+    {
+       return this.numCopie > 0;
+    }
+    
+    
+    @Override
+    public String ToString()
+    {
+       return "Codice libro:" + ISBN + ""+ "titolo:" +  titolo + "" + "autore" + autore + "" + "anno di pubblicazione" + annoPb + "" + "numero copie disponibili" + numCopie + "\n";
     }
     
 }

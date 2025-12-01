@@ -1,7 +1,7 @@
 package it.unisa.diem.gruppo01;
 
 /**
- * Hello world!
+ * PROGETTO BIBLIOTECA
  */
 public class App {
     public static void main(String[] args) {

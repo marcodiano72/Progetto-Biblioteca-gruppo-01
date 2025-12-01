@@ -83,6 +83,9 @@ public class Prestito {
     
     public void applicaSanzione(){
         //da implementare
+        if(studente.isRitardo()){
+            
+        }
     }
     
     @Override

@@ -45,7 +45,7 @@ public class Prestito {
         this.studente = studente;
     }
     
-    public LocalDate getDatainizio(){
+    public LocalDate getDataInizio(){
         return dataInizio;
     }
     
@@ -82,7 +82,7 @@ public class Prestito {
     }
     
     public void applicaSanzione(){
-        //da implementare
+        //da terminare
         if(studente.isRitardo()){
             
         }
@@ -92,7 +92,14 @@ public class Prestito {
     public String toString(){
         StringBuffer sb = new StringBuffer();
         
+        sb.append("\nData inizio prestito: " + this.getDataInizio());
+        sb.append("\nData scadenza prestito: "+ this.getDataScadenza());
+        sb.append("\nData restituzione: "+ this.getDataRestituzione());
+        
+        
+        
         //da completare
+        
         
         return sb.toString();
     }

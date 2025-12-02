@@ -14,6 +14,9 @@ import java.time.temporal.ChronoUnit;
  */
 public class Prestito {
     
+    // Costante per la durata base del prestito (50 giorni come da specifica)
+    public static final int DURATA_PRESTITO_BASE_GIORNI = 50;
+    
     private Libro libro;
     private Studente studente;
     private LocalDate dataInizio;
@@ -82,24 +85,93 @@ public class Prestito {
     }
     
     public void applicaSanzione(){
-        //da terminare
-        if(studente.isRitardo()){
-            
+       // Non applicare sanzioni se il prestito è ancora attivo.
+        if (this.dataRestituzione == null) {
+            return;
         }
+        
+        int giorniRitardo = this.calcolaGiorniRitardo();
+        
+        if (giorniRitardo > 0) {
+            
+            System.out.println("\n*** Tentativo di applicare sanzione con " + giorniRitardo + " giorni di ritardo ***");
+            
+            if (giorniRitardo >= 1 && giorniRitardo <= 10) {
+                // (1-10) gg: negazione prestito di altri libri fino a restituzione (blocco lieve)
+                // Assumo 7 giorni di blocco dopo la restituzione come sanzione post-ritorno.
+                LocalDate dataFineSanzione = this.dataRestituzione.plusDays(7);
+                // this.studente.setDenialEndDate(dataFineSanzione); 
+                System.out.println("  -> SANZIONE: Blocco prestito per 7 giorni, fino al: " + dataFineSanzione);
+                
+            } else if (giorniRitardo > 10 && giorniRitardo <= 20) {
+                // (10-20) gg: negazione prestito per i successivi 30gg dalla data di consegna
+                LocalDate dataFineSanzione = this.dataRestituzione.plusDays(30);
+                // this.studente.setDenialEndDate(dataFineSanzione); 
+                System.out.println("  -> SANZIONE: Blocco prestito per 30 giorni, fino al: " + dataFineSanzione);
+                
+            } else if (giorniRitardo > 20) {
+                // (20-oltre) gg: negazione prestito permanente
+                // this.studente.setPermanentDenial(true); 
+                System.out.println("  -> SANZIONE: Blocco prestito PERMANENTE.");
+            }
+        }
+        // Se giorniRitardo è <= 0, nessuna sanzione viene applicata.
     }
+ 
+    
+    
+    public String gestioneSanzioni()
+    {
+        if (this.dataRestituzione == null) {
+            return "NON APPLICABILE (Prestito Attivo)";
+        }
+
+        int giorniRitardo = this.calcolaGiorniRitardo();
+
+        if (giorniRitardo <= 0) {
+            return "Nessun ritardo riscontrato.";
+        } else if (giorniRitardo >= 1 && giorniRitardo <= 10) {
+            return "Categoria 1 (" + giorniRitardo + " gg di ritardo). Sanzione lieve: negazione prestito di altri libri fino a restituzione.";
+        } else if (giorniRitardo > 10 && giorniRitardo <= 20) {
+            return "Categoria 2 (" + giorniRitardo + " gg di ritardo). Sanzione: blocco 30 giorni post-restituzione.";
+        } else { // giorniRitardo > 20
+            return "Categoria 3 (" + giorniRitardo + " gg di ritardo). Sanzione: blocco PERMANENTE.";
+        }
+        
+    }
+    
     
     @Override
     public String toString(){
+        
+        
         StringBuffer sb = new StringBuffer();
         
+        sb.append("--- Dettagli Prestito ---\n");
+       
+        
+        // Dati di Riferimento
+        sb.append("Libro: ").append(this.getLibro().toString()).append("\n"); 
+        sb.append("STATO: ").append(this.isPrestitoAttivo() ? "ATTIVO" : "CONCLUSO").append("\n");
+        sb.append("Studente: ").append(this.getStudente().toString()).append("\n"); 
+        
+        // Dati Temporali
         sb.append("\nData inizio prestito: " + this.getDataInizio());
         sb.append("\nData scadenza prestito: "+ this.getDataScadenza());
         sb.append("\nData restituzione: "+ this.getDataRestituzione());
         
         
+       // Se restituito, mostra il ritardo
+        if (!this.isPrestitoAttivo()) {
+            int ritardo = this.calcolaGiorniRitardo();
+            sb.append("Giorni di Ritardo: ").append(ritardo > 0 ? ritardo + " giorni" : "Nessun ritardo").append("\n");
+        }
         
-        //da completare
+        sb.append("\n--- Esito Sanzione ---\n");
+        // Utilizza il metodo di supporto per descrivere la sanzione senza applicarla
+        sb.append("Regola Sanzione Applicabile: ").append(this.gestioneSanzioni()).append("\n");
         
+        sb.append("-------------------------\n");
         
         return sb.toString();
     }

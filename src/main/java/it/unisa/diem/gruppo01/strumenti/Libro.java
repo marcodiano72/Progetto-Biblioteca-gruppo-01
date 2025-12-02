@@ -11,7 +11,7 @@ import java.time.LocalDate;
  * @author Marco Diano'
  */
 public class Libro {
-    private String ISBN; //codice libro
+    private String isbn; //codice libro
     private String titolo;
     private String autore;
     private LocalDate annoPb; //anno di pubblicazione
@@ -19,13 +19,13 @@ public class Libro {
     
     
     
-    public Libro(String ISBN, String titolo, String autore, LocalDate annoPb, int numCopie)
+    public Libro(String isbn, String titolo, String autore, LocalDate annoPb, int numCopie)
     {
         if(numCopie<0)
         {
             throw new IllegalArgumentException("Il numero di copie non può essere negativo.");
         }
-        this.ISBN=ISBN;
+        this.isbn=isbn;
         this.titolo=titolo;
         this.autore=autore;
         this.annoPb=annoPb;
@@ -33,9 +33,9 @@ public class Libro {
         
     }
     
-    public String getISBN()
+    public String getIsbn()
     {
-        return ISBN;
+        return isbn;
     }
    
     public String getTitolo()
@@ -95,7 +95,8 @@ public class Libro {
     @Override
     public String toString()
     {
-        return "Libro [ISBN=" + ISBN + ", Titolo=" + titolo + ", Autore=" + autore + ", Pubblicazione=" + annoPb + ", Copie=" + numCopie + "]";
+        return "Libro [ISBN=" + this.getIsbn() + ", Titolo=" + this.getTitolo() + ", Autore=" + this.getAutore()
+                + ", Pubblicazione=" + this.getAnnoPb() + ", Copie=" + this.getNumCopie() + "]";
     }
     
 }

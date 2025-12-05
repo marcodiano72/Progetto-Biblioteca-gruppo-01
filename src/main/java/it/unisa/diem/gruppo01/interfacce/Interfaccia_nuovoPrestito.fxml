@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.diem.gruppo01.interfacce.Interfaccia_nuovoPrestitoController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.diem.gruppo01.interfacce.Interfaccia_nuovoPrestitoController">
    <children>
       <HBox layoutX="242.0" layoutY="123.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
          <children>
@@ -197,9 +206,10 @@
                   </VBox>
                </children>
             </VBox>
+            <Separator opacity="0.0" orientation="VERTICAL" prefHeight="560.0" prefWidth="30.0" />
             <VBox prefHeight="560.0" prefWidth="380.0">
                <children>
-                  <MenuBar>
+                  <MenuBar prefHeight="29.0" prefWidth="380.0">
                     <menus>
                       <Menu mnemonicParsing="false" text="Restituzione Libro">
                         <items>
@@ -234,7 +244,7 @@
                         <Insets left="20.0" right="10.0" />
                      </VBox.margin>
                   </TextField>
-                  <HBox prefHeight="54.0" prefWidth="360.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="360.0">
                      <VBox.margin>
                         <Insets left="20.0" top="20.0" />
                      </VBox.margin>

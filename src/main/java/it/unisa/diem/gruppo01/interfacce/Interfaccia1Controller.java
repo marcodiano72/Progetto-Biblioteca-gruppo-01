@@ -18,7 +18,7 @@ import javafx.scene.control.TextField;
 /**
  * FXML Controller class
  *
- * @author Marco Diano'
+ * @author Utente
  */
 public class Interfaccia1Controller implements Initializable {
 

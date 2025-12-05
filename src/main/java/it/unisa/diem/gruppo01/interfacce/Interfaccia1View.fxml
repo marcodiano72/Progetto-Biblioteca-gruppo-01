@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller=".Interfaccia1Controller">
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.diem.gruppo01.interfacce.Interfaccia1Controller">
    <children>
     <Button fx:id="accessButton" layoutX="278.0" layoutY="398.0" mnemonicParsing="false" onAction="#openMenu" prefHeight="42.0" prefWidth="143.0" text="ACCEDI" textAlignment="JUSTIFY" />
       <PasswordField fx:id="passwordFile" layoutX="365.0" layoutY="319.0" />

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.diem.gruppo01.interfacce.Interfaccia_nuovoPrestitoController">
+   <children>
+      <HBox layoutX="242.0" layoutY="123.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+         <children>
+            <VBox prefHeight="560.0" prefWidth="380.0">
+               <children>
+                  <MenuBar prefHeight="29.0" prefWidth="380.0">
+                    <menus>
+                      <Menu mnemonicParsing="false" text="Nuovo Prestito">
+                        <items>
+                          <MenuItem mnemonicParsing="false" text="Close" />
+                        </items>
+                      </Menu>
+                    </menus>
+                  </MenuBar>
+                  <HBox prefHeight="28.0" prefWidth="380.0">
+                     <children>
+                        <Label text="Matricola:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="1.5" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="inserisciM" alignment="TOP_LEFT" onAction="#inserisciMatricola" prefHeight="28.0" prefWidth="221.0" promptText="Inserisci matricola">
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="5.0" top="15.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </HBox>
+                  <HBox prefHeight="28.0" prefWidth="380.0">
+                     <VBox.margin>
+                        <Insets left="20.0" top="15.0" />
+                     </VBox.margin>
+                     <children>
+                        <Label text="Nome:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="1.5" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="inserisciN" alignment="TOP_LEFT" onAction="#inserisciNome" prefHeight="28.0" prefWidth="221.0" promptText="Inserisci nome">
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="28.0" prefWidth="380.0">
+                     <VBox.margin>
+                        <Insets left="20.0" top="15.0" />
+                     </VBox.margin>
+                     <children>
+                        <Label text="Cognome:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="1.5" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="inserisciC" alignment="TOP_LEFT" onAction="#inserisciCognome" prefHeight="28.0" prefWidth="221.0" promptText="Inserisci cognome">
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="28.0" prefWidth="380.0">
+                     <VBox.margin>
+                        <Insets left="20.0" top="15.0" />
+                     </VBox.margin>
+                     <children>
+                        <Label text="Email:">
+                           <HBox.margin>
+                              <Insets top="1.5" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="15.0" />
+                           </font></Label>
+                        <TextField fx:id="inserisciE" onAction="#inserisciEmail" promptText="Inserisci email">
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </HBox>
+                  <HBox prefHeight="28.0" prefWidth="380.0">
+                     <VBox.margin>
+                        <Insets left="20.0" top="15.0" />
+                     </VBox.margin>
+                     <children>
+                        <Label text="Utente abilitato:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="1.5" />
+                           </HBox.margin>
+                        </Label>
+                        <CheckBox fx:id="spuntaU" mnemonicParsing="false" onAction="#spuntaUtente">
+                           <HBox.margin>
+                              <Insets left="20.0" top="2.5" />
+                           </HBox.margin>
+                        </CheckBox>
+                     </children>
+                  </HBox>
+                  <VBox disable="true" prefHeight="300.0" prefWidth="380.0">
+                     <VBox.margin>
+                        <Insets top="15.0" />
+                     </VBox.margin>
+                     <children>
+                        <Label text="Libro richiesto:">
+                           <VBox.margin>
+                              <Insets left="20.0" top="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label text="Inserisci Titolo:">
+                           <VBox.margin>
+                              <Insets left="20.0" top="15.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="inserisciT" onAction="#inserisciTitolo" promptText="Titolo">
+                           <VBox.margin>
+                              <Insets left="20.0" right="6.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Label text="Inserisci Autore:">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="inserisciA" onAction="#inserisciAutore" promptText="Autore">
+                           <VBox.margin>
+                              <Insets left="20.0" right="6.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <HBox prefHeight="39.0" prefWidth="380.0">
+                           <VBox.margin>
+                              <Insets left="20.0" top="10.0" />
+                           </VBox.margin>
+                           <children>
+                              <Label text="Libro disponibile:">
+                                 <HBox.margin>
+                                    <Insets top="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <CheckBox fx:id="spuntaL" mnemonicParsing="false" onAction="#spuntaLibro">
+                                 <HBox.margin>
+                                    <Insets left="20.0" top="11.0" />
+                                 </HBox.margin>
+                              </CheckBox>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                           <children>
+                              <Button fx:id="salvaP" mnemonicParsing="false" onAction="#salvaPrestito" prefHeight="50.0" prefWidth="180.0" text="Salva prestito" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="560.0" prefWidth="380.0">
+               <children>
+                  <MenuBar>
+                    <menus>
+                      <Menu mnemonicParsing="false" text="Restituzione Libro">
+                        <items>
+                          <MenuItem mnemonicParsing="false" text="Close" />
+                        </items>
+                      </Menu>
+                    </menus>
+                  </MenuBar>
+                  <Label text="Matricola:">
+                     <VBox.margin>
+                        <Insets left="20.0" top="35.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="inserisciMa" onAction="#inserisceMatricola" promptText="Inserisci matricola">
+                     <VBox.margin>
+                        <Insets left="20.0" right="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label text="ISBN libro:">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="20.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="inserisciISBN" onAction="#inserisceISBN" promptText="Inserisci ISBN">
+                     <VBox.margin>
+                        <Insets left="20.0" right="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <HBox prefHeight="54.0" prefWidth="360.0">
+                     <VBox.margin>
+                        <Insets left="20.0" top="20.0" />
+                     </VBox.margin>
+                     <children>
+                        <Label text="Stato libro:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="1.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ComboBox editable="true" prefWidth="150.0" promptText="Visualizza opzioni" visibleRowCount="3">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </ComboBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="119.0" prefWidth="380.0">
+                     <children>
+                        <Button fx:id="salvaRes" mnemonicParsing="false" onAction="#salvaRestituzione" prefHeight="40.0" prefWidth="150.0" text="Salva" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

@@ -124,6 +124,36 @@ public class Studente {
         prestitiAttivi.remove(p);
     }
     
+        //gestione unicità basata sulla matricola
+    @Override
+    public int hashCode()
+    {
+        int code=matricola == null ? 0 : matricola.hashCode();
+        return code;
+    }
+    
+    @Override
+    public boolean equals(Object obj)
+    {
+        if(this == obj)
+        {
+            return true;
+        }
+        
+        if(obj == null)
+        {
+            return false;
+        }
+        
+        if(this.getClass() != obj.getClass())
+        {
+            return false;
+        } 
+        Studente other=(Studente)obj;
+        if(this.matricola.equals((other.matricola))) return true;
+        return false;
+        
+    }
     
    @Override
    public String toString(){

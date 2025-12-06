@@ -30,9 +30,9 @@
                       </Menu>
                     </menus>
                   </MenuBar>
-                  <HBox prefHeight="28.0" prefWidth="380.0">
+                  <HBox alignment="CENTER_RIGHT" prefHeight="28.0" prefWidth="380.0">
                      <children>
-                        <Label text="Matricola:">
+                        <Label prefHeight="22.0" prefWidth="115.0" text="Matricola:">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -40,7 +40,7 @@
                               <Insets top="1.5" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="inserisciM" alignment="TOP_LEFT" onAction="#inserisciMatricola" prefHeight="28.0" prefWidth="221.0" promptText="Inserisci matricola">
+                        <TextField fx:id="inserisciM" alignment="TOP_LEFT" onAction="#inserisciMatricola" prefHeight="28.0" prefWidth="249.0" promptText="Inserisci matricola">
                            <HBox.margin>
                               <Insets left="40.0" />
                            </HBox.margin>
@@ -53,12 +53,12 @@
                         <Insets left="20.0" />
                      </padding>
                   </HBox>
-                  <HBox prefHeight="28.0" prefWidth="380.0">
+                  <HBox alignment="CENTER_RIGHT" prefHeight="28.0" prefWidth="364.0">
                      <VBox.margin>
-                        <Insets left="20.0" top="15.0" />
+                        <Insets left="5.0" top="15.0" />
                      </VBox.margin>
                      <children>
-                        <Label text="Nome:">
+                        <Label prefHeight="22.0" prefWidth="123.0" text="Nome:">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -66,19 +66,22 @@
                               <Insets top="1.5" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="inserisciN" alignment="TOP_LEFT" onAction="#inserisciNome" prefHeight="28.0" prefWidth="221.0" promptText="Inserisci nome">
+                        <TextField fx:id="inserisciN" alignment="TOP_LEFT" onAction="#inserisciNome" prefHeight="28.0" prefWidth="252.0" promptText="Inserisci nome">
                            <HBox.margin>
                               <Insets left="40.0" />
                            </HBox.margin>
                         </TextField>
                      </children>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
                   </HBox>
-                  <HBox prefHeight="28.0" prefWidth="380.0">
+                  <HBox alignment="CENTER_RIGHT" prefHeight="28.0" prefWidth="348.0">
                      <VBox.margin>
-                        <Insets left="20.0" top="15.0" />
+                        <Insets left="5.0" top="15.0" />
                      </VBox.margin>
                      <children>
-                        <Label text="Cognome:">
+                        <Label prefHeight="22.0" prefWidth="107.0" text="Cognome:">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -86,26 +89,29 @@
                               <Insets top="1.5" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="inserisciC" alignment="TOP_LEFT" onAction="#inserisciCognome" prefHeight="28.0" prefWidth="221.0" promptText="Inserisci cognome">
+                        <TextField fx:id="inserisciC" alignment="TOP_LEFT" onAction="#inserisciCognome" prefHeight="28.0" prefWidth="232.0" promptText="Inserisci cognome">
                            <HBox.margin>
                               <Insets left="40.0" />
                            </HBox.margin>
                         </TextField>
                      </children>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
                   </HBox>
-                  <HBox prefHeight="28.0" prefWidth="380.0">
+                  <HBox alignment="CENTER_RIGHT" prefHeight="28.0" prefWidth="380.0">
                      <VBox.margin>
-                        <Insets left="20.0" top="15.0" />
+                        <Insets left="5.0" top="15.0" />
                      </VBox.margin>
                      <children>
-                        <Label text="Email:">
+                        <Label prefHeight="22.0" prefWidth="158.0" text="Email:">
                            <HBox.margin>
                               <Insets top="1.5" />
                            </HBox.margin>
                            <font>
                               <Font size="15.0" />
                            </font></Label>
-                        <TextField fx:id="inserisciE" onAction="#inserisciEmail" promptText="Inserisci email">
+                        <TextField fx:id="inserisciE" onAction="#inserisciEmail" prefHeight="26.0" prefWidth="288.0" promptText="Inserisci email">
                            <HBox.margin>
                               <Insets left="40.0" />
                            </HBox.margin>
@@ -114,6 +120,9 @@
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
                   </HBox>
                   <HBox prefHeight="28.0" prefWidth="380.0">
                      <VBox.margin>

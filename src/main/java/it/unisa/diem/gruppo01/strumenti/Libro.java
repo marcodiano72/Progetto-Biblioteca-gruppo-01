@@ -91,6 +91,37 @@ public class Libro {
         return false; // Operazione fallita (libro non disponibile)
     }
     
+    //gestione unicità basata sull'ISBN
+    @Override
+    public int hashCode()
+    {
+        int code=isbn == null ? 0 : isbn.hashCode();
+        return code;
+    }
+    
+    @Override
+    public boolean equals(Object obj)
+    {
+        if(this == obj)
+        {
+            return true;
+        }
+        
+        if(obj == null)
+        {
+            return false;
+        }
+        
+        if(this.getClass() != obj.getClass())
+        {
+            return false;
+        } 
+        Libro other=(Libro)obj;
+        if(this.isbn.equals((other.isbn))) return true;
+        return false;
+        
+    }
+    
     
     @Override
     public String toString()

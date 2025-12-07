@@ -1,6 +1,6 @@
 /*
-*@file Main.java
-*@brief Questo file è il punto di ingresso dell'applicazione JavaFX
+*@file MainTest.java
+*@brief 
 *
 *@version 1.0
 */

@@ -1,8 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/**
+*@file GestioneLibriController.java
+*@brief file per gestire le interazioni utente al fine di aggiungere, modificare, cercare, eliminare e salvare
+*
+*@version 1.0
+*/
+
 package it.unisa.diem.gruppo01.interfacce;
 
 import java.net.URL;
@@ -15,7 +17,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 
 /**
- * FXML Controller class
+ * Controller FXML: GestioneLibriController
+ * Controllore FXML per la schermata di gestione dei libri nel sistema bibliotecario.
+ * Gestisce le interazioni utente per aggiungere, modificare, cercare, eliminare e salvare
+ * l'inventario dei libri.
  *
  * @author Utente
  */
@@ -42,33 +47,67 @@ public class GestioneLibriController implements Initializable {
     @FXML
     private Button saveLButton;
 
-    /**
-     * Initializes the controller class.
-     */
+   
+    /*
+    * Metodo chiamato per inizializzare un controller dopo che il suo elemento radice è stato completamente elaborato.
+     * Viene utilizzato per setup iniziali, come l'impostazione dei listener o il caricamento dei dati di default.
+     *
+     * @param url L'ubicazione relativa o assoluta del file FXML.
+     * @param rb Le risorse utilizzate per localizzare l'oggetto radice.
+    */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
 
+    /*
+    * Gestisce l'evento di clic sul pulsante Aggiungi Libro.
+     * Funzionalità: Raccoglie i dati dai campi di testo, crea un nuovo
+     * oggetto Libro e lo aggiunge al Catalogo.
+     * @param event L'evento di azione generato dal clic.
+     */
     @FXML
     private void addLibri(ActionEvent event) {
     }
 
+    /*
+    * Gestisce l'evento di clic sul pulsante Modifica Libro.
+     *  Funzionalità: Cerca un libro tramite un identificatore (es. ISBN) e aggiorna
+     * i suoi dettagli (es. titolo, autore o numero di copie) con i valori presenti nei campi di testo.
+     *
+     * @param event L'evento di azione generato dal clic.
+    */
     @FXML
     private void modLibri(ActionEvent event) {
     }
+    
+    /*
+    
+    */
 
     @FXML
     private void searchLibri(ActionEvent event) {
     }
+    
+    /*
+    
+    */
 
     @FXML
     private void deleteLibri(ActionEvent event) {
     }
+    
+    /*
+    
+    */
 
     @FXML
     private void exitL(ActionEvent event) {
     }
+    
+    /*
+    
+    */
 
     @FXML
     private void saveLFile(ActionEvent event) {

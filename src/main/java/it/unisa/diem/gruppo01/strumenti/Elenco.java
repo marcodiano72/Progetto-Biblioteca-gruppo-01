@@ -1,4 +1,11 @@
 /**
+*@file Elenco.java
+*@brief Questo file gestisce l'elenco di tutti gli studenti registrati nel sistema.
+*
+*@version 1.0
+*/
+
+/*
  * Questo package contiene le classi relative alla gestione degli strumenti,
  * contesto: Gestione di una biblioteca.
  */

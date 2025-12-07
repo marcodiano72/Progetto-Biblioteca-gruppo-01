@@ -1,4 +1,11 @@
 /**
+*@file Elenco.java
+*@brief Questo file gestisce i dettagli di un singolo prestito di un libro.
+*
+*@version 1.0
+*/
+
+/**
  * Questo package contiene le classi relative alla gestione degli strumenti,
  * contesto: Gestione di una biblioteca.
  */
@@ -13,7 +20,6 @@ import java.time.temporal.ChronoUnit;
  * a uno studente. Contiene informazioni sul libro, lo studente e le date temporali
  * necessarie per calcolare lo stato e le eventuali sanzioni.
  *
- * @author Marco Diano'
  */
 public class Prestito {
     

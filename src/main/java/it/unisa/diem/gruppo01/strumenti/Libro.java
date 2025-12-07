@@ -1,4 +1,12 @@
 /**
+*@file Libro.java
+*@brief Questo file rappresenta un'entità libro all'interno di un sistema di gestione bibliotecaria.
+*
+*@version 1.0
+*/
+
+
+/**
  * Questo package contiene le classi relative alla gestione degli strumenti,
  * contesto: Gestione di una biblioteca.
  */
@@ -12,7 +20,6 @@ import java.time.LocalDate;
  * di un sistema di gestione bibliotecaria. Contiene i dettagli anagrafici del
  * libro e le informazioni sulla sua disponibilità (numero di copie).
  *
- * @author Marco Diano'
  */
 public class Libro {
     private String isbn; ///< Codice identificativo univoco del libro.
@@ -133,12 +140,12 @@ public class Libro {
 }
     
     /**
-     * Restituisce true o false a seconda dell'esito dell'operazione. 
+     * Restituisce true o false a seconda dell'esito dell'operazione
      * (Verifica la disponibilità del libro).
      * Se il numero di copie del libro è superiore a zero:
      * Decrementa il numero di copie e restituisce true.
      * Altrimenti non modifica il numero di copie e restituisce false.
-     * 
+     
      * @return true se il decremento è riuscito, false se non c'erano copie disponibili.
      */
     

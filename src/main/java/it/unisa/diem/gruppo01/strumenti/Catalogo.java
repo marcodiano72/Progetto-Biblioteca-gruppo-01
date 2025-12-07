@@ -1,4 +1,12 @@
 /**
+*@file Catalogo.java
+*@brief Questo file gestisce l'inventario dei libri della biblioteca.
+*
+*@version 1.0
+*/
+
+
+/**
  * Questo package contiene le classi relative alla gestione degli strumenti,
  * contesto: Gestione di una biblioteca.
  */
@@ -9,26 +17,47 @@ import java.util.Comparator;
  
 
 /**
- * Gestisce l'inventario dei libri, ordinandoli per titolo.
+ * Classe Catalogo
+ * Gestisce l'inventario dei libri della biblioteca. Utilizza un TreeSet
+ * con un comparatore personalizzato (LibroComparator) per mantenere i libri
+ * ordinati alfabeticamente per titolo*.
+ *
  */
 public class Catalogo {
 
-   
+   /**
+     * Struttura dati che contiene tutti gli oggetti Libro, ordinati
+     * per titolo grazie al LibroComparator.
+     */
     private TreeSet<Libro> inventarioLibri; // TreeSet per mantenere i libri ordinati alfabeticamente per titolo.
 
    
-
+    /**
+     * Costruttore della classe Catalogo.
+     * Inizializza il TreeSet con un'istanza
+     * di LibroComparator per definire l'ordinamento.
+     */
     public Catalogo() 
     {
         this.inventarioLibri = new TreeSet<>(new LibroComparator());
     }
     
+    /**
+     * Restituisce la collezione di libri che costituisce l'inventario.
+     * @return il TreeSet dei libri.
+     */
     public TreeSet<Libro> getInventarioLibri()
     {
         return inventarioLibri;
     }
     
-    // Metodo  per trovare un libro per ISBN (richiesto da aggiungiLibro/modificaLibro/eliminaLibro)
+   /*
+    * Cerca un libro all'interno del catalogo utilizzando il suo codice ISBN.
+    * Questo metodo è un utility interna.
+    *
+    * @param isbn Il codice ISBN del libro da cercare.
+    * @return L'oggetto  trovato, o null se non presente.
+    */
     private Libro cercaLibroPerISBN(String isbn) {
         for (Libro libro : inventarioLibri) {
             if (libro.getIsbn().equals(isbn)) {
@@ -38,7 +67,12 @@ public class Catalogo {
         return null;
     }
     
-     // Comparator per definire l'ordinamento per titolo del Libro (alfabetico e insensibile al caso)
+    /*
+     * Classe Interna: LibroComparator
+     * Implementa l'interfaccia Comparator per definire l'ordinamento degli oggetti Libro
+     * all'interno del Treeset. L'ordinamento è alfabetico per titolo (insensibile al caso)
+     * e, in caso di titoli identici, utilizza l'ISBN per garantire l'unicità.
+    */
     public class LibroComparator implements Comparator<Libro> {
         @Override
         public int compare(Libro l1, Libro l2) {
@@ -56,6 +90,8 @@ public class Catalogo {
     /*
       Aggiunge un nuovo libro al catalogo. Se il libro (stesso ISBN) esiste già,
       aggiorna il numero di copie e restituisce false.
+    * @param nuovoLibro L'oggetto Libro da aggiungere o usare per incrementare le copie.
+     * @return true  se il libro è stato aggiunto come nuovo elemento, false se è stato aggiornato un libro esistente.
      */
     public boolean aggiungiLibro(Libro nuovoLibro) {
         
@@ -76,8 +112,12 @@ public class Catalogo {
     
 
     /*
-    Modifica il numero di copie disponibili di un libro esistente, cercando per ISBN.
-     */
+    *Modifica il numero di copie disponibili di un libro esistente, cercando per ISBN.
+     * @param isbn Il codice ISBN del libro da modificare.
+     * @param nuoveCopie Il nuovo numero totale di copie disponibili da impostare.
+     * @return true se il libro è stato trovato e modificato, false altrimenti.
+     * @throws IllegalArgumentException Se il numero di nuove copie fornito è negativo.
+     */
     public boolean modificaLibro(String isbn, int nuoveCopie) {
         if (nuoveCopie < 0) {
             throw new IllegalArgumentException("Il numero di copie non può essere negativo.");
@@ -95,9 +135,11 @@ public class Catalogo {
         return false;
     }
 
-    /*Rimuove un libro dal catalogo utilizzando il suo ISBN.
-    
-     */
+    /*
+    *Rimuove un libro dal catalogo utilizzando il suo ISBN.
+    * @param isbn Il codice ISBN del libro da rimuovere.
+     * @return true se il libro è stato trovato e rimosso, false altrimenti.
+     */
     public boolean eliminaLibro(String isbn) {
         
         
@@ -112,8 +154,12 @@ public class Catalogo {
         return false;
     }
     
-
-  
+   
+    /*
+    ** Restituisce una rappresentazione in formato stringa dell'intero catalogo.
+     * I libri vengono elencati in ordine alfabetico per titolo, grazie all'uso del Treeset.
+     * @return Una stringa che elenca tutti i libri nel catalogo o un messaggio se il catalogo è vuoto.
+    */
     @Override
     public String toString() {
         if (inventarioLibri.isEmpty()) {

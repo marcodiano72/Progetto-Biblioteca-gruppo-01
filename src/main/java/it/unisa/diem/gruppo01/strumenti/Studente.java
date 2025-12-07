@@ -1,4 +1,14 @@
 /**
+*@file Studente.java
+*@brief Questo file Studente rappresenta un'entità studente all'interno di un sistema di gestione  di una biblioteca.
+*
+*@version 1.0
+*/
+
+
+
+
+/**
  * Questo package contiene le classi relative alla gestione degli strumenti,
  * contesto: Gestione di una biblioteca.
  */
@@ -13,7 +23,6 @@ import java.util.List;
  * all'interno di un sistema di gestione  di una biblioteca.
  * Contiene informazioni anagrafiche, di contatto e relative allo stato dei prestiti.
  *
- * @author Marco Diano'
  */
 public class Studente {
     

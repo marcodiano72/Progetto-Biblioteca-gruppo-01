@@ -1,4 +1,10 @@
 
+/**
+*@file Interfaccia1Controller.java
+*@brief Controller FXML che gestisce l'interfaccia di login dell'applicazione.
+*
+*@version 1.0
+*/
 package it.unisa.diem.gruppo01.interfacce;
 
 // Import necessari per la gestione della nuova scena
@@ -22,17 +28,17 @@ import javafx.scene.control.Label;
 
 /**
  * FXML Controller class
- *
- * @author Marco Diano'
- */
-/**
- * FXML Controller class (Interfaccia di Login)
+ * Controller FXML: Interfaccia1Controller (Login)
+ * Controllore FXML per l'interfaccia di login (Interfaccia 1).
+ * Gestisce l'autenticazione dell'utente confrontando le credenziali inserite
+ * con quelle predefinite e, in caso di successo, carica l'interfaccia del Menu Principale.
+ *
  */
 public class Interfaccia1Controller implements Initializable {
 
     // Costanti per le credenziali corrette
-    private static final String NOME_UTENTE_CORRETTO = "MARCO";
-    private static final String PASSWORD_CORRETTA = "1234KEAN";
+    private static final String NOME_UTENTE_CORRETTO = "MARCO"; ///< Nome utente corretto per l'accesso (case-insensitive in fase di verifica).
+    private static final String PASSWORD_CORRETTA = "1234KMB"; ///< Password corretta per l'accesso.
     
     // FXML Elements
     @FXML
@@ -44,6 +50,13 @@ public class Interfaccia1Controller implements Initializable {
     @FXML
     private Label errorMessageLabel; 
 
+    /*
+    * Metodo chiamato per inizializzare un controller dopo che il suo elemento radice è stato completamente elaborato.
+     * Inizializza l'etichetta degli errori  errorMessageLabel con una stringa vuota.
+     *
+     * @param url L'ubicazione relativa o assoluta del file FXML.
+     * @param rb Le risorse utilizzate per localizzare l'oggetto radice.
+    */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         if (errorMessageLabel != null) {
@@ -53,7 +66,10 @@ public class Interfaccia1Controller implements Initializable {
 
     /**
      * Gestisce l'evento di pressione del tasto "ACCEDI".
-     * Se le credenziali sono corrette, carica la nuova interfaccia.
+     * Se le credenziali sono corrette (nome utente case-insensitive, password esatta),
+     * procede al caricamento e alla visualizzazione della scena del Menu Principale (Menu_Biblioteca.fxml).
+     * In caso di credenziali errate, visualizza un messaggio di errore e pulisce i campi.
+     * @param event L'evento di azione generato dal clic
      */
    @FXML
     private void openMenu(ActionEvent event) {

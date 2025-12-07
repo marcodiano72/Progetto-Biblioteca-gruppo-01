@@ -1,0 +1,22 @@
+var searchData=
+[
+  ['gestionesanzioni_0',['gestioneSanzioni',['../classit_1_1unisa_1_1diem_1_1gruppo01_1_1strumenti_1_1_prestito.html#adc4c4935cc72999b7a316391a82985f4',1,'it::unisa::diem::gruppo01::strumenti::Prestito']]],
+  ['getannopb_1',['getAnnoPb',['../classit_1_1unisa_1_1diem_1_1gruppo01_1_1strumenti_1_1_libro.html#a7cd9598701aabbdc0b9fee8f06c6648a',1,'it::unisa::diem::gruppo01::strumenti::Libro']]],
+  ['getautore_2',['getAutore',['../classit_1_1unisa_1_1diem_1_1gruppo01_1_1strumenti_1_1_libro.html#a9ce45b8218e4d2be8daddf862f539aba',1,'it::unisa::diem::gruppo01::strumenti::Libro']]],
+  ['getcognome_3',['getCognome',['../classit_1_1unisa_1_1diem_1_1gruppo01_1_1strumenti_1_1_studente.html#a3dcaebdb052d2009ddf25f673f9d1b15',1,'it::unisa::diem::gruppo01::strumenti::Studente']]],
+  ['getdatainizio_4',['getDataInizio',['../classit_1_1unisa_1_1diem_1_1gruppo01_1_1strumenti_1_1_prestito.html#ae34d7454bdb512c297bbda89e6b0d181',1,'it::unisa::diem::gruppo01::strumenti::Prestito']]],
+  ['getdatarestituzione_5',['getDataRestituzione',['../classit_1_1unisa_1_1diem_1_1gruppo01_1_1strumenti_1_1_prestito.html#a225431b8d050ab0747c71f4cf3c19eff',1,'it::unisa::diem::gruppo01::strumenti::Prestito']]],
+  ['getdatascadenza_6',['getDataScadenza',['../classit_1_1unisa_1_1diem_1_1gruppo01_1_1strumenti_1_1_prestito.html#a73cff5d773c404462411c4e1b60b2d0f',1,'it::unisa::diem::gruppo01::strumenti::Prestito']]],
+  ['getelencostudenti_7',['getElencoStudenti',['../classit_1_1unisa_1_1diem_1_1gruppo01_1_1strumenti_1_1_elenco.html#acdf6740a730138a4e37ea9f8203aef79',1,'it::unisa::diem::gruppo01::strumenti::Elenco']]],
+  ['getemail_8',['getEmail',['../classit_1_1unisa_1_1diem_1_1gruppo01_1_1strumenti_1_1_studente.html#ae7316d6c9f6a48ae3c9ffbc3432694c2',1,'it::unisa::diem::gruppo01::strumenti::Studente']]],
+  ['getinventariolibri_9',['getInventarioLibri',['../classit_1_1unisa_1_1diem_1_1gruppo01_1_1strumenti_1_1_catalogo.html#aee624faf97b6348576439f52a0c03600',1,'it::unisa::diem::gruppo01::strumenti::Catalogo']]],
+  ['getisbn_10',['getIsbn',['../classit_1_1unisa_1_1diem_1_1gruppo01_1_1strumenti_1_1_libro.html#ac55c9b736baedf59689c1ec529659fed',1,'it::unisa::diem::gruppo01::strumenti::Libro']]],
+  ['getlibro_11',['getLibro',['../classit_1_1unisa_1_1diem_1_1gruppo01_1_1strumenti_1_1_prestito.html#a0514b3287cd46f54f3d5b5721d1f403c',1,'it::unisa::diem::gruppo01::strumenti::Prestito']]],
+  ['getmatricola_12',['getMatricola',['../classit_1_1unisa_1_1diem_1_1gruppo01_1_1strumenti_1_1_studente.html#a87da229a3cf751b9949b11c55485aa3b',1,'it::unisa::diem::gruppo01::strumenti::Studente']]],
+  ['getnome_13',['getNome',['../classit_1_1unisa_1_1diem_1_1gruppo01_1_1strumenti_1_1_studente.html#a3a3835dcb55cfbab562bd9da5dfb23a7',1,'it::unisa::diem::gruppo01::strumenti::Studente']]],
+  ['getnumcopie_14',['getNumCopie',['../classit_1_1unisa_1_1diem_1_1gruppo01_1_1strumenti_1_1_libro.html#ad3726cd43a93031885827c81600b0243',1,'it::unisa::diem::gruppo01::strumenti::Libro']]],
+  ['getprestitiattivi_15',['getPrestitiAttivi',['../classit_1_1unisa_1_1diem_1_1gruppo01_1_1strumenti_1_1_studente.html#a96c53a7ccf85b004e609e1a458dee16d',1,'it::unisa::diem::gruppo01::strumenti::Studente']]],
+  ['getsanzione_16',['getSanzione',['../classit_1_1unisa_1_1diem_1_1gruppo01_1_1strumenti_1_1_studente.html#a9b994d7a534c974987f71838596c6eb8',1,'it::unisa::diem::gruppo01::strumenti::Studente']]],
+  ['getstudente_17',['getStudente',['../classit_1_1unisa_1_1diem_1_1gruppo01_1_1strumenti_1_1_prestito.html#a18003f9a2771afea13650624f9508e7f',1,'it::unisa::diem::gruppo01::strumenti::Prestito']]],
+  ['gettitolo_18',['getTitolo',['../classit_1_1unisa_1_1diem_1_1gruppo01_1_1strumenti_1_1_libro.html#a4c0535a2defb3c53e69f8c2822ab413e',1,'it::unisa::diem::gruppo01::strumenti::Libro']]]
+];

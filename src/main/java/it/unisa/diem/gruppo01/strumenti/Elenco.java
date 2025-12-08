@@ -124,20 +124,23 @@ public class Elenco {
     // Funzione per modificare i dati dello studente
     public boolean modificaStudente(String matricola, String nuovoNome, String nuovoCognome, String nuovaEmail) {
         // Cerca lo studente con la matricola fornita
-        for (Studente studente : elencoStudenti) {
-            if (studente.getMatricola().equals(matricola)) {
-                
-               
-                // Se trovato, aggiorna i dati
+        Studente studente = cercaStudenteperMatricola(matricola);
+        
+            if (studente != null) {
+                //Rimuoviamo lo studente prima di modificarlo.
+                elencoStudenti.remove(studente);
+             
+                 //Modifichiamo i dati
                 studente.setNome(nuovoNome);
                 studente.setCognome(nuovoCognome);
                 studente.setEmail(nuovaEmail);
                 
-               
+               //Reinseriamo lo studente (il TreeSet ricalcola la posizione corretta).
+               elencoStudenti.add(studente);
                 // Restituisce true se la modifica è stata effettuata
                 return true;
             }
-        }
+        
         // Restituisce false se lo studente non è stato trovato
         return false;
     }

@@ -6,6 +6,8 @@ package it.unisa.diem.gruppo01.interfacce;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 /**
@@ -22,5 +24,9 @@ public class VisualizzaLibro_viewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+
+    @FXML
+    private void chiudiFinestra(ActionEvent event) {
+    }
     
 }

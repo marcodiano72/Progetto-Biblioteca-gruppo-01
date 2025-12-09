@@ -7,10 +7,15 @@ package it.unisa.diem.gruppo01.interfacce;
  */
 
 import java.io.IOException;
+
 import java.net.URL;
+import javafx.util.Duration;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,13 +24,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 
 /**
  * FXML Controller class
  *
- * @author Marco Diano'
  */
 public class Menu_BibliotecaController implements Initializable {
 
@@ -37,6 +43,11 @@ public class Menu_BibliotecaController implements Initializable {
     private Button gestionePButton;
     @FXML
     private Button gestioneEButton;
+    
+    @FXML
+    private DatePicker data; 
+    @FXML
+    private Label orario;
 
     /**
      * Initializes the controller class.
@@ -48,6 +59,25 @@ public class Menu_BibliotecaController implements Initializable {
         gestioneSButton.setTooltip(new Tooltip("Accede alla sezione dedicata alla gestione degli studenti"));
         gestionePButton.setTooltip(new Tooltip("Accede alla sezione dedicata alla gestione dei prestiti"));
         gestioneEButton.setTooltip(new Tooltip("Torna al login"));
+        
+        //Data e ora
+        // Imposta la data corrente nel DatePicker
+        data.setValue(LocalDate.now());
+        data.setDisable(true); // Lo rendiamo non modificabile
+
+        // Crea il formatter per l'ora (HH:mm:ss)
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+        // Configura la Timeline per aggiornare l'ora ogni secondo
+        Timeline timeline = new Timeline(
+            new KeyFrame(Duration.seconds(0), 
+                event -> orario.setText(LocalTime.now().format(timeFormatter))
+            ),
+            new KeyFrame(Duration.seconds(1)) // Aggiorna ogni 1 secondo
+        );
+        
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
        
     }    
 

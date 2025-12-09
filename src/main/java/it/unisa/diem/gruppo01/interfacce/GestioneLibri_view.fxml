@@ -93,7 +93,7 @@
                   <Separator opacity="0.0" prefHeight="16.0" prefWidth="239.0" />
                   <TextField fx:id="tfIsbnRicerca" prefHeight="28.8" prefWidth="239.0" promptText="Inserisci ISBN" />
                   <Separator opacity="0.0" prefHeight="16.0" prefWidth="239.0" />
-                  <HBox alignment="CENTER" prefHeight="28.0" prefWidth="239.0">
+                  <HBox alignment="CENTER" prefHeight="33.0" prefWidth="329.0">
                      <children>
                         <Button fx:id="searchLButton" mnemonicParsing="false" onAction="#searchLibri" prefHeight="28.0" prefWidth="30.0">
                            <graphic>
@@ -123,5 +123,6 @@
          </opaqueInsets>
       </Button>
       <Button fx:id="menuButton" layoutX="734.0" layoutY="600.0" mnemonicParsing="false" onAction="#menuReturn" prefHeight="50.0" prefWidth="150.0" text="TORNA AL MENU'" />
+      <Label fx:id="lblMessaggioricerca" layoutX="561.0" layoutY="314.0" prefHeight="17.0" prefWidth="288.0" textFill="RED" />
    </children>
 </AnchorPane>

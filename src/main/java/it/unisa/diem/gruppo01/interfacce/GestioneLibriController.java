@@ -25,7 +25,11 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import it.unisa.diem.gruppo01.strumenti.Libro;
 import java.time.LocalDate;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  * Controller FXML: GestioneLibriController
@@ -75,15 +79,17 @@ public class GestioneLibriController implements Initializable {
     private Button saveLButton;
     @FXML
     private Button menuButton;
-    @FXML
-    private Label errorMessageLabel; 
-
-    
-
-    
-
-    
+   @FXML
+    private Label lblMessaggioricerca;
    
+
+    
+
+    
+
+    
+    private ObservableList<Libro> listaLibri = FXCollections.observableArrayList();
+    
    
    
     /*
@@ -95,7 +101,17 @@ public class GestioneLibriController implements Initializable {
     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        // Collegamento Colonne -> attributi classe libro
+        //(new PropertyValueFactory(")) questo metodo per ogni libro passato cerca l'attributo che si specifica 
+        //all'interno delle parentesi, o meglio cerca il metodo getAttributo(), prende qel valore e lo inserisce nella casella.
+        colonnaTitolo.setCellValueFactory(new PropertyValueFactory("titolo"));
+        colonnaAutore.setCellValueFactory(new PropertyValueFactory("autore"));
+        colonnaIsbn.setCellValueFactory(new PropertyValueFactory("isbn"));
+        
+        //Collegamento Lista -> Tabella
+        tableViewLibri.setItems(listaLibri);
+        
+        
     }    
 
     /*
@@ -106,8 +122,7 @@ public class GestioneLibriController implements Initializable {
      */
     @FXML
     private void addLibri(ActionEvent event) {
-        errorMessageLabel.setText("");  //resetta l'errore, quando il campo viene compilato la scritta scompare
-        
+  
         //Recupero dei dati dalle caselle di testo
         String titolo = tfTitolo.getText();
         String autore = tfAutore.getText();
@@ -115,9 +130,16 @@ public class GestioneLibriController implements Initializable {
         String annoP = tfAnno.getText();
         
         //Controllo campi vuoti (in caso di mancata compilazione mostra avviso)
-        if(titolo.isEmpty() || autore.isEmpty() || Isbn.isEmpty() || anno.isEmpty()){
-            errorMessageLabel.setText("Attenzione: devi compilare tutti i campi!");
-            errorMessageLabel.setStyle("-fx-text-fill: red;");
+        if(titolo.isEmpty() || autore.isEmpty() || Isbn.isEmpty() || annoP.isEmpty()){
+            
+            //Alert è una finestra pre-programmata da Java che serve per mostrare messaggi
+            //Questa riga costruisce la finestra
+            
+            Alert alert = new Alert(Alert.AlertType.WARNING);   //AlertType.Warning mostra un'icona triangolo gialla (Avviso)
+            alert.setTitle("Dati mancanti");  //Titolo che compare nella parte alta della finestra
+            alert.setHeaderText(null); //L'alert è diviso in due parti l'Header e il testo normale. In questo caso non cè Header
+            alert.setContentText("Attenzione: devi compilare tutti i campi"); //testo normale
+            alert.showAndWait(); //show() mostra la finestra e ...AndWait() signific che il codice si interrompe
             return;
         }
         
@@ -129,10 +151,39 @@ public class GestioneLibriController implements Initializable {
             //Creazione oggetto Libro
             Libro nuovoLibro = new Libro(Isbn, titolo, autore, annoPubblicazione , 1);
             
-        }catch(IllegalargumentException ex){
+            //aggiunge il libro alla lista (la tabella si aggiorna automaticamente)
+            listaLibri.add(nuovoLibro);
+            
+            pulisciCampi();
+            
+            
+            
+            
+            
+        }catch(NumberFormatException ex){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("L'anno deve essere un numero valido");
+            alert.showAndWait();
+            
+        }catch(IllegalArgumentException ex){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Errore nei dati inseriti");
+            alert.showAndWait();
+        
+        }
         
         
         
+    }
+    /**
+     * Pulisce le caselle di testo
+     */
+    
+    private void pulisciCampi(){
+        tfTitolo.clear();
+        tfAutore.clear();
+        tfIsbn.clear();
+        tfAnno.clear();
     }
 
     /*
@@ -144,6 +195,8 @@ public class GestioneLibriController implements Initializable {
     */
     @FXML
     private void modLibri(ActionEvent event) {
+        
+        
     }
     
     /*
@@ -152,7 +205,53 @@ public class GestioneLibriController implements Initializable {
 
     @FXML
     private void searchLibri(ActionEvent event) {
-    }
+        
+        lblMessaggioricerca.setText("");
+        
+        //Recupero dei dati dalle caselle di testo
+        String titoloCercato = tfTitoloRicerca.getText().toLowerCase();
+        String autoreCercato = tfAutoreRicerca.getText().toLowerCase();
+        String isbnCercato = tfIsbnRicerca.getText().toLowerCase();
+        
+        //Se tutti i campi sono vuoti si resetta la tabella e vengono mostrati tutti i libri
+        if(titoloCercato.isEmpty() && autoreCercato.isEmpty() && isbnCercato.isEmpty()){
+            
+            tableViewLibri.setItems(listaLibri);
+            return;
+        }
+            //Creazione di una lista osservabile temporanea per i risultati della ricerca
+            ObservableList<Libro> risultatiRicerca = FXCollections.observableArrayList();
+            
+            
+            //Scorriamo la lista originale (listaLibri) per trovare il libri desiderato.
+            
+            for(Libro libro: listaLibri){
+                //Controlliamo se il campo di ricerca è vuoto oppure se il libro ha quel Titolo,Autore e Isbn
+                
+                boolean titoloTrovato = titoloCercato.isEmpty() || libro.getTitolo().toLowerCase().contains(titoloCercato);
+                boolean autoreTrovato = autoreCercato.isEmpty() || libro.getAutore().toLowerCase().contains(autoreCercato);
+                boolean isbnTrovato = isbnCercato.isEmpty() || libro.getIsbn().toLowerCase().contains(isbnCercato);
+                
+                 if(titoloTrovato && autoreTrovato && isbnTrovato){
+                risultatiRicerca.add(libro);
+                
+            }
+            }
+            
+            //A questo punto mostriamo nella tabella i risultati trovati
+            tableViewLibri.setItems(risultatiRicerca);
+           
+            //Gestione MESSAGGIO
+            if(risultatiRicerca.isEmpty()){
+                
+                lblMessaggioricerca.setText("Nessun libro Trovato.");
+                lblMessaggioricerca.setStyle("-fx-text-fill: red;");
+            }
+                        
+            
+        }
+    
+
     
     /*
     
@@ -160,7 +259,39 @@ public class GestioneLibriController implements Initializable {
 
     @FXML
     private void deleteLibri(ActionEvent event) {
+        
+        //Recuperiamo il libro selezionato nella tabella
+        //il metodo getSelectionModel() gestisce i click sulle righe
+        //il metodo getSelectedItem() restituisce l'oggetto libro corrispondente
+        
+        Libro libroSelezionato = tableViewLibri.getSelectionModel().getSelectedItem();
+        
+        //Controlla che l'utente abbia selezionato un libro
+        if(libroSelezionato == null) {
+            
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Nessuna selezione");
+            alert.setHeaderText(null);
+            alert.setContentText("Per eliminare un libro devi prima selezionarlo cliccandoci sopra");
+            alert.showAndWait();
+            return;
+            
+          }
+        
+        //Conferma per l'eliminazione di un libro dalla lista
+        
+        Alert conferma = new Alert(Alert.AlertType.CONFIRMATION);
+        conferma.setTitle("Conferma eliminazione");
+        conferma.setHeaderText(null);
+        conferma.setContentText("Sei sicuro di voler eliminare il libro " + libroSelezionato.getTitolo() + " ?");
+        conferma.showAndWait();
+        
+        
+            listaLibri.remove(libroSelezionato);
+        
     }
+    
+ 
     
     /*
     

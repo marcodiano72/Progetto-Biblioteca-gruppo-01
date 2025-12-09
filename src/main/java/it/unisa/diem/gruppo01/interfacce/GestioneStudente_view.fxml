@@ -114,5 +114,6 @@
             <Insets />
          </opaqueInsets>
       </Button>
+      <Button fx:id="menuSButton" layoutX="734.0" layoutY="609.0" mnemonicParsing="false" onAction="#menuSReturn" prefHeight="50.0" prefWidth="150.0" text="TORNA AL MENU'" />
    </children>
 </AnchorPane>

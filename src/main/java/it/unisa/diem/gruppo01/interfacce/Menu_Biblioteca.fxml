@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.diem.gruppo01.interfacce.Menu_BibliotecaController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.diem.gruppo01.interfacce.Menu_BibliotecaController">
    <children>
       <VBox layoutX="63.0" layoutY="69.0" prefHeight="523.0" prefWidth="427.0">
          <children>
-            <Button fx:id="gestioneLButton" mnemonicParsing="false" onAction="#openLibriInterface" prefHeight="77.0" prefWidth="337.0" style="-fx-background-color: blue sky;" text="Gestione Libri" textAlignment="CENTER" textFill="WHITE">
+            <Button fx:id="gestioneLButton" mnemonicParsing="false" onAction="#openLibriInterface" prefHeight="77.0" prefWidth="337.0" style="-fx-background-color: blue sky; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 1);" text="Gestione Libri" textAlignment="CENTER" textFill="WHITE">
                <VBox.margin>
                   <Insets bottom="40.0" left="40.0" right="40.0" top="20.0" />
                </VBox.margin>
                <graphic>
                   <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../resources/images/%20libri.png" />
+                        <Image url="@/images/libro.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -29,7 +28,7 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="gestioneSButton" mnemonicParsing="false" onAction="#openStudentInterface" prefHeight="77.0" prefWidth="337.0" style="-fx-background-color: green;" text="Gestione Studenti" textAlignment="CENTER" textFill="WHITE">
+            <Button fx:id="gestioneSButton" mnemonicParsing="false" onAction="#openStudentInterface" prefHeight="77.0" prefWidth="337.0" style="-fx-background-color: green; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 1);" text="Gestione Studenti" textAlignment="CENTER" textFill="WHITE">
                <VBox.margin>
                   <Insets bottom="40.0" left="40.0" right="40.0" top="20.0" />
                </VBox.margin>
@@ -39,12 +38,12 @@
                <graphic>
                   <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../resources/images/studenti.png.jpg" />
+                        <Image url="@/images/studenti.jpg" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="gestionePButton" mnemonicParsing="false" onAction="#openPrestitiInterface" prefHeight="77.0" prefWidth="337.0" style="-fx-background-color: orange;" text="Gestione Prestiti" textAlignment="CENTER" textFill="WHITE">
+            <Button fx:id="gestionePButton" mnemonicParsing="false" onAction="#openPrestitiInterface" prefHeight="77.0" prefWidth="337.0" style="-fx-background-color: orange; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 1);" text="Gestione Prestiti" textAlignment="CENTER" textFill="WHITE">
                <VBox.margin>
                   <Insets bottom="40.0" left="40.0" right="40.0" top="20.0" />
                </VBox.margin>
@@ -54,12 +53,12 @@
                <graphic>
                   <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../resources/images/prestiti.png" />
+                        <Image url="@/images/prestiti.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="gestioneEButton" mnemonicParsing="false" onAction="#openExitInterface" prefHeight="77.0" prefWidth="337.0" style="-fx-background-color: red;" text="Esci" textFill="WHITE">
+            <Button fx:id="gestioneEButton" mnemonicParsing="false" onAction="#openExitInterface" prefHeight="77.0" prefWidth="337.0" style="-fx-background-color: red; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 1);" text="Esci" textFill="WHITE">
                <VBox.margin>
                   <Insets bottom="40.0" left="40.0" right="40.0" top="20.0" />
                </VBox.margin>
@@ -69,14 +68,14 @@
                <graphic>
                   <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../resources/images/Exit.png" />
+                        <Image url="@/images/Exit.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
          </children>
       </VBox>
-      <Label layoutX="299.0" layoutY="14.0" text="Menù Biblioteca">
+      <Label layoutX="272.0" layoutY="14.0" text="MENU' BIBLIOTECA">
          <font>
             <Font size="30.0" />
          </font>

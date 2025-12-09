@@ -278,6 +278,12 @@
                         <Button fx:id="salvaRes" mnemonicParsing="false" onAction="#salvaRestituzione" prefHeight="40.0" prefWidth="150.0" text="Salva" />
                      </children>
                   </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="exitApp" mnemonicParsing="false" onAction="#exitPFile" prefHeight="50.0" prefWidth="150.0" text="ESCI" />
+                        <Button fx:id="menuPButton" mnemonicParsing="false" onAction="#menuPReturn" prefHeight="50.0" prefWidth="150.0" text="TORNA AL MENU'" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </children>

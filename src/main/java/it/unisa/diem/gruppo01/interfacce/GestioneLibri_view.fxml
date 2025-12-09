@@ -116,5 +116,6 @@
             <Insets />
          </opaqueInsets>
       </Button>
+      <Button fx:id="menuButton" layoutX="734.0" layoutY="600.0" mnemonicParsing="false" onAction="#menuReturn" prefHeight="50.0" prefWidth="150.0" text="TORNA AL MENU'" />
    </children>
 </AnchorPane>

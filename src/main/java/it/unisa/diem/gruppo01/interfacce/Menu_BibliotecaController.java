@@ -19,6 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 
 /**
@@ -42,7 +43,12 @@ public class Menu_BibliotecaController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        // Appare un suggerimento quando il mouse si ferma sul bottone
+        gestioneLButton.setTooltip(new Tooltip("Accede alla sezione dedicata alla gestione dei libri"));
+        gestioneSButton.setTooltip(new Tooltip("Accede alla sezione dedicata alla gestione degli studenti"));
+        gestionePButton.setTooltip(new Tooltip("Accede alla sezione dedicata alla gestione dei prestiti"));
+        gestioneEButton.setTooltip(new Tooltip("Torna al login"));
+       
     }    
 
     @FXML
@@ -59,7 +65,7 @@ public class Menu_BibliotecaController implements Initializable {
         window.show();
         
     }catch (IOException ex){
-        System.out.println("ERRORE critico nel caricamento di Gestione Libri");
+        System.out.println("ERRORE:impossibile trovare GestioneLibri_view.fxml");
         ex.printStackTrace();
       }
     }
@@ -82,7 +88,7 @@ public class Menu_BibliotecaController implements Initializable {
                 
                 
             } catch (IOException ex) {
-               System.out.println("ERRORE critico nel caricamento di Gestione Studenti");
+               System.out.println("ERRORE:impossibile trovare GestioneStudente_view.fxml");
                ex.printStackTrace();
             }
         }

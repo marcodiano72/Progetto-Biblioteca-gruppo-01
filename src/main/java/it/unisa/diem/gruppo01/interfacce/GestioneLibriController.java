@@ -18,9 +18,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import it.unisa.diem.gruppo01.strumenti.Libro;
+import java.time.LocalDate;
+import javafx.scene.control.Label;
 
 /**
  * Controller FXML: GestioneLibriController
@@ -33,17 +38,33 @@ import javafx.stage.Stage;
 public class GestioneLibriController implements Initializable {
 
     @FXML
+    private TableView<Libro> tableViewLibri;
+    @FXML
+    private TableColumn<Libro, String> colonnaTitolo;  
+    @FXML
+    private TableColumn<Libro, String> colonnaAutore;
+    @FXML
+    private TableColumn<Libro, String> colonnaIsbn;
+    @FXML
+    private TextField tfTitolo;
+    @FXML
+    private TextField tfAutore;
+    @FXML
+    private TextField tfIsbn;
+    @FXML
+    private TextField tfAnno;
+    @FXML
     private Button addLButton;
     @FXML
     private ImageView addButton;
     @FXML
     private Button modLButton;
     @FXML
-    private TextField codeField;
+    private TextField tfTitoloRicerca;
     @FXML
-    private TextField codeField1;
+    private TextField tfAutoreRicerca;
     @FXML
-    private TextField codeField11;
+    private TextField tfIsbnRicerca;
     @FXML
     private Button searchLButton;
     @FXML
@@ -54,6 +75,16 @@ public class GestioneLibriController implements Initializable {
     private Button saveLButton;
     @FXML
     private Button menuButton;
+    @FXML
+    private Label errorMessageLabel; 
+
+    
+
+    
+
+    
+   
+   
    
     /*
     * Metodo chiamato per inizializzare un controller dopo che il suo elemento radice è stato completamente elaborato.
@@ -75,6 +106,33 @@ public class GestioneLibriController implements Initializable {
      */
     @FXML
     private void addLibri(ActionEvent event) {
+        errorMessageLabel.setText("");  //resetta l'errore, quando il campo viene compilato la scritta scompare
+        
+        //Recupero dei dati dalle caselle di testo
+        String titolo = tfTitolo.getText();
+        String autore = tfAutore.getText();
+        String Isbn = tfIsbn.getText();
+        String annoP = tfAnno.getText();
+        
+        //Controllo campi vuoti (in caso di mancata compilazione mostra avviso)
+        if(titolo.isEmpty() || autore.isEmpty() || Isbn.isEmpty() || anno.isEmpty()){
+            errorMessageLabel.setText("Attenzione: devi compilare tutti i campi!");
+            errorMessageLabel.setStyle("-fx-text-fill: red;");
+            return;
+        }
+        
+        try{
+            //bisogna convertire anno, perchè Libro richiede una data LocalDate, ma noi inseriamo una Stringa nel textfield
+            int anno = Integer.parseInt(annoP); //converte in Int
+            LocalDate annoPubblicazione = LocalDate.of(anno,1,1); //converte nel formato 01/01/anno;
+            
+            //Creazione oggetto Libro
+            Libro nuovoLibro = new Libro(Isbn, titolo, autore, annoPubblicazione , 1);
+            
+        }catch(IllegalargumentException ex){
+        
+        
+        
     }
 
     /*

@@ -31,10 +31,6 @@ public class GestioneStudenteController implements Initializable {
     @FXML
     private Button modSButton;
     @FXML
-    private TextField codeField;
-    @FXML
-    private TextField codeField1;
-    @FXML
     private Button searchSButton;
     @FXML
     private Button deleteSButton;
@@ -44,6 +40,18 @@ public class GestioneStudenteController implements Initializable {
     private Button saveSButton;
     @FXML
     private Button menuSButton;
+    @FXML
+    private TextField tfCognome;
+    @FXML
+    private TextField tfNome;
+    @FXML
+    private TextField tfMatricola;
+    @FXML
+    private TextField tfEmail;
+    @FXML
+    private TextField insMatricola;
+    @FXML
+    private TextField insCognome;
 
     /**
      * Initializes the controller class.

@@ -9,7 +9,7 @@
  * Questo package contiene le classi relative alla gestione degli strumenti,
  * contesto: Gestione di una biblioteca.
  */
-package it.unisa.diem.gruppo01.strumenti;
+package it.unisa.diem.gruppo01.classi;
 
 import java.util.TreeSet;
 import java.util.Comparator;

@@ -23,7 +23,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import it.unisa.diem.gruppo01.strumenti.Libro;
+import it.unisa.diem.gruppo01.classi.Libro;
 import java.time.LocalDate;
 import java.util.Optional;
 import javafx.collections.FXCollections;

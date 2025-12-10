@@ -11,7 +11,7 @@
  * contesto: Gestione di una biblioteca.
  */
 
-package it.unisa.diem.gruppo01.strumenti;
+package it.unisa.diem.gruppo01.classi;
 import java.time.LocalDate;
 
 /**

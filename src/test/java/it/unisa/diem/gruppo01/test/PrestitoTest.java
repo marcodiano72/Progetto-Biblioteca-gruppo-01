@@ -5,9 +5,9 @@
  */
 package it.unisa.diem.gruppo01.test;
 
-import it.unisa.diem.gruppo01.strumenti.Libro;
-import it.unisa.diem.gruppo01.strumenti.Prestito;
-import it.unisa.diem.gruppo01.strumenti.Studente;
+import it.unisa.diem.gruppo01.classi.Libro;
+import it.unisa.diem.gruppo01.classi.Prestito;
+import it.unisa.diem.gruppo01.classi.Studente;
 import java.time.LocalDate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;

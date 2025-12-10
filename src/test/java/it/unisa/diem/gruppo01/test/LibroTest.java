@@ -5,7 +5,7 @@
  */
 package it.unisa.diem.gruppo01.test;
 
-import it.unisa.diem.gruppo01.strumenti.Libro;
+import it.unisa.diem.gruppo01.classi.Libro;
 import java.time.LocalDate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;

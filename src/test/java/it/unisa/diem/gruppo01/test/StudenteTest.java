@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package it.unisa.diem.gruppo01.strumenti;
+package it.unisa.diem.gruppo01.test;
 
+import it.unisa.diem.gruppo01.classi.Prestito;
+import it.unisa.diem.gruppo01.classi.Studente;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;

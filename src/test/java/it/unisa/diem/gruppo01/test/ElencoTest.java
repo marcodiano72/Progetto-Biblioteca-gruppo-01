@@ -5,8 +5,8 @@
  */
 package it.unisa.diem.gruppo01.test;
 
-import it.unisa.diem.gruppo01.strumenti.Elenco;
-import it.unisa.diem.gruppo01.strumenti.Studente;
+import it.unisa.diem.gruppo01.classi.Elenco;
+import it.unisa.diem.gruppo01.classi.Studente;
 import java.util.TreeSet;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;

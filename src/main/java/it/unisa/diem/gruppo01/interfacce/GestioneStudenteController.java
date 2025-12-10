@@ -16,6 +16,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -52,6 +54,14 @@ public class GestioneStudenteController implements Initializable {
     private TextField insMatricola;
     @FXML
     private TextField insCognome;
+    @FXML
+    private TableView<?> listaStudenti;
+    @FXML
+    private TableColumn<?, ?> colCognome;
+    @FXML
+    private TableColumn<?, ?> colNome;
+    @FXML
+    private TableColumn<?, ?> colMatr;
 
     /**
      * Initializes the controller class.

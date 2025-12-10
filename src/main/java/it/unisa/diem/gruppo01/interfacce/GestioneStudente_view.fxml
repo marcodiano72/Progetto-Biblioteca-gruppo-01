@@ -53,7 +53,7 @@
                            <graphic>
                               <ImageView fitHeight="27.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../../resources/images/add.png" />
+                                    <Image url="@/images/add.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -63,7 +63,7 @@
                            <graphic>
                               <ImageView fitHeight="23.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../../resources/images/mod.png" />
+                                    <Image url="@/images/mod.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -91,7 +91,7 @@
                            <graphic>
                               <ImageView fitHeight="21.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../../resources/images/cerca.png" />
+                                    <Image url="@/images/cerca.png" />
                                  </image>
                               </ImageView>
                            </graphic>

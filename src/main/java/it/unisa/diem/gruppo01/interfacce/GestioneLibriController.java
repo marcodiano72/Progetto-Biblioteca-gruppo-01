@@ -25,9 +25,11 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import it.unisa.diem.gruppo01.strumenti.Libro;
 import java.time.LocalDate;
+import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.cell.PropertyValueFactory;
 
@@ -286,8 +288,12 @@ public class GestioneLibriController implements Initializable {
         conferma.setContentText("Sei sicuro di voler eliminare il libro " + libroSelezionato.getTitolo() + " ?");
         conferma.showAndWait();
         
-        
-            listaLibri.remove(libroSelezionato);
+         Optional<ButtonType> result = conferma.showAndWait();
+         
+         //Verifica se c'è un risultato e se quel risultato è il tasto OK
+         if(result.isPresent() && result.get() == ButtonType.OK);
+         
+         listaLibri.remove(libroSelezionato);
         
     }
     

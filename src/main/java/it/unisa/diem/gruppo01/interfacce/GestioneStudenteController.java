@@ -5,7 +5,7 @@
  */
 package it.unisa.diem.gruppo01.interfacce;
 
-import it.unisa.diem.gruppo01.strumenti.Studente;
+import it.unisa.diem.gruppo01.classi.Studente;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -74,6 +74,10 @@ public class GestioneStudenteController implements Initializable {
 
     @FXML
     private void addStudent(ActionEvent event) {
+    String cognome = tfCognome.getCognome();
+    String nome = tfNome.getNome();
+    String matricola = tfMatricola.getMatricola();
+    String email = tfEmail.getEmail();
     }
 
     @FXML

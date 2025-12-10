@@ -38,7 +38,7 @@ public class Interfaccia1Controller implements Initializable {
 
     // Costanti per le credenziali corrette
     private static final String NOME_UTENTE_CORRETTO = "MARCO"; ///< Nome utente corretto per l'accesso
-    private static final String PASSWORD_CORRETTA = "1234KMB"; ///< Password corretta per l'accesso.
+    private static final String PASSWORD_CORRETTA = "1234"; ///< Password corretta per l'accesso.
     
     // FXML Elements
     @FXML

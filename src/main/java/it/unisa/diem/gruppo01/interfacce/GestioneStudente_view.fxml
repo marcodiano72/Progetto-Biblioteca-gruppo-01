@@ -39,13 +39,13 @@
                   </Label>
                   <Separator opacity="0.0" prefHeight="12.0" prefWidth="462.0" />
                   <Label text="Inserisci Cognome" />
-                  <TextField promptText="Cognome" />
+                  <TextField fx:id="tfCognome" promptText="Cognome" />
                   <Label text="Inserisci Nome" />
-                  <TextField promptText="Nome" />
+                  <TextField fx:id="tfNome" promptText="Nome" />
                   <Label text="Inserisci Matricola" />
-                  <TextField promptText="Matricola" />
+                  <TextField fx:id="tfMatricola" promptText="Matricola" />
                   <Label text="Inserisci email" />
-                  <TextField promptText="email" />
+                  <TextField fx:id="tfEmail" promptText="email" />
                   <Separator opacity="0.0" prefHeight="18.0" prefWidth="462.0" />
                   <HBox alignment="CENTER" prefHeight="34.0" prefWidth="462.0">
                      <children>
@@ -81,9 +81,9 @@
                      </font>
                   </Label>
                   <Separator opacity="0.0" prefHeight="15.0" prefWidth="274.0" />
-                  <TextField fx:id="codeField" prefHeight="28.8" prefWidth="239.0" promptText="Inserisci Matricola" />
+                  <TextField fx:id="insMatricola" prefHeight="28.8" prefWidth="239.0" promptText="Inserisci Matricola" />
                   <Separator opacity="0.0" prefHeight="16.0" prefWidth="239.0" />
-                  <TextField fx:id="codeField1" prefHeight="28.8" prefWidth="239.0" promptText="Inserisci Cognome" />
+                  <TextField fx:id="insCognome" prefHeight="28.8" prefWidth="239.0" promptText="Inserisci Cognome" />
                   <Separator opacity="0.0" prefHeight="16.0" prefWidth="239.0" />
                   <HBox alignment="CENTER" prefHeight="28.0" prefWidth="239.0">
                      <children>

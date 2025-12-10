@@ -10,6 +10,7 @@ import it.unisa.diem.gruppo01.classi.Studente;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +23,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -201,10 +203,53 @@ public class GestioneStudenteController implements Initializable {
             
         }
     
+/*
+    
+    */
 
     @FXML
     private void deleteStudent(ActionEvent event) {
+        
+        //Recuperiamo lo studente selezionato nella tabella
+        //il metodo getSelectionModel() gestisce i click sulle righe
+        //il metodo getSelectedItem() restituisce l'oggetto studente corrispondente
+        
+        Studente studenteSelezionato = tableViewStudenti.getSelectionModel().getSelectedItem();
+        
+        //Controlla che l'utente abbia selezionato uno studente
+        if(studenteSelezionato == null) {
+            
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Nessuna selezione");
+            alert.setHeaderText(null);
+            alert.setContentText("Per eliminare uno studente devi prima selezionarlo cliccandoci sopra");
+            alert.showAndWait();
+            return;
+            
+          }
+        
+        //Conferma per l'eliminazione di uno studente dalla lista
+        
+        Alert conferma = new Alert(Alert.AlertType.CONFIRMATION);
+        conferma.setTitle("Conferma eliminazione");
+        conferma.setHeaderText(null);
+        conferma.setContentText("Sei sicuro di voler eliminare lo studente " + studenteSelezionato.getNome() + " " + studenteSelezionato.getCognome() + " ?");
+        conferma.showAndWait();
+        
+         Optional<ButtonType> result = conferma.showAndWait();
+         
+         //Verifica se c'è un risultato e se quel risultato è il tasto OK
+         if(result.isPresent() && result.get() == ButtonType.OK);
+         
+         listaStudenti.remove(studenteSelezionato);
+        
     }
+    
+ 
+    
+    /*
+    
+    */
 
     @FXML
     private void exitS(ActionEvent event) {

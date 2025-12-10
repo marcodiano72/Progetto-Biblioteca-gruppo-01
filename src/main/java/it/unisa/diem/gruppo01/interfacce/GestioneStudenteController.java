@@ -22,6 +22,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -58,6 +59,8 @@ public class GestioneStudenteController implements Initializable {
     @FXML
     private TextField tfEmail;
     @FXML
+    private Label ricerca;
+    @FXML
     private TextField insMatricola;
     @FXML
     private TextField insCognome;
@@ -69,6 +72,8 @@ public class GestioneStudenteController implements Initializable {
     private TableColumn<Studente, String> colNome;
     @FXML
     private TableColumn<Studente, String> colMatr;
+    
+   
     
     private ObservableList<Studente> listaStudenti = FXCollections.observableArrayList();
    /* Metodo chiamato per inizializzare un controller dopo che il suo elemento radice è stato completamente elaborato.
@@ -152,7 +157,50 @@ public class GestioneStudenteController implements Initializable {
 
     @FXML
     private void searchStudent(ActionEvent event) {
-    }
+    
+    ricerca.setText("");
+        
+        //Recupero dei dati dalle caselle di testo
+        String matricolaCercato = insMatricola.getText().toLowerCase();
+        String cognomeCercato = insCognome.getText().toLowerCase();
+        
+        //Se tutti i campi sono vuoti si resetta la tabella e vengono mostrati tutti gli studenti
+        if(matricolaCercato.isEmpty() && cognomeCercato.isEmpty()){
+            
+            tableViewStudenti.setItems(listaStudenti);
+            return;
+        }
+            //Creazione di una lista osservabile temporanea per i risultati della ricerca
+            ObservableList<Studente> risultatiRicerca = FXCollections.observableArrayList();
+            
+            
+            //Scorriamo la lista originale (listaStudenti) per trovare il libri desiderato.
+            
+            for(Studente studente: listaStudenti){
+                //Controlliamo se il campo di ricerca è vuoto oppure se il libro ha quel Titolo,Autore e Isbn
+                
+                boolean matricolaTrovato = matricolaCercato.isEmpty() || studente.getMatricola().toLowerCase().contains(matricolaCercato);
+                boolean cognomeTrovato = cognomeCercato.isEmpty() || studente.getCognome().toLowerCase().contains(cognomeCercato);
+                
+                 if(matricolaTrovato && cognomeTrovato){
+                risultatiRicerca.add(studente);
+                
+            }
+            }
+            
+            //A questo punto mostriamo nella tabella i risultati trovati
+            tableViewStudenti.setItems(risultatiRicerca);
+           
+            //Gestione MESSAGGIO
+            if(risultatiRicerca.isEmpty()){
+                
+                ricerca.setText("Nessuno studente Trovato.");
+                ricerca.setStyle("-fx-text-fill: red;");
+            }
+                        
+            
+        }
+    
 
     @FXML
     private void deleteStudent(ActionEvent event) {

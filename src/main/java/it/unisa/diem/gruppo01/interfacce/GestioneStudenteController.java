@@ -5,6 +5,7 @@
  */
 package it.unisa.diem.gruppo01.interfacce;
 
+import it.unisa.diem.gruppo01.strumenti.Studente;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -55,13 +56,13 @@ public class GestioneStudenteController implements Initializable {
     @FXML
     private TextField insCognome;
     @FXML
-    private TableView<?> listaStudenti;
+    private TableView<Studente> listaStudenti;
     @FXML
-    private TableColumn<?, ?> colCognome;
+    private TableColumn<Studente, String> colCognome;
     @FXML
-    private TableColumn<?, ?> colNome;
+    private TableColumn<Studente, String> colNome;
     @FXML
-    private TableColumn<?, ?> colMatr;
+    private TableColumn<Studente, String> colMatr;
 
     /**
      * Initializes the controller class.

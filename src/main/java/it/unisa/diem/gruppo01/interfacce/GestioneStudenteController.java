@@ -5,10 +5,14 @@
  */
 package it.unisa.diem.gruppo01.interfacce;
 
+import it.unisa.diem.gruppo01.classi.Libro;
 import it.unisa.diem.gruppo01.classi.Studente;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,10 +20,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 /**
@@ -56,28 +62,88 @@ public class GestioneStudenteController implements Initializable {
     @FXML
     private TextField insCognome;
     @FXML
-    private TableView<Studente> listaStudenti;
+    private TableView<Studente> tableViewStudenti;
     @FXML
     private TableColumn<Studente, String> colCognome;
     @FXML
     private TableColumn<Studente, String> colNome;
     @FXML
     private TableColumn<Studente, String> colMatr;
-
-    /**
-     * Initializes the controller class.
-     */
+    
+    private ObservableList<Studente> listaStudenti = FXCollections.observableArrayList();
+   /* Metodo chiamato per inizializzare un controller dopo che il suo elemento radice è stato completamente elaborato.
+     * Viene utilizzato per setup iniziali, come l'impostazione dei listener o il caricamento dei dati di default.
+     *
+     * @param url L'ubicazione relativa o assoluta del file FXML.
+     * @param rb Le risorse utilizzate per localizzare l'oggetto radice.
+    */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        // Collegamento Colonne -> attributi classe libro
+        //(new PropertyValueFactory(")) questo metodo per ogni libro passato cerca l'attributo che si specifica 
+        //all'interno delle parentesi, o meglio cerca il metodo getAttributo(), prende qel valore e lo inserisce nella casella.
+        colCognome.setCellValueFactory(new PropertyValueFactory("cognome"));
+        colNome.setCellValueFactory(new PropertyValueFactory("nome"));
+        colMatr.setCellValueFactory(new PropertyValueFactory("matricola"));
+        
+        //Collegamento Lista -> Tabella
+        tableViewStudenti.setItems(listaStudenti);
+          
     }    
-
+ /*
+    * Gestisce l'evento di clic sul pulsante Aggiungi Studente.
+     * Funzionalità: Raccoglie i dati dai campi di testo, crea un nuovo
+     * oggetto studente e lo aggiunge all' ELenco.
+     * @param event L'evento di azione generato dal clic.
+     */
     @FXML
     private void addStudent(ActionEvent event) {
-    String cognome = tfCognome.getCognome();
-    String nome = tfNome.getNome();
-    String matricola = tfMatricola.getMatricola();
-    String email = tfEmail.getEmail();
+    //Recupero dei dati da caselle di testo
+    String cognome = tfCognome.getText();
+    String nome = tfNome.getText();
+    String matricola = tfMatricola.getText();
+    String email = tfEmail.getText();
+
+    //Controllo campi vuoti (in caso di mancata compilazione mostra avviso)
+        if(cognome.isEmpty() || nome.isEmpty() || matricola.isEmpty() || email.isEmpty()){
+            
+            //Alert è una finestra pre-programmata da Java che serve per mostrare messaggi
+            //Questa riga costruisce la finestra
+            
+            Alert alert = new Alert(Alert.AlertType.WARNING);   //AlertType.Warning mostra un'icona triangolo gialla (Avviso)
+            alert.setTitle("Dati mancanti");  //Titolo che compare nella parte alta della finestra
+            alert.setHeaderText(null); //L'alert è diviso in due parti l'Header e il testo normale. In questo caso non cè Header
+            alert.setContentText("Attenzione: devi compilare tutti i campi"); //testo normale
+            alert.showAndWait(); //show() mostra la finestra e ...AndWait() signific che il codice si interrompe
+            return;
+    }
+
+    try{    
+     
+            //Creazione oggetto Studente
+            Studente nuovoStudente = new Studente(cognome, nome, matricola, email, " ", false);
+            
+            //aggiunge lo studente alla lista (la tabella si aggiorna automaticamente)
+            listaStudenti.add(nuovoStudente);
+            
+            pulisciCampi();
+            
+     }catch(IllegalArgumentException ex){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Errore nei dati inseriti");
+            alert.showAndWait();
+        
+        } 
+    }
+    /**
+     * Pulisce le caselle di testo
+     */
+    
+    private void pulisciCampi(){
+        tfCognome.clear();
+        tfNome.clear();
+        tfMatricola.clear();
+        tfEmail.clear();
     }
 
     @FXML
@@ -120,7 +186,4 @@ public class GestioneStudenteController implements Initializable {
             } catch (IOException ex) {
                System.out.println("ERRORE:impossibile trovare Menu_Biblioteca_view.fxml");
                ex.printStackTrace();
-            }
-    }
-    
-}
+            }}}

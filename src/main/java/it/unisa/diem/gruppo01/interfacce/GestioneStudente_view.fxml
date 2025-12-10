@@ -21,7 +21,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <TableView fx:id="listaStudenti" layoutX="15.0" layoutY="344.0" prefHeight="438.0" prefWidth="703.0" AnchorPane.bottomAnchor="17.600000000000023" AnchorPane.leftAnchor="15.0">
+      <TableView fx:id="tableViewStudenti" layoutX="15.0" layoutY="347.0" prefHeight="438.0" prefWidth="703.0" AnchorPane.bottomAnchor="14.600000000000023" AnchorPane.leftAnchor="15.0">
         <columns>
           <TableColumn fx:id="colCognome" prefWidth="234.4" text="Cognome" />
             <TableColumn fx:id="colNome" prefWidth="234.4" text="Nome" />

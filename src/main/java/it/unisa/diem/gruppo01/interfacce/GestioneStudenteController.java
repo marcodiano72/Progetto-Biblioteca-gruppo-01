@@ -5,6 +5,7 @@
  */
 package it.unisa.diem.gruppo01.interfacce;
 
+import it.unisa.diem.gruppo01.classi.Elenco;
 import it.unisa.diem.gruppo01.classi.Libro;
 import it.unisa.diem.gruppo01.classi.Studente;
 import java.io.IOException;
@@ -75,8 +76,9 @@ public class GestioneStudenteController implements Initializable {
     @FXML
     private TableColumn<Studente, String> colMatr;
     
-   
     
+   
+    private Elenco elenco;
     private ObservableList<Studente> listaStudenti = FXCollections.observableArrayList();
    /* Metodo chiamato per inizializzare un controller dopo che il suo elemento radice è stato completamente elaborato.
      * Viene utilizzato per setup iniziali, come l'impostazione dei listener o il caricamento dei dati di default.
@@ -86,6 +88,8 @@ public class GestioneStudenteController implements Initializable {
     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        elenco = new Elenco();
         // Collegamento Colonne -> attributi classe libro
         //(new PropertyValueFactory(")) questo metodo per ogni libro passato cerca l'attributo che si specifica 
         //all'interno delle parentesi, o meglio cerca il metodo getAttributo(), prende qel valore e lo inserisce nella casella.
@@ -96,7 +100,63 @@ public class GestioneStudenteController implements Initializable {
         //Collegamento Lista -> Tabella
         tableViewStudenti.setItems(listaStudenti);
           
-    }    
+        
+        //Aggiungiamo un gestore di eventi del mouse alla tabella
+        
+        tableViewStudenti.setOnMouseClicked(event ->{
+            //Controlla se è un doppio click (lick count == 2) e se è una riga selezionata
+            
+            if(event.getClickCount() == 2 && tableViewStudenti.getSelectionModel().getSelectedItem() != null){
+            Studente studenteSelezionato = tableViewStudenti.getSelectionModel().getSelectedItem();
+            
+            apriDettagliStudente(studenteSelezionato);
+        }
+        });
+    }
+    
+    
+    private void apriDettagliStudente(Studente s){
+        
+        try{
+         
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/unisa/diem/gruppo01/interfacce/VisualizzaStudente_view.fxml"));
+            Parent visualizzaS = loader.load();
+            
+            //Ottieni il controller della nuova schermata
+            VisualizzaStudente_viewController controller = loader.getController();
+            
+            //Passa i dati dello studente al controller
+            
+            controller.setDatiStudente(s);
+            
+            
+            Stage visualizzaSscene = new Stage();
+            visualizzaSscene.setTitle("Dettagli studente");
+            visualizzaSscene.setScene(new Scene(visualizzaS));
+            
+            visualizzaSscene.show();
+           
+           
+           
+           
+        }catch(IOException e){
+            System.out.println("Errore nel caricamento della vista dettagli.");
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Impossibile aprire la schermata studente.");
+            alert.show();
+        }
+    }
+    
+    /**
+     * Copia i dati da elenco(TreeSet) e li inserisce in listaStudenti (observableList).
+     * Assicura che l'ordinamento per cognome definito in elenco venga rispettato.
+     */
+    
+    private void aggiornaInterfaccia(){
+        listaStudenti.clear();
+        listaStudenti.addAll(elenco.getElencoStudenti());
+    }
  /*
     * Gestisce l'evento di clic sul pulsante Aggiungi Studente.
      * Funzionalità: Raccoglie i dati dai campi di testo, crea un nuovo
@@ -130,12 +190,22 @@ public class GestioneStudenteController implements Initializable {
             //Creazione oggetto Studente
             Studente nuovoStudente = new Studente(cognome, nome, matricola, email, " ", false);
             
-            //aggiunge lo studente alla lista (la tabella si aggiorna automaticamente)
-            listaStudenti.add(nuovoStudente);
+            boolean inserito = elenco.aggiungiStudente(nuovoStudente);
             
-            pulisciCampi();
+            if(inserito){
+                aggiornaInterfaccia(); //aggiorna la tabella
+                pulisciCampi();
+            }else{
+                //se false, la matricola esiste già
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Errore nei dati inseriti");
+                alert.showAndWait();
             
-     }catch(IllegalArgumentException ex){
+                
+            }
+            
+         
+          }catch(IllegalArgumentException ex){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Errore nei dati inseriti");
             alert.showAndWait();
@@ -155,6 +225,38 @@ public class GestioneStudenteController implements Initializable {
 
     @FXML
     private void modStudent(ActionEvent event) {
+        //Per modificare si assume che l'utente inseisca la matricola
+        //e i nuovi dati dello studente nelle caselle di testo
+        
+        String matricola = tfMatricola.getText();
+        String nuovoCognome = tfCognome.getText();
+        String nuovoNome = tfNome.getText();
+        String nuovaEmail = tfEmail.getText();
+        
+        if(matricola.isEmpty() || nuovoCognome.isEmpty() || nuovoNome.isEmpty() || nuovaEmail.isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Dati mancanti");
+            alert.setHeaderText(null);
+            alert.setContentText("Attenzione: per effettuare la modifica devi compilare tutti i campi.");
+            alert.showAndWait();
+            return;
+        }
+        
+        boolean modificato = elenco.modificaStudente(matricola, nuovoNome, nuovoCognome, nuovaEmail);
+        
+        if(modificato){
+            aggiornaInterfaccia();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Studente modificato con successo.");
+            alert.show();
+            
+        }else{
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setContentText("Nessuno studente trovato con questa matricola.");
+            error.showAndWait();
+        
+        
+    }
     }
 
     @FXML
@@ -169,17 +271,17 @@ public class GestioneStudenteController implements Initializable {
         //Se tutti i campi sono vuoti si resetta la tabella e vengono mostrati tutti gli studenti
         if(matricolaCercato.isEmpty() && cognomeCercato.isEmpty()){
             
-            tableViewStudenti.setItems(listaStudenti);
+            aggiornaInterfaccia();
             return;
         }
             //Creazione di una lista osservabile temporanea per i risultati della ricerca
             ObservableList<Studente> risultatiRicerca = FXCollections.observableArrayList();
             
             
-            //Scorriamo la lista originale (listaStudenti) per trovare il libri desiderato.
+            //Scorriamo l'elenco originale
             
-            for(Studente studente: listaStudenti){
-                //Controlliamo se il campo di ricerca è vuoto oppure se il libro ha quel Titolo,Autore e Isbn
+            for(Studente studente: elenco.getElencoStudenti()){
+              
                 
                 boolean matricolaTrovato = matricolaCercato.isEmpty() || studente.getMatricola().toLowerCase().contains(matricolaCercato);
                 boolean cognomeTrovato = cognomeCercato.isEmpty() || studente.getCognome().toLowerCase().contains(cognomeCercato);
@@ -239,10 +341,27 @@ public class GestioneStudenteController implements Initializable {
          Optional<ButtonType> result = conferma.showAndWait();
          
          //Verifica se c'è un risultato e se quel risultato è il tasto OK
-         if(result.isPresent() && result.get() == ButtonType.OK);
+         if(result.isPresent() && result.get() == ButtonType.OK){
          
-         listaStudenti.remove(studenteSelezionato);
+         //Rimozione tramite elenco e matricola
+         boolean rimosso = elenco.eliminaStudente(studenteSelezionato.getMatricola());
+         
+         if(rimosso){
+             
+             aggiornaInterfaccia();
+             
+         }else{
+             
+             Alert error = new Alert(Alert.AlertType.ERROR);
+             error.setContentText("Errore durantel'eliminazione.");
+             error.show();
+       
+             
+    }
+         
+       
         
+    }
     }
     
  

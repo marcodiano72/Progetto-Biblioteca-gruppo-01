@@ -7,6 +7,9 @@
 
 package it.unisa.diem.gruppo01.interfacce;
 
+import it.unisa.diem.gruppo01.classi.Catalogo;
+import it.unisa.diem.gruppo01.classi.Libro;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -23,7 +26,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import it.unisa.diem.gruppo01.classi.Libro;
 import java.time.LocalDate;
 import java.util.Optional;
 import javafx.collections.FXCollections;
@@ -85,13 +87,11 @@ public class GestioneLibriController implements Initializable {
     private Label lblMessaggioricerca;
    
 
+    // Dichiariamo un'istanza del Catalogo.
+    private Catalogo catalogo = new Catalogo();
     
-
-    
-
-    
-    private ObservableList<Libro> listaLibri = FXCollections.observableArrayList();
-    
+    // Lista che punterà ai dati del Catalogo per la TableView
+    private ObservableList<Libro> datiTabella;
    
    
     /*
@@ -110,9 +110,9 @@ public class GestioneLibriController implements Initializable {
         colonnaAutore.setCellValueFactory(new PropertyValueFactory("autore"));
         colonnaIsbn.setCellValueFactory(new PropertyValueFactory("isbn"));
         
-        //Collegamento Lista -> Tabella
-        tableViewLibri.setItems(listaLibri);
+        this.datiTabella=FXCollections.observableArrayList(catalogo.getInventarioLibri()); //<Prendiamo i dati dal Catalogo (già ordinati) e li mettiamo in una lista osservabile.
         
+        tableViewLibri.setItems(datiTabella); ///< Collegamento Lista -> Tabella (usa la lista del Controller)
         
     }    
 
@@ -128,11 +128,11 @@ public class GestioneLibriController implements Initializable {
         //Recupero dei dati dalle caselle di testo
         String titolo = tfTitolo.getText();
         String autore = tfAutore.getText();
-        String Isbn = tfIsbn.getText();
+        String isbn = tfIsbn.getText();
         String annoP = tfAnno.getText();
         
         //Controllo campi vuoti (in caso di mancata compilazione mostra avviso)
-        if(titolo.isEmpty() || autore.isEmpty() || Isbn.isEmpty() || annoP.isEmpty()){
+        if(titolo.isEmpty() || autore.isEmpty() || isbn.isEmpty() || annoP.isEmpty()){
             
             //Alert è una finestra pre-programmata da Java che serve per mostrare messaggi
             //Questa riga costruisce la finestra
@@ -150,18 +150,31 @@ public class GestioneLibriController implements Initializable {
             int anno = Integer.parseInt(annoP); //converte in Int
             LocalDate annoPubblicazione = LocalDate.of(anno,1,1); //converte nel formato 01/01/anno;
             
-            //Creazione oggetto Libro
-            Libro nuovoLibro = new Libro(Isbn, titolo, autore, annoPubblicazione , 1);
+            Libro nuovoLibro = new Libro(isbn,titolo,autore,annoPubblicazione,1);
             
-            //aggiunge il libro alla lista (la tabella si aggiorna automaticamente)
-            listaLibri.add(nuovoLibro);
+            boolean aggiunto = catalogo.aggiungiLibro(nuovoLibro);
             
+            //se il catalogo ha modificato l'inventario, aggiorno la TableView
+            //ricarico i dati
+            datiTabella.clear();
+            datiTabella.addAll(catalogo.getInventarioLibri());
+            
+            
+            //Messaggio di conferma di libro aggiunto
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText(null);
+            if(aggiunto == true)
+            {
+               alert.setContentText("Libro aggiunto al catalogo con successo");
+               
+            }else
+            {
+                alert.setContentText("Libro già esistente. Numero copie incrementato");
+            }
+            alert.showAndWait();
             pulisciCampi();
             
-            
-            
-            
-            
+           
         }catch(NumberFormatException ex){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("L'anno deve essere un numero valido");
@@ -197,6 +210,87 @@ public class GestioneLibriController implements Initializable {
     */
     @FXML
     private void modLibri(ActionEvent event) {
+        // 1. Prendi il libro selezionato dalla TableView
+    Libro libroSelezionato = tableViewLibri.getSelectionModel().getSelectedItem();
+
+    if (libroSelezionato == null) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setHeaderText(null);
+        alert.setContentText("Seleziona un libro da modificare.");
+        alert.showAndWait();
+        return;
+    }
+
+    // L'ISBN non cambia, è la chiave
+    String isbnDaModificare = libroSelezionato.getIsbn();
+    
+    // 2. Recupera i dati dai campi di input
+    String nuovoIsbn = tfIsbn.getText();
+    String nuovoTitolo = tfTitolo.getText();
+    String nuovoAutore = tfAutore.getText();
+    String nuovoAnnoPb = tfAnno.getText();
+ 
+   
+    // Controlli di validità
+    if (nuovoTitolo.isEmpty() || nuovoAutore.isEmpty() || nuovoAnnoPb.isEmpty() || tfIsbn.getText().isEmpty()) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setHeaderText(null);
+        alert.setContentText("Attenzione: devi compilare tutti i campi per la modifica.");
+        alert.showAndWait();
+        return;
+    }
+
+    try {
+        int anno = Integer.parseInt(nuovoAnnoPb);
+        LocalDate nuovoAnnoPubblicazione = LocalDate.of(anno, 1, 1);
+        
+        int copieEsistenti = libroSelezionato.getNumCopie(); 
+
+ 
+        
+        boolean successo = catalogo.modificaLibro(isbnDaModificare,nuovoTitolo,nuovoAutore,nuovoAnnoPubblicazione,copieEsistenti); 
+        
+        // Se volessi usare il metodo modificaDettagliLibro:
+        /*
+        boolean successo = catalogo.modificaDettagliLibro(
+            isbnDaModificare, 
+            nuovoTitolo, 
+            nuovoAutore, 
+            nuovoAnnoPubblicazione, 
+            copieModificate
+        );
+        */
+
+        if (successo) {
+            // 4. Aggiorna la TableView. È cruciale per riflettere le modifiche e il riordinamento.
+            datiTabella.clear();
+            datiTabella.addAll(catalogo.getInventarioLibri());
+            tableViewLibri.refresh(); // Assicura che le celle cambino colore, se necessario
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText(null);
+            alert.setContentText("Libro modificato con successo nel catalogo.");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Errore: Libro con ISBN " + isbnDaModificare + " non trovato per la modifica.");
+            alert.showAndWait();
+        }
+
+        pulisciCampi(); // Pulisce i campi dopo l'operazione
+        
+    } catch (NumberFormatException ex) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(null);
+        alert.setContentText("L'Anno di pubblicazione deve essere un numero intero valido (es. 2024).");
+        alert.showAndWait();
+    } catch (IllegalArgumentException ex) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(null);
+        alert.setContentText("Errore nei dati inseriti: " + ex.getMessage());
+        alert.showAndWait();
+    }
         
         
     }
@@ -218,7 +312,7 @@ public class GestioneLibriController implements Initializable {
         //Se tutti i campi sono vuoti si resetta la tabella e vengono mostrati tutti i libri
         if(titoloCercato.isEmpty() && autoreCercato.isEmpty() && isbnCercato.isEmpty()){
             
-            tableViewLibri.setItems(listaLibri);
+            tableViewLibri.setItems(datiTabella);
             return;
         }
             //Creazione di una lista osservabile temporanea per i risultati della ricerca
@@ -227,7 +321,7 @@ public class GestioneLibriController implements Initializable {
             
             //Scorriamo la lista originale (listaLibri) per trovare il libri desiderato.
             
-            for(Libro libro: listaLibri){
+            for(Libro libro: datiTabella){
                 //Controlliamo se il campo di ricerca è vuoto oppure se il libro ha quel Titolo,Autore e Isbn
                 
                 boolean titoloTrovato = titoloCercato.isEmpty() || libro.getTitolo().toLowerCase().contains(titoloCercato);
@@ -268,6 +362,7 @@ public class GestioneLibriController implements Initializable {
         
         Libro libroSelezionato = tableViewLibri.getSelectionModel().getSelectedItem();
         
+        
         //Controlla che l'utente abbia selezionato un libro
         if(libroSelezionato == null) {
             
@@ -292,8 +387,28 @@ public class GestioneLibriController implements Initializable {
          
          //Verifica se c'è un risultato e se quel risultato è il tasto OK
          if(result.isPresent() && result.get() == ButtonType.OK);
+         {
+            // 1. Chiama il Model Manager per eseguire l'azione
+             boolean rimosso = catalogo.eliminaLibro(libroSelezionato.getIsbn());
+             
+             if (rimosso) {
+                 // 2. Aggiorna la TableView per riflettere lo stato corrente del Catalogo
+                 datiTabella.clear();
+                 datiTabella.addAll(catalogo.getInventarioLibri());
+                 
+                 Alert successo = new Alert(Alert.AlertType.INFORMATION);
+                 successo.setHeaderText(null);
+                 successo.setContentText("Libro eliminato con successo.");
+                 successo.showAndWait();
+             } else {
+                 // Questo caso non dovrebbe succedere se il libro è stato selezionato dalla tabella
+                 Alert errore = new Alert(Alert.AlertType.ERROR);
+                 errore.setHeaderText(null);
+                 errore.setContentText("Errore durante l'eliminazione: libro non trovato nel catalogo.");
+                 errore.showAndWait();
+             }
+        }
          
-         listaLibri.remove(libroSelezionato);
         
     }
     

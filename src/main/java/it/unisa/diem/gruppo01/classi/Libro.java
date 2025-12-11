@@ -74,6 +74,14 @@ public class Libro {
     {
         return titolo;
     }
+
+    public void setTitolo(String titolo) {
+        this.titolo = titolo;
+    }
+
+   
+
+    
     
     /**
      * Restituisce l'autore del libro.
@@ -84,6 +92,10 @@ public class Libro {
         return autore;
     }
     
+     public void setAutore(String autore) {
+        this.autore = autore;
+    }
+    
     /**
      * Restituisce l'anno di pubblicazione del libro.
      * @return L'anno di pubblicazione del libro.
@@ -91,6 +103,11 @@ public class Libro {
     public LocalDate getAnnoPb()
     {
         return annoPb;
+    }
+    
+    public void setAnnoPb(LocalDate annoPb)
+    {
+        this.annoPb = annoPb;
     }
     
     /**
@@ -134,8 +151,8 @@ public class Libro {
        
         this.numCopie = this.numCopie + quantita;
     } else {
-        
-        System.out.println("Attenzione: La quantità da incrementare deve essere un numero positivo.");
+        //se la quantità non è positiva lancio un'eccezione
+      throw new IllegalArgumentException(("La quantità da incrementare deve essere positiva."));
     }
 }
     

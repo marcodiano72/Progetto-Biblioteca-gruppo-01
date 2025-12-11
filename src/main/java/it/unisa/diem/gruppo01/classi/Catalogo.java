@@ -12,8 +12,11 @@
  */
 package it.unisa.diem.gruppo01.classi;
 
+import java.time.LocalDate;
 import java.util.TreeSet;
 import java.util.Comparator;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
  
 
 /**
@@ -109,31 +112,6 @@ public class Catalogo {
         }
     }
     
-    
-
-    /*
-    *Modifica il numero di copie disponibili di un libro esistente, cercando per ISBN.
-     * @param isbn Il codice ISBN del libro da modificare.
-     * @param nuoveCopie Il nuovo numero totale di copie disponibili da impostare.
-     * @return true se il libro è stato trovato e modificato, false altrimenti.
-     * @throws IllegalArgumentException Se il numero di nuove copie fornito è negativo.
-     */
-    public boolean modificaLibro(String isbn, int nuoveCopie) {
-        if (nuoveCopie < 0) {
-            throw new IllegalArgumentException("Il numero di copie non può essere negativo.");
-        }
-        
-        Libro libroDaModificare = cercaLibroPerISBN(isbn);
-        
-        if (libroDaModificare != null) {
-        
-            libroDaModificare.setNumCopia(nuoveCopie); 
-            System.out.println("Libro con ISBN " + isbn + " modificato. Nuove copie: " + nuoveCopie);
-            return true;
-        }
-        System.out.println("Libro con ISBN " + isbn + " non trovato per la modifica.");
-        return false;
-    }
 
     /*
     *Rimuove un libro dal catalogo utilizzando il suo ISBN.
@@ -154,6 +132,65 @@ public class Catalogo {
         return false;
     }
     
+    public boolean modificaLibro(String isbn, String nuovoTitolo, String nuovoAutore, LocalDate nuovoAnnoPb, int nuoveCopie) 
+    {
+        // 1. Controllo base
+    if (nuoveCopie < 0) {
+        throw new IllegalArgumentException("Il numero di copie non può essere negativo.");
+    }
+
+    // 2. Trova il libro da modificare
+    Libro libroDaModificare = cercaLibroPerISBN(isbn);
+
+    if (libroDaModificare == null) {
+        return false; // Libro non trovato
+    }
+
+    // 3. Gestione del TreeSet per il riordinamento: 
+    // Se il Titolo o l'Autore cambiano, la posizione nel TreeSet deve essere aggiornata.
+    
+    // Per un'efficienza ottimale con TreeSet: rimuovi l'oggetto, aggiorna i campi, e riaggiungilo.
+    // Verifichiamo se il titolo o l'autore cambiano, dato che influenzano l'ordinamento.
+    boolean titoloCambiato = !libroDaModificare.getTitolo().equals(nuovoTitolo);
+    boolean autoreCambiato = !libroDaModificare.getAutore().equals(nuovoAutore);
+    
+    // Se è cambiata una delle proprietà che definiscono l'ordine (Titolo) o l'unicità (Autore in caso di Titolo uguale)
+    if (titoloCambiato || autoreCambiato) {
+        // Rimuoviamo il vecchio oggetto per permettere al TreeSet di riorganizzarsi
+        inventarioLibri.remove(libroDaModificare);
+    }
+    
+    // 4. Aggiorna i dettagli (Titolo, Autore, AnnoPb, Copie)
+    libroDaModificare.setTitolo(nuovoTitolo);
+    libroDaModificare.setAutore(nuovoAutore);
+    libroDaModificare.setAnnoPb(nuovoAnnoPb); // L'anno non influenza l'ordinamento, ma è un dettaglio
+    libroDaModificare.setNumCopia(nuoveCopie);
+    
+    // 5. Riaggiungi l'oggetto se è stato rimosso (o se è la prima volta che viene modificato)
+    if (titoloCambiato || autoreCambiato) {
+        // Aggiungiamo nuovamente il libro, forzando il TreeSet a ricalcolare la posizione corretta
+        inventarioLibri.add(libroDaModificare);
+    }
+    
+    // Se né il titolo né l'autore sono cambiati, l'oggetto è rimasto nello stesso posto nel TreeSet,
+    // e la modifica delle sole copie è riflessa immediatamente.
+
+    return true; // Modifica riuscita
+    
+    }
+    
+    /*
+    * Fornisce una vista osservabile dell'inventario.
+    * Questo è il metodo che il Controller DEVE usare per popolare la TableView.
+    * @return ObservableList<Libro> contenente tutti i libri dal TreeSet.
+    */
+    public ObservableList<Libro> getCatalogoObservableList() {
+   
+    ObservableList<Libro> observableList = FXCollections.observableArrayList();
+    observableList.addAll(inventarioLibri);
+    
+    return observableList;
+}
    
     /*
     ** Restituisce una rappresentazione in formato stringa dell'intero catalogo.

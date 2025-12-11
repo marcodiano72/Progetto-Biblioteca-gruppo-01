@@ -12,9 +12,18 @@
  */
 package it.unisa.diem.gruppo01.classi;
 
+import java.io.BufferedOutputStream;
+import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.TreeSet;
 import java.util.Comparator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
  
@@ -192,6 +201,66 @@ public class Catalogo {
     return observableList;
 }
    
+    /*il metodo salvaDOS crea un file di tipo binario (.bin) con i dati relativi al catalogo dei libri
+    in particolare viene scritto titolo, autore, codice isbn e numero di copie del libro
+    */
+    public void salvaDOS(String nomeFile) throws FileNotFoundException, IOException {
+        
+        // apre file
+        FileOutputStream fos = new FileOutputStream(nomeFile); 
+        
+        // aggiunge buffer
+        BufferedOutputStream bos = new BufferedOutputStream(fos);
+        
+        // stream per i dati primitivi
+        DataOutputStream dos = new DataOutputStream(bos);
+        
+        //descrizione anagrafica
+        dos.writeUTF("Elenco Libri");
+        dos.writeUTF("Titolo|Autore|ISBN|Num_Copie");
+        //per ogni studente memorizzo attributi sul file
+        for(Libro l : inventarioLibri) {
+            dos.writeUTF("\n");
+            dos.writeUTF(l.getTitolo());
+            dos.writeUTF(l.getAutore());
+            dos.writeUTF(l.getIsbn());
+            dos.write(l.getNumCopie());
+    }
+          
+        dos.close(); //chiudo stream
+        
+        
+    }
+    
+    
+    // scrive il contenuto della struttura dati in un file CSV
+    public void salvaCSV(String nomeFile){
+        
+        //printwriter scrive testo in modo semplice
+        try( PrintWriter pw = new PrintWriter(new FileWriter(nomeFile)) ){
+            
+            pw.println("Elenco Libri\n");
+            // Scrive la riga di intestazione del file CSV
+            pw.println("Titolo;Autore;ISBN;Num_Copie");
+            
+            for( Libro l : this.inventarioLibri ){
+                
+                pw.append(l.getTitolo());
+                pw.append(";");
+                pw.append(l.getAutore());
+                pw.append(";");
+                pw.append(l.getIsbn());
+                pw.append(";");
+                pw.println(l.getNumCopie()); //va a capo automaticamente 
+                
+            }
+            
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Catalogo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
     /*
     ** Restituisce una rappresentazione in formato stringa dell'intero catalogo.
      * I libri vengono elencati in ordine alfabetico per titolo, grazie all'uso del Treeset.

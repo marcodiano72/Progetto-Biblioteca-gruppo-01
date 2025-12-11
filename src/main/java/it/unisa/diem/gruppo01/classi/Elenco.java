@@ -11,8 +11,18 @@
  */
 package it.unisa.diem.gruppo01.classi;
 
+import java.io.BufferedOutputStream;
+import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.TreeSet;
 import java.util.Comparator;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
  
 
 /**
@@ -167,6 +177,104 @@ public class Elenco {
         return false;
     }
     
+        public void salvaDOS(String nomeFile) throws FileNotFoundException, IOException {
+        
+        // apre file
+        FileOutputStream fos = new FileOutputStream(nomeFile); 
+        
+        // aggiunge buffer
+        BufferedOutputStream bos = new BufferedOutputStream(fos);
+        
+        // stream per i dati primitivi
+        DataOutputStream dos = new DataOutputStream(bos);
+        
+        //descrizione anagrafica
+        dos.writeUTF("Elenco Studenti\n");
+        
+        //per ogni studente memorizzo attributi sul file
+        for(Studente s : elencoStudenti) {
+            
+            dos.writeUTF(s.getCognome());
+            dos.writeUTF(s.getNome());
+            dos.writeUTF(s.getMatricola());
+            dos.writeUTF(s.getEmail());
+            List<Prestito> prestitiAttivi = s.getPrestitiAttivi();
+            // 1. Scriviamo la dimensione della lista
+            dos.writeInt(prestitiAttivi.size());
+            // 2. Iteriamo sulla lista e scriviamo i dettagli di ogni Prestito
+            for (Prestito p : prestitiAttivi) {    
+            // Scriviamo i dati del Libro in prestito
+            dos.writeUTF(p.getLibro().getTitolo());
+            dos.writeUTF(p.getLibro().getAutore());
+            // Scriviamo la Data di Scadenza (Stringa)
+            dos.writeUTF(p.getDataScadenza().toString());
+    
+    }
+            
+    }
+        
+        dos.close(); //chiudo stream
+        
+        
+    }
+    
+        
+           // scrive il contenuto della struttura dati in un file CSV (file con valori separati da virgola)
+ public void salvaCSV(String nomeFile) throws IOException {
+    
+    
+    // Usiamo try-with-resources per garantire la chiusura automatica del PrintWriter
+    try (PrintWriter pw = new PrintWriter(nomeFile)) { 
+        pw.append("Elenco Studneti");
+        // 1. Scrivi l'intestazione (header) del CSV
+        pw.println("Cognome; Nome; Matricola ; Email; PrestitiAttivi ;TitoloLibro ; AutoreLibro ; DataScadenza");
+
+        // 2. Itera su tutti gli studenti
+        for (Studente s : elencoStudenti) {
+            
+            // Estrai i dati dello studente e la lista dei prestiti
+            String cognome = s.getCognome();
+            String nome = s.getNome();
+            String matricola = s.getMatricola();
+            String email = s.getEmail();
+            List<Prestito> prestitiAttivi = s.getPrestitiAttivi();
+            
+            // 3. Itera sui prestiti dello studente
+            if (prestitiAttivi.isEmpty()) {
+                // Caso: Studente senza prestiti attivi. Scrivi una riga comunque (opzionale)
+                pw.println(cognome + ";" + 
+                           nome + ";" + 
+                           matricola + ";" + 
+                           email + ";" + 
+                           "0" + ";" + // 0 Prestiti in questa riga
+                           "" + ";" + 
+                           "" + ";" + 
+                           "");
+            } else {
+                // Caso: Studente con N prestiti. Scrivi N righe.
+                for (Prestito p : prestitiAttivi) {
+                    
+                    String titolo = p.getLibro().getTitolo();
+                    String autore = p.getLibro().getAutore();
+                    String dataScadenza = p.getDataScadenza().toString();
+                    
+                    // Costruisci la riga del CSV
+                    String riga = cognome + ";" + 
+                                  nome + ";" + 
+                                  matricola + ";" + 
+                                  email + ";" + 
+                                  "1" + ";" + // C'è 1 prestito in questa riga
+                                  titolo + ";" + 
+                                  autore + ";" + 
+                                  dataScadenza;
+                                  
+                    pw.println(riga); // Scrivi la riga nel file
+                }
+            }
+        }
+    } 
+    // Il pw.close() è chiamato automaticamente alla fine del blocco try
+}
     /**
      * Restituisce una rappresentazione in formato stringa dell'intero elenco.
      * @return Una stringa con l'elenco degli studenti o un messaggio, se l'elenco è vuoto.

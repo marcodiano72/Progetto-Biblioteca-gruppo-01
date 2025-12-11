@@ -249,18 +249,7 @@ public class GestioneLibriController implements Initializable {
  
         
         boolean successo = catalogo.modificaLibro(isbnDaModificare,nuovoTitolo,nuovoAutore,nuovoAnnoPubblicazione,copieEsistenti); 
-        
-        // Se volessi usare il metodo modificaDettagliLibro:
-        /*
-        boolean successo = catalogo.modificaDettagliLibro(
-            isbnDaModificare, 
-            nuovoTitolo, 
-            nuovoAutore, 
-            nuovoAnnoPubblicazione, 
-            copieModificate
-        );
-        */
-
+    
         if (successo) {
             // 4. Aggiorna la TableView. È cruciale per riflettere le modifiche e il riordinamento.
             datiTabella.clear();

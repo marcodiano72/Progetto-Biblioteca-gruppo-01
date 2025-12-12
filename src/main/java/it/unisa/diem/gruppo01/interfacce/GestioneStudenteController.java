@@ -119,7 +119,9 @@ public class GestioneStudenteController implements Initializable {
         }
         });
     }
-    
+     private boolean isValidEmail(String email) {
+    return email != null && !email.isEmpty() && email.endsWith("@studenti.unisa.it");
+}
     
     private void apriDettagliStudente(Studente s){
         
@@ -190,6 +192,16 @@ public class GestioneStudenteController implements Initializable {
             alert.showAndWait(); //show() mostra la finestra e ...AndWait() signific che il codice si interrompe
             return;
     }
+if (!isValidEmail(email)) {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Email non valida");
+    alert.setHeaderText(null);
+    alert.setContentText("L'email deve terminare con '@studenti.unisa.it'. Inserisci un indirizzo valido.");
+    alert.showAndWait();
+    tfEmail.clear();  // Pulisce il campo per ripetere
+    tfEmail.requestFocus();  // Focus sul campo per editing immediato
+    return;
+}
 
     try{    
      
@@ -232,8 +244,7 @@ public class GestioneStudenteController implements Initializable {
     @FXML
 private void modStudent(ActionEvent event) {
     // 1. Studente selezionato dalla TableView
-    Studente studenteSelezionato = tableViewStudenti.getSelectionModel().getSelectedItem();
-
+    Studente studenteSelezionato = (Studente) tableViewStudenti.getSelectionModel().getSelectedItem();
     if (studenteSelezionato == null) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setHeaderText(null);
@@ -254,13 +265,22 @@ private void modStudent(ActionEvent event) {
     if (nuovoCognome == null || nuovoCognome.isEmpty()) {
         nuovoCognome = studenteSelezionato.getCognome();
     }
-
     if (nuovoNome == null || nuovoNome.isEmpty()) {
         nuovoNome = studenteSelezionato.getNome();
     }
-
     if (nuovaEmail == null || nuovaEmail.isEmpty()) {
         nuovaEmail = studenteSelezionato.getEmail();
+    }
+
+    // 3b. Controllo formato email UNISA
+    if (!isValidEmail(nuovaEmail)) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Email non valida");
+        alert.setHeaderText(null);
+        alert.setContentText("L'email deve terminare con '@studenti.unisa.it'.");
+        alert.showAndWait();
+        tfEmail.requestFocus();
+        return;   // blocca la modifica
     }
 
     // 4. Chiamata a Elenco
@@ -274,7 +294,6 @@ private void modStudent(ActionEvent event) {
     if (modificato) {
         aggiornaInterfaccia();
         tableViewStudenti.refresh();
-
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(null);
         alert.setContentText("Studente modificato con successo.");

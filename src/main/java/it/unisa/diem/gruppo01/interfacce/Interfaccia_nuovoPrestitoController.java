@@ -151,57 +151,42 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
      * @param event 
      */
     
-    @FXML
-    private void spuntaUtente(ActionEvent event) {
+  @FXML
+private void spuntaUtente(ActionEvent event) {
+    
+    if(spuntaU.isSelected()){
         
-        if(spuntaU.isSelected()){
-            
-            if(studenteCorrente == null){
-                
-                mostraAlert(AlertType.ERROR, "Errore", "Inserire una matricola valida e premere invio.");
-                spuntaU.setSelected(false); //Annulla la spunta
-                return;
-            }
-          
-        //studente non abilitato
+        // Controllo se lo studente è stato caricato correttamente
+        if(studenteCorrente == null){
+             mostraAlert(AlertType.ERROR, "Errore", "Rifare la ricerca matricola");
+             spuntaU.setSelected(false); // Tolgo la spunta perché è un errore
+             return;
+        }
+
+        // Controllo se lo studente è abilitato (Ritardi o numero prestiti)
         if(!studenteCorrente.isAbilitato()){
             
-            
-            //Motivo1: non ha restituito un libro entro la data di scadenza
-            if(studenteCorrente.isRitardo()){
-                
-                
-                mostraAlert(AlertType.ERROR, "Utente non abilitato", "Lo studente è in ritardo con le restituzioni.");
-               
+            // Se non è abilitato, mostro l'errore specifico
+            if(studenteCorrente.isRitardo()) {
+                mostraAlert(AlertType.ERROR, "Blocco", "Lo studente è in ritardo con le restituzioni!");
+            } else {
+                mostraAlert(AlertType.ERROR, "Blocco", "Limite prestiti raggiunto (" + studenteCorrente.contaPrestitiAttivi() + "/3)");
             }
-            //Motivo2: ha raggiunto il limite di prestiti attivi
-            if(studenteCorrente.contaPrestitiAttivi() >= Prestito.LIMITE_PRESTITI){
-                
-                mostraAlert(AlertType.ERROR, "Utente non abilitato", "Lo studente ha raggiunto il limite di prestiti attivi");
-             
-                
-            }
-       
-            spuntaU.setSelected(false);  //Forza la rimozione della spunta
-            gestisciCampiLibro(false);  //Mantiene bloccata la parte sotto
+
+            // Tolgo la spunta e blocco i campi libro
+            spuntaU.setSelected(false);
+            gestisciCampiLibro(false);
             
-                   
-     
-            
-        }else{  //studente abilitato
-            
-            
-            gestisciCampiLibro(true); //sblocca la parte sotto
-            
+        } else {
+            // Se è abilitato, sblocco i campi per inserire il libro
+            gestisciCampiLibro(true); 
         }
-           
-        
-        }else{
-           //l'utente sta togliendo la spunta
-           gestisciCampiLibro(false);  //blocca di nuovo i campi
-        }
-        
+
+    } else {
+        // Se l'utente toglie la spunta manualmente, blocco tutto
+        gestisciCampiLibro(false);
     }
+}
     
     
 

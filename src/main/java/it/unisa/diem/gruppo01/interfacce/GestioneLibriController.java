@@ -100,7 +100,6 @@ public class GestioneLibriController implements Initializable {
         tableViewLibri.setItems(datiTabella); ///< Collegamento Lista -> Tabella (usa la lista del Controller)
         
         System.out.println("Catalogo iniettato in GestioneLibriController. Dati caricati nella tabella.");
-        System.out.println(catalogo.toString());
     }
    
     /*
@@ -212,9 +211,9 @@ public class GestioneLibriController implements Initializable {
      *
      * @param event L'evento di azione generato dal clic.
     */
-    @FXML
-    private void modLibri(ActionEvent event) {
-        // 1. Prendi il libro selezionato dalla TableView
+  @FXML
+private void modLibri(ActionEvent event) {
+    // 1. Libro selezionato dalla TableView
     Libro libroSelezionato = tableViewLibri.getSelectionModel().getSelectedItem();
 
     if (libroSelezionato == null) {
@@ -225,68 +224,73 @@ public class GestioneLibriController implements Initializable {
         return;
     }
 
-    // L'ISBN non cambia, è la chiave
+    // ISBN chiave (non lo modifichi nel catalogo)
     String isbnDaModificare = libroSelezionato.getIsbn();
-    
+
     // 2. Recupera i dati dai campi di input
-    String nuovoIsbn = tfIsbn.getText();
     String nuovoTitolo = tfTitolo.getText();
     String nuovoAutore = tfAutore.getText();
     String nuovoAnnoPb = tfAnno.getText();
- 
-   
-    // Controlli di validità
-    if (nuovoTitolo.isEmpty() || nuovoAutore.isEmpty() || nuovoAnnoPb.isEmpty() || tfIsbn.getText().isEmpty()) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setHeaderText(null);
-        alert.setContentText("Attenzione: devi compilare tutti i campi per la modifica.");
-        alert.showAndWait();
-        return;
+
+    // 3. Se un campo è vuoto o solo spazi, mantieni il valore esistente
+    if (nuovoTitolo == null || nuovoTitolo.isEmpty()) {
+        nuovoTitolo = libroSelezionato.getTitolo();
     }
 
+    if (nuovoAutore == null || nuovoAutore.isEmpty()) {
+        nuovoAutore = libroSelezionato.getAutore();
+    }
+
+    int anno;
     try {
-        int anno = Integer.parseInt(nuovoAnnoPb);
-        LocalDate nuovoAnnoPubblicazione = LocalDate.of(anno, 1, 1);
-        
-        int copieEsistenti = libroSelezionato.getNumCopie(); 
-
- 
-        
-        boolean successo = catalogo.modificaLibro(isbnDaModificare,nuovoTitolo,nuovoAutore,nuovoAnnoPubblicazione,copieEsistenti); 
-    
-        if (successo) {
-            // 4. Aggiorna la TableView. È cruciale per riflettere le modifiche e il riordinamento.
-            datiTabella.clear();
-            datiTabella.addAll(catalogo.getInventarioLibri());
-            tableViewLibri.refresh(); // Assicura che le celle cambino colore, se necessario
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText(null);
-            alert.setContentText("Libro modificato con successo nel catalogo.");
-            alert.showAndWait();
+        if (nuovoAnnoPb == null || nuovoAnnoPb.isEmpty()) {
+            // mantieni l'anno già presente
+            anno = libroSelezionato.getAnnoPb().getYear();
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(null);
-            alert.setContentText("Errore: Libro con ISBN " + isbnDaModificare + " non trovato per la modifica.");
-            alert.showAndWait();
+            // converte solo se l'utente ha inserito qualcosa
+            anno = Integer.parseInt(nuovoAnnoPb);
         }
-
-        pulisciCampi(); // Pulisce i campi dopo l'operazione
-        
     } catch (NumberFormatException ex) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(null);
         alert.setContentText("L'Anno di pubblicazione deve essere un numero intero valido (es. 2024).");
         alert.showAndWait();
-    } catch (IllegalArgumentException ex) {
+        return;
+    }
+
+    LocalDate nuovoAnnoPubblicazione = LocalDate.of(anno, 1, 1);
+
+    // numero copie invariato
+    int copieEsistenti = libroSelezionato.getNumCopie();
+
+    // 4. Chiamata al catalogo
+    boolean successo = catalogo.modificaLibro(
+            isbnDaModificare,
+            nuovoTitolo,
+            nuovoAutore,
+            nuovoAnnoPubblicazione,
+            copieEsistenti
+    );
+
+    if (successo) {
+        // 5. Aggiorna la TableView
+        datiTabella.clear();
+        datiTabella.addAll(catalogo.getInventarioLibri());
+        tableViewLibri.refresh();
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setContentText("Libro modificato con successo nel catalogo.");
+        alert.showAndWait();
+    } else {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(null);
-        alert.setContentText("Errore nei dati inseriti: " + ex.getMessage());
+        alert.setContentText("Errore: Libro con ISBN " + isbnDaModificare + " non trovato per la modifica.");
         alert.showAndWait();
     }
-        
-        
-    }
+
+    pulisciCampi();
+}
     
     /*
     

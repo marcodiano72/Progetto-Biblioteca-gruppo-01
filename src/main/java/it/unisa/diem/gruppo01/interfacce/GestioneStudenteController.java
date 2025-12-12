@@ -230,40 +230,64 @@ public class GestioneStudenteController implements Initializable {
     }
 
     @FXML
-    private void modStudent(ActionEvent event) {
-        //Per modificare si assume che l'utente inseisca la matricola
-        //e i nuovi dati dello studente nelle caselle di testo
-        
-        String matricola = tfMatricola.getText();
-        String nuovoCognome = tfCognome.getText();
-        String nuovoNome = tfNome.getText();
-        String nuovaEmail = tfEmail.getText();
-        
-        if(matricola.isEmpty() || nuovoCognome.isEmpty() || nuovoNome.isEmpty() || nuovaEmail.isEmpty()){
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Dati mancanti");
-            alert.setHeaderText(null);
-            alert.setContentText("Attenzione: per effettuare la modifica devi compilare tutti i campi.");
-            alert.showAndWait();
-            return;
-        }
-        
-        boolean modificato = elenco.modificaStudente(matricola, nuovoNome, nuovoCognome, nuovaEmail);
-        
-        if(modificato){
-            aggiornaInterfaccia();
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("Studente modificato con successo.");
-            alert.show();
-            
-        }else{
-            Alert error = new Alert(Alert.AlertType.ERROR);
-            error.setContentText("Nessuno studente trovato con questa matricola.");
-            error.showAndWait();
-        
-        
+private void modStudent(ActionEvent event) {
+    // 1. Studente selezionato dalla TableView
+    Studente studenteSelezionato = tableViewStudenti.getSelectionModel().getSelectedItem();
+
+    if (studenteSelezionato == null) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setHeaderText(null);
+        alert.setContentText("Seleziona uno studente da modificare.");
+        alert.showAndWait();
+        return;
     }
+
+    // Matricola chiave (non la cambi nell'elenco)
+    String matricolaDaModificare = studenteSelezionato.getMatricola();
+
+    // 2. Recupera i dati dai campi di input
+    String nuovoCognome = tfCognome.getText();
+    String nuovoNome    = tfNome.getText();
+    String nuovaEmail   = tfEmail.getText();
+
+    // 3. Se un campo è vuoto, mantieni il valore esistente
+    if (nuovoCognome == null || nuovoCognome.isEmpty()) {
+        nuovoCognome = studenteSelezionato.getCognome();
     }
+
+    if (nuovoNome == null || nuovoNome.isEmpty()) {
+        nuovoNome = studenteSelezionato.getNome();
+    }
+
+    if (nuovaEmail == null || nuovaEmail.isEmpty()) {
+        nuovaEmail = studenteSelezionato.getEmail();
+    }
+
+    // 4. Chiamata a Elenco
+    boolean modificato = elenco.modificaStudente(
+            matricolaDaModificare,
+            nuovoNome,
+            nuovoCognome,
+            nuovaEmail
+    );
+
+    if (modificato) {
+        aggiornaInterfaccia();
+        tableViewStudenti.refresh();
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setContentText("Studente modificato con successo.");
+        alert.showAndWait();
+    } else {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        error.setHeaderText(null);
+        error.setContentText("Nessuno studente trovato con questa matricola.");
+        error.showAndWait();
+    }
+
+    pulisciCampi();
+}
 
     @FXML
     private void searchStudent(ActionEvent event) {

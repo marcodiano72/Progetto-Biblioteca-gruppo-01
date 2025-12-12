@@ -46,10 +46,10 @@ public class Studente {
      * @param sanzione (Non usato, il valore viene sovrascritto a "Nessuna") La descrizione iniziale della sanzione.
      * @param ritardo (Non usato, il valore viene sovrascritto a false) Lo stato iniziale di ritardo.
      */
-    public Studente(String nome, String cognome, String matricola, String email, String sanzione, boolean ritardo){
+    public Studente(String cognome, String nome, String matricola, String email, String sanzione, boolean ritardo){
         
-        this.nome = nome;
         this.cognome = cognome;
+        this.nome = nome;
         this.matricola = matricola;
         this.email = email;
         this.sanzione = "Nessuna"; //valore iniziale

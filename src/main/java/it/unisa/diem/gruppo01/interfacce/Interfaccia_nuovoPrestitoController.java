@@ -133,6 +133,9 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
          spuntaU.setSelected(false);
          gestisciCampiLibro(false);
          
+         //sblocca la checkBox e la rende cliccabile
+         spuntaU.setDisable(false);
+         
         }else{
             
             //studente non trovato
@@ -151,41 +154,49 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
      * @param event 
      */
     
-  @FXML
+@FXML
 private void spuntaUtente(ActionEvent event) {
+    System.out.println("--- DEBUG INIZIO ---");
     
     if(spuntaU.isSelected()){
-        
-        // Controllo se lo studente è stato caricato correttamente
+        System.out.println("1. Checkbox selezionata");
+
         if(studenteCorrente == null){
+             System.out.println("ERRORE: Variabile studenteCorrente è NULL!");
              mostraAlert(AlertType.ERROR, "Errore", "Rifare la ricerca matricola");
-             spuntaU.setSelected(false); // Tolgo la spunta perché è un errore
              return;
         }
 
-        // Controllo se lo studente è abilitato (Ritardi o numero prestiti)
+        System.out.println("2. Studente trovato: " + studenteCorrente.getCognome());
+        
+        // VERIFICA CRITICA DEI DATI
+        System.out.println("   - Prestiti attivi: " + studenteCorrente.contaPrestitiAttivi());
+        System.out.println("   - È in ritardo? " + studenteCorrente.isRitardo());
+        System.out.println("   - ESITO isAbilitato(): " + studenteCorrente.isAbilitato());
+
         if(!studenteCorrente.isAbilitato()){
+            System.out.println("3. BLOCCO: Lo studente non è abilitato. Entro nell'IF di errore.");
             
-            // Se non è abilitato, mostro l'errore specifico
+            // Mostriamo l'errore per capire il motivo
             if(studenteCorrente.isRitardo()) {
-                mostraAlert(AlertType.ERROR, "Blocco", "Lo studente è in ritardo con le restituzioni!");
+                mostraAlert(AlertType.ERROR, "Blocco", "Studente in ritardo!");
             } else {
-                mostraAlert(AlertType.ERROR, "Blocco", "Limite prestiti raggiunto (" + studenteCorrente.contaPrestitiAttivi() + "/3)");
+                mostraAlert(AlertType.ERROR, "Blocco", "Limite prestiti raggiunto (" + studenteCorrente.contaPrestitiAttivi() + ")");
             }
 
-            // Tolgo la spunta e blocco i campi libro
             spuntaU.setSelected(false);
             gestisciCampiLibro(false);
             
         } else {
-            // Se è abilitato, sblocco i campi per inserire il libro
+            System.out.println("3. SUCCESSO: Studente abilitato. Chiamo gestisciCampiLibro(true)");
             gestisciCampiLibro(true); 
         }
 
     } else {
-        // Se l'utente toglie la spunta manualmente, blocco tutto
+        System.out.println("Checkbox deselezionata -> Blocco tutto");
         gestisciCampiLibro(false);
     }
+    System.out.println("--- DEBUG FINE ---");
 }
     
     
@@ -289,6 +300,9 @@ private void spuntaUtente(ActionEvent event) {
             
             studenteCorrente.aggiungiPrestito(nuovoPrestito);
             
+            elencoStudenti.salvaCSV(); // Salva il prestito nel file studenti
+            catalogoLibri.salvaCSV();  // Salva il numero copie aggiornato nel file libri
+            
             mostraAlert(AlertType.INFORMATION, "Successo", "Prestito registrato con successo.\n Scadenza: "+ scadenza);
             pulisciCampiAnagrafici();
             inserisciT.clear();
@@ -376,6 +390,9 @@ private void spuntaUtente(ActionEvent event) {
             //Rimuovi il prestito dalla lista prestiti attivi dello studente
             studente.rimuoviPrestito(prestitoDaChiudere);
             
+            elencoStudenti.salvaCSV(); 
+            catalogoLibri.salvaCSV();
+            
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Restituzione completata");
             alert.setHeaderText("Libro restituito con successo");
@@ -435,6 +452,7 @@ private void spuntaUtente(ActionEvent event) {
         inserisciC.clear();
         inserisciE.clear();
         spuntaU.setSelected(false);
+        spuntaU.setDisable(true);
         gestisciCampiLibro(false);
     }
     

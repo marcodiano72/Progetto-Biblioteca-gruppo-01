@@ -74,21 +74,11 @@ public class VisualizzaLibro_viewController implements Initializable {
 
     @FXML
     private void chiudiFinestra(ActionEvent event) {
-             
-            try {
-                Parent menuParent = FXMLLoader.load(getClass().getResource("/it/unisa/diem/gruppo01/interfacce/GestioneLibro_view.fxml"));
-                Scene menuScene = new Scene(menuParent);
-                
-                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-                window.setScene(menuScene);
-                window.setTitle("Gestione Biblioteca - Gestione Studente");
-                window.show();
-                
-                
-            } catch (IOException ex) {
-               System.out.println("ERRORE:impossibile trovare GestioneLibro_view.fxml");
-               ex.printStackTrace();
-            }
-        }
+    // 1. Ottieni lo Stage (la finestra) corrente partendo dal pulsante che ha scatenato l'evento
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    
+    // 2. Chiudi la finestra
+    stage.close();
+}
     
 }

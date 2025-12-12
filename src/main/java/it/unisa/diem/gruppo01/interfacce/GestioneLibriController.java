@@ -9,6 +9,7 @@ package it.unisa.diem.gruppo01.interfacce;
 
 import it.unisa.diem.gruppo01.classi.Catalogo;
 import it.unisa.diem.gruppo01.classi.Libro;
+import it.unisa.diem.gruppo01.classi.Studente;
 
 import java.io.IOException;
 import java.net.URL;
@@ -117,7 +118,54 @@ public class GestioneLibriController implements Initializable {
         colonnaTitolo.setCellValueFactory(new PropertyValueFactory("titolo"));
         colonnaAutore.setCellValueFactory(new PropertyValueFactory("autore"));
         colonnaIsbn.setCellValueFactory(new PropertyValueFactory("isbn"));
-    }    
+        
+                //Aggiungiamo un gestore di eventi del mouse alla tabella
+        
+        tableViewLibri.setOnMouseClicked(event ->{
+            //Controlla se è un doppio click (lick count == 2) e se è una riga selezionata
+            
+            if(event.getClickCount() == 2 && tableViewLibri.getSelectionModel().getSelectedItem() != null){
+            Libro libroSelezionato = tableViewLibri.getSelectionModel().getSelectedItem();
+            
+            apriDettagliLibro(libroSelezionato);
+        }
+        });
+    }
+    
+    
+    private void apriDettagliLibro(Libro l){
+        
+        try{
+         
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/unisa/diem/gruppo01/interfacce/VisualizzaLibro_view.fxml"));
+            Parent visualizzaL = loader.load();
+            
+            //Ottieni il controller della nuova schermata
+            VisualizzaLibro_viewController controller = loader.getController();
+            
+            //Passa i dati dello studente al controller
+            
+            controller.setDatiLibro(l);
+            
+            
+            Stage visualizzaSscene = new Stage();
+            visualizzaSscene.setTitle("Dettagli Libro");
+            visualizzaSscene.setScene(new Scene(visualizzaL));
+            
+            visualizzaSscene.show();
+           
+           
+           
+           
+        }catch(IOException e){
+            System.out.println("Errore nel caricamento della vista dettagli.");
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Impossibile aprire la schermata libro.");
+            alert.show();
+        }
+    }
+     
 
     /*
     * Gestisce l'evento di clic sul pulsante Aggiungi Libro.

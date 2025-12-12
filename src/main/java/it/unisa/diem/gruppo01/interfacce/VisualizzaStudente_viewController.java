@@ -29,13 +29,13 @@ import javafx.stage.Stage;
 public class VisualizzaStudente_viewController implements Initializable {
 
     @FXML
-    private TextField nomeField;
+    private Label nomeField;
     @FXML
-    private TextField cognomeField;
+    private Label cognomeField;
     @FXML
-    private TextField emailField;
+    private Label emailField;
     @FXML
-    private TextField matricolaField;
+    private Label matricolaField;
     @FXML
     private Label libro1Label;
     @FXML
@@ -54,6 +54,26 @@ public class VisualizzaStudente_viewController implements Initializable {
     private Label inizio3Label;
     @FXML
     private Label fine3Label;
+    @FXML
+    private Label sanzioneFIeld;
+    @FXML
+    private Label titolo1;
+    @FXML
+    private Label titolo2;
+    @FXML
+    private Label titolo3;
+    @FXML
+    private Label inizio2;
+    @FXML
+    private Label inizio1;
+    @FXML
+    private Label fine1;
+    @FXML
+    private Label fine2;
+    @FXML
+    private Label inizio3;
+    @FXML
+    private Label fine3;
 
     /**
      * Initializes the controller class.
@@ -63,11 +83,11 @@ public class VisualizzaStudente_viewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Rendiamo i campi non modificabili, visto che è solo una visualizzazione
-        nomeField.setEditable(false);
-        cognomeField.setEditable(false);
-        emailField.setEditable(false);
-        matricolaField.setEditable(false);
-        
+        /*nomeField.setEditable(true);
+        cognomeField.setEditable(true);
+        emailField.setEditable(true);
+        matricolaField.setEditable(true);
+        */
         // Puliamo le label dei prestiti all'avvio
         resetLabels();
     }    

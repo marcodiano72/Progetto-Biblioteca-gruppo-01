@@ -149,7 +149,7 @@
                         </CheckBox>
                      </children>
                   </HBox>
-                  <VBox disable="true" prefHeight="300.0" prefWidth="380.0">
+                  <VBox prefHeight="300.0" prefWidth="380.0">
                      <VBox.margin>
                         <Insets top="15.0" />
                      </VBox.margin>

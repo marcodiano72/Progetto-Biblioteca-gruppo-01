@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
@@ -15,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.diem.gruppo01.interfacce.Interfaccia_nuovoPrestitoController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.diem.gruppo01.interfacce.Interfaccia_nuovoPrestitoController">
    <children>
       <HBox layoutX="242.0" layoutY="123.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
          <children>
@@ -66,7 +71,7 @@
                               <Insets top="1.5" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="inserisciN" alignment="TOP_LEFT" onAction="#inserisciNome" prefHeight="28.0" prefWidth="252.0" promptText="Inserisci nome">
+                        <TextField fx:id="inserisciN" alignment="TOP_LEFT" prefHeight="28.0" prefWidth="252.0" promptText="Inserisci nome">
                            <HBox.margin>
                               <Insets left="40.0" />
                            </HBox.margin>
@@ -89,7 +94,7 @@
                               <Insets top="1.5" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="inserisciC" alignment="TOP_LEFT" onAction="#inserisciCognome" prefHeight="28.0" prefWidth="232.0" promptText="Inserisci cognome">
+                        <TextField fx:id="inserisciC" alignment="TOP_LEFT" prefHeight="28.0" prefWidth="232.0" promptText="Inserisci cognome">
                            <HBox.margin>
                               <Insets left="40.0" />
                            </HBox.margin>
@@ -111,7 +116,7 @@
                            <font>
                               <Font size="15.0" />
                            </font></Label>
-                        <TextField fx:id="inserisciE" onAction="#inserisciEmail" prefHeight="26.0" prefWidth="288.0" promptText="Inserisci email">
+                        <TextField fx:id="inserisciE" prefHeight="26.0" prefWidth="288.0" promptText="Inserisci email">
                            <HBox.margin>
                               <Insets left="40.0" />
                            </HBox.margin>
@@ -266,7 +271,7 @@
                               <Insets top="1.0" />
                            </HBox.margin>
                         </Label>
-                        <ComboBox editable="true" prefWidth="150.0" promptText="Visualizza opzioni" visibleRowCount="3">
+                        <ComboBox fx:id="statoLibroBox" editable="true" prefWidth="150.0" promptText="Visualizza opzioni" visibleRowCount="3">
                            <HBox.margin>
                               <Insets left="20.0" />
                            </HBox.margin>

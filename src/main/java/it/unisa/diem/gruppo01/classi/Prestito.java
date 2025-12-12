@@ -24,7 +24,7 @@ import java.time.temporal.ChronoUnit;
 public class Prestito {
     
    
-    public static final int DURATA_PRESTITO_BASE_GIORNI = 50; /// Costante per la durata base del prestito (50 giorni come da specifica)
+    public static final int DURATA_PRESTITO = 50; /// Costante per la durata base del prestito (50 giorni come da specifica)
     
     public static final int LIMITE_PRESTITI = 3; /// Limite massimo di prestiti attivi prima che scattino le sanzioni in caso di ritardo (3).
 

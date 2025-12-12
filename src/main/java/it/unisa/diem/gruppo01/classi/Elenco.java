@@ -63,7 +63,7 @@ public class Elenco {
      * @return L'oggetto Studente se trovato, altrimenti null.
      */
     // Metodo  per trovare uno studente per matricola 
-    private Studente cercaStudenteperMatricola(String matricola) {
+    public Studente cercaStudenteperMatricola(String matricola) {
         for (Studente studente : elencoStudenti) {
             if (studente.getMatricola().equals(matricola)) {
                 return studente;

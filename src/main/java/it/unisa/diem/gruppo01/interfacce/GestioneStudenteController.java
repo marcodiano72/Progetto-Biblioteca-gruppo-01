@@ -97,9 +97,15 @@ public class GestioneStudenteController implements Initializable {
         colNome.setCellValueFactory(new PropertyValueFactory("nome"));
         colMatr.setCellValueFactory(new PropertyValueFactory("matricola"));
         
+                // 1. CARICA I DATI DAL FILE CSV
+        elenco.caricaDati();
+    
+        // 2. AGGIORNA LA VISTA
+        listaStudenti.addAll(elenco.getElencoStudenti());
+        tableViewStudenti.setItems(listaStudenti);
         //Collegamento Lista -> Tabella
         tableViewStudenti.setItems(listaStudenti);
-          
+        
         
         //Aggiungiamo un gestore di eventi del mouse alla tabella
         

@@ -100,6 +100,7 @@ public class GestioneLibriController implements Initializable {
         tableViewLibri.setItems(datiTabella); ///< Collegamento Lista -> Tabella (usa la lista del Controller)
         
         System.out.println("Catalogo iniettato in GestioneLibriController. Dati caricati nella tabella.");
+        System.out.println(catalogo.toString());
     }
    
     /*
@@ -425,10 +426,8 @@ public class GestioneLibriController implements Initializable {
 
     @FXML
     private void saveLFile(ActionEvent event) throws IOException {
-        
         //Salvataggio con CSV: salva manualmente in file csv
         catalogo.salvaCSV();  // creo un file e salvo i dati 
-         
         System.out.println("\nLista libri salvata su file Lista_libri.csv\n");
     }
     

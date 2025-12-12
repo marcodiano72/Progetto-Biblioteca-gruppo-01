@@ -93,10 +93,9 @@ public class Menu_BibliotecaController implements Initializable {
     @FXML
     private void openLibriInterface(ActionEvent event) {
         
-        if (catalogo == null) {
-            System.err.println("ERRORE: Catalogo non iniettato correttamente nel Menu.");
+
             this.catalogo = Catalogo.getIstanza(); 
-        }
+        
         
         try{
             

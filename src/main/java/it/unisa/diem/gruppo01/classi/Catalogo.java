@@ -247,13 +247,14 @@ public class Catalogo {
     try( PrintWriter pw = new PrintWriter(new FileWriter(NOME_FILE_CSV)) ){
         
         pw.println("Elenco Libri");
-        pw.println("Titolo;Autore;ISBN;Num_Copie"); 
+        pw.println("Titolo;Autore;ISBN;Anno pb;Num_Copie"); 
         
         for( Libro l : this.inventarioLibri ){
             
             pw.append(l.getTitolo()).append(";");
             pw.append(l.getAutore()).append(";");
             pw.append(l.getIsbn()).append(";");
+            pw.append(l.getAnnoPb().toString()).append(";");
             pw.println(l.getNumCopie()); 
             
         }

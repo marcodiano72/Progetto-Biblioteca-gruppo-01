@@ -88,11 +88,19 @@ public class GestioneLibriController implements Initializable {
    
 
     // Dichiariamo un'istanza del Catalogo.
-    private Catalogo catalogo = new Catalogo();
+    private Catalogo catalogo ;
     
     // Lista che punterà ai dati del Catalogo per la TableView
     private ObservableList<Libro> datiTabella;
-   
+  
+    public void setCatalogo(Catalogo catalogo) {
+        this.catalogo = catalogo;
+        // Carica la TableView solo DOPO aver ricevuto l'istanza corretta
+        this.datiTabella = FXCollections.observableArrayList(catalogo.getInventarioLibri()); 
+        tableViewLibri.setItems(datiTabella); ///< Collegamento Lista -> Tabella (usa la lista del Controller)
+        
+        System.out.println("Catalogo iniettato in GestioneLibriController. Dati caricati nella tabella.");
+    }
    
     /*
     * Metodo chiamato per inizializzare un controller dopo che il suo elemento radice è stato completamente elaborato.
@@ -109,11 +117,6 @@ public class GestioneLibriController implements Initializable {
         colonnaTitolo.setCellValueFactory(new PropertyValueFactory("titolo"));
         colonnaAutore.setCellValueFactory(new PropertyValueFactory("autore"));
         colonnaIsbn.setCellValueFactory(new PropertyValueFactory("isbn"));
-        
-        this.datiTabella=FXCollections.observableArrayList(catalogo.getInventarioLibri()); //<Prendiamo i dati dal Catalogo (già ordinati) e li mettiamo in una lista osservabile.
-        
-        tableViewLibri.setItems(datiTabella); ///< Collegamento Lista -> Tabella (usa la lista del Controller)
-        
     }    
 
     /*
@@ -424,7 +427,7 @@ public class GestioneLibriController implements Initializable {
     private void saveLFile(ActionEvent event) throws IOException {
         
         //Salvataggio con DOS (DataOutputStream): salva manualmente in file binario
-        catalogo.salvaCSV("Lista_Libri.csv");  // creo un file e salvo i dati 
+        catalogo.salvaCSV();  // creo un file e salvo i dati 
          
         System.out.println("\nLista libri salvata su file Lista_libri.csv\n");
     }
@@ -433,16 +436,19 @@ public class GestioneLibriController implements Initializable {
     @FXML
     private void menuReturn(ActionEvent event) {
           
-            try {
-                Parent menuParent = FXMLLoader.load(getClass().getResource("/it/unisa/diem/gruppo01/interfacce/Menu_Biblioteca.fxml"));
-                Scene menuScene = new Scene(menuParent);
-                
-                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-                window.setScene(menuScene);
-                window.setTitle("Gestione Biblioteca - Menu Principale");
-                window.show();
-                
-                
+          try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/unisa/diem/gruppo01/interfacce/Menu_Biblioteca.fxml"));
+            Parent menuParent = loader.load();
+            
+            // Passa il catalogo al controller di destinazione (Menu_BibliotecaController)
+            Menu_BibliotecaController menuController = loader.getController();
+            menuController.setCatalogo(this.catalogo);
+            
+            Scene menuScene = new Scene(menuParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(menuScene);
+            window.setTitle("Gestione Biblioteca - Menu Principale");
+            window.show();
             } catch (IOException ex) {
                System.out.println("ERRORE:impossibile trovare Menu_Biblioteca_view.fxml");
                ex.printStackTrace();

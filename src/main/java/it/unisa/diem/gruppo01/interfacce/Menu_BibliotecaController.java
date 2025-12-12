@@ -6,6 +6,7 @@ package it.unisa.diem.gruppo01.interfacce;
  * and open the template in the editor.
  */
 
+import it.unisa.diem.gruppo01.classi.Catalogo;
 import java.io.IOException;
 
 import java.net.URL;
@@ -48,6 +49,14 @@ public class Menu_BibliotecaController implements Initializable {
     private DatePicker data; 
     @FXML
     private Label orario;
+    
+    private Catalogo catalogo;
+    
+    public void setCatalogo(Catalogo catalogo)
+    {
+        this.catalogo=catalogo;
+        System.out.println("Catalogo ricevuto con succeso nel Menu' Principale");
+    }
 
     /**
      * Initializes the controller class.
@@ -84,15 +93,31 @@ public class Menu_BibliotecaController implements Initializable {
     @FXML
     private void openLibriInterface(ActionEvent event) {
         
+        if (catalogo == null) {
+            System.err.println("ERRORE: Catalogo non iniettato correttamente nel Menu.");
+            this.catalogo = Catalogo.getIstanza(); 
+        }
+        
         try{
             
-        Parent libriParent = FXMLLoader.load(getClass().getResource("/it/unisa/diem/gruppo01/interfacce/GestioneLibri_view.fxml"));
-        Scene libriScene = new Scene(libriParent);
-        
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(libriScene);
-        window.setTitle("Menù Principale - Gestione Libri");
-        window.show();
+        // 1. CARICAMENTO TRAMITE FXMLLoader
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/unisa/diem/gruppo01/interfacce/GestioneLibri_view.fxml"));
+            Parent libriParent = loader.load();
+
+            // 2. RECUPERO E INIEZIONE DEL CONTROLLER
+            GestioneLibriController libriController = loader.getController();
+            
+            // --- INIEZIONE DI DIPENDENZA ---
+            // Passiamo l'istanza del Catalogo al controller di Gestione Libri
+            libriController.setCatalogo(this.catalogo); 
+            // -------------------------------
+            
+            Scene libriScene = new Scene(libriParent);
+
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(libriScene);
+            window.setTitle("Menù Principale - Gestione Libri");
+            window.show();
         
     }catch (IOException ex){
         System.out.println("ERRORE:impossibile trovare GestioneLibri_view.fxml");

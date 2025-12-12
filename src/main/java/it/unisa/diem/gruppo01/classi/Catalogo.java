@@ -13,9 +13,12 @@
 package it.unisa.diem.gruppo01.classi;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -41,9 +44,14 @@ public class Catalogo {
      * Struttura dati che contiene tutti gli oggetti Libro, ordinati
      * per titolo grazie al LibroComparator.
      */
+    private static Catalogo istanza;
+    
+    
     private TreeSet<Libro> inventarioLibri; // TreeSet per mantenere i libri ordinati alfabeticamente per titolo.
 
-   
+    private final static String NOME_FILE_CSV = "Lista_Libri.csv";
+    
+    private final static String DIR = NOME_FILE_CSV;
     /**
      * Costruttore della classe Catalogo.
      * Inizializza il TreeSet con un'istanza
@@ -62,6 +70,34 @@ public class Catalogo {
     {
         return inventarioLibri;
     }
+    
+    /**
+     * Metodo statico per accedere all'unica istanza del Catalogo (Singleton).
+     * Carica i dati dal disco la prima volta che viene chiamato.
+     * * @return L'unica istanza esistente di Catalogo.
+     */
+    public static Catalogo getIstanza() {
+        if (istanza == null) {
+            istanza = new Catalogo();
+            // CHIAMATA AL CARICAMENTO AUTOMATICO ALLA PRIMA CREAZIONE
+            istanza.caricaCSV(); 
+        }
+        return istanza;
+    }
+        
+        /**
+     * Metodo statico per forzare il salvataggio dei dati.
+     * Deve essere chiamato da Main.stop() alla chiusura dell'applicazione.
+     */
+    public static void salvaDati()
+    {
+        if (istanza != null)
+        {
+            istanza.salvaCSV(); // Usa il metodo non statico interno
+            System.out.println("Salvataggio automatico dei dati eseguito in: " + new File(NOME_FILE_CSV).getAbsolutePath());
+        }
+    }
+    
     
    /*
     * Cerca un libro all'interno del catalogo utilizzando il suo codice ISBN.
@@ -201,66 +237,94 @@ public class Catalogo {
     return observableList;
 }
    
-    /*il metodo salvaDOS crea un file di tipo binario (.bin) con i dati relativi al catalogo dei libri
-    in particolare viene scritto titolo, autore, codice isbn e numero di copie del libro
-    */
-    public void salvaDOS(String nomeFile) throws FileNotFoundException, IOException {
-        
-        // apre file
-        FileOutputStream fos = new FileOutputStream(nomeFile); 
-        
-        // aggiunge buffer
-        BufferedOutputStream bos = new BufferedOutputStream(fos);
-        
-        // stream per i dati primitivi
-        DataOutputStream dos = new DataOutputStream(bos);
-        
-        //descrizione anagrafica
-        dos.writeUTF("Elenco Libri");
-        dos.writeUTF("Titolo|Autore|ISBN|Num_Copie");
-        //per ogni studente memorizzo attributi sul file
-        for(Libro l : inventarioLibri) {
-            dos.writeUTF("\n");
-            dos.writeUTF(l.getTitolo());
-            dos.writeUTF(l.getAutore());
-            dos.writeUTF(l.getIsbn());
-            dos.write(l.getNumCopie());
-    }
-          
-        dos.close(); //chiudo stream
-        
-        
-    }
     
     
-    // scrive il contenuto della struttura dati in un file CSV
-    public void salvaCSV(String nomeFile){
+    
+    public void salvaCSV()
+    { 
+    
+    // Ora usiamo direttamente la costante statica NOME_FILE_CSV definita in Catalogo
+    try( PrintWriter pw = new PrintWriter(new FileWriter(NOME_FILE_CSV)) ){
         
-        //printwriter scrive testo in modo semplice
-        try( PrintWriter pw = new PrintWriter(new FileWriter(nomeFile)) ){
+        pw.println("Elenco Libri");
+        pw.println("Titolo;Autore;ISBN;Num_Copie"); 
+        
+        for( Libro l : this.inventarioLibri ){
             
-            pw.println("Elenco Libri\n");
-            // Scrive la riga di intestazione del file CSV
-            pw.println("Titolo;Autore;ISBN;Num_Copie");
+            pw.append(l.getTitolo()).append(";");
+            pw.append(l.getAutore()).append(";");
+            pw.append(l.getIsbn()).append(";");
+            pw.println(l.getNumCopie()); 
             
-            for( Libro l : this.inventarioLibri ){
-                
-                pw.append(l.getTitolo());
-                pw.append(";");
-                pw.append(l.getAutore());
-                pw.append(";");
-                pw.append(l.getIsbn());
-                pw.append(";");
-                pw.println(l.getNumCopie()); //va a capo automaticamente 
-                
-            }
-            
-            
-        } catch (IOException ex) {
-            Logger.getLogger(Catalogo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    } catch (IOException ex) {
+        Logger.getLogger(Catalogo.class.getName()).log(Level.SEVERE, "Errore durante il salvataggio CSV", ex);
+    }
+}
+    
+    
+    /**
+     * Carica i dati del catalogo dal file CSV specificato.
+     * In caso di errore (file non trovato), il catalogo viene inizializzato vuoto.
+     * * Il file viene cercato nella working directory (solitamente la root del progetto).
+     */
+    public void caricaCSV() {
+        
+        // 1. Pulisce la struttura dati prima del caricamento
+        this.inventarioLibri.clear(); 
+        
+        // La costante statica (che devi avere in Catalogo.java)
+        // private final static String NOME_FILE_CSV = "Lista_Libri.csv"; 
+        
+        File file = new File(NOME_FILE_CSV);
+
+        // Controlla se il file esiste
+        if (!file.exists()) {
+             // Se il file non esiste, stampiamo dove lo cercava (utile per il debug)
+             System.err.println("CARICAMENTO INIZIALE FALLITO: File dati NON trovato in: " + file.getAbsolutePath()); 
+             System.err.println("Inizio con catalogo vuoto.");
+             return;
         }
         
+        // 2. Tenta la lettura del file
+        try (BufferedReader br = new BufferedReader(new FileReader(NOME_FILE_CSV))) {
+            
+            // Ignora le prime due righe (Header: "Elenco Libri" e "Titolo;Autore;ISBN;Num_Copie")
+            br.readLine(); 
+            br.readLine();
+            
+            String line;
+            while ((line = br.readLine()) != null) {
+                // Il tuo separatore è il punto e virgola
+                String[] dati = line.split(";");
+                
+                // Assicurati che la riga abbia 4 campi (Titolo, Autore, ISBN, Num_Copie)
+                if (dati.length == 4) {
+                    try {
+                        String titolo = dati[0].trim();
+                        String autore = dati[1].trim();
+                        String isbn = dati[2].trim();
+                        int numCopie = Integer.parseInt(dati[3].trim());
+                        
+                        // Per il LocalDate, usiamo un anno fittizio,
+                        // dato che non è presente nel salvataggio/caricamento del CSV
+                        LocalDate annoPb = LocalDate.of(1900, 1, 1); 
+                        
+                        Libro libro = new Libro(isbn, titolo, autore, annoPb, numCopie);
+                        this.inventarioLibri.add(libro);
+                        
+                    } catch (NumberFormatException | ArrayIndexOutOfBoundsException ex) {
+                        System.err.println("Attenzione: Riga CSV non valida e saltata: " + line);
+                    }
+                }
+            }
+            System.out.println("CARICAMENTO: Dati letti con successo da: " + file.getAbsolutePath());
+
+        } catch (IOException e) {
+            System.err.println("Errore I/O durante la lettura del file: " + e.getMessage());
+        }
     }
+    
     /*
     ** Restituisce una rappresentazione in formato stringa dell'intero catalogo.
      * I libri vengono elencati in ordine alfabetico per titolo, grazie all'uso del Treeset.

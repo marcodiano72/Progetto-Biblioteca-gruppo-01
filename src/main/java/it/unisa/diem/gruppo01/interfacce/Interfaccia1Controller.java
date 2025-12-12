@@ -8,6 +8,7 @@
 package it.unisa.diem.gruppo01.interfacce;
 
 // Import necessari per la gestione della nuova scena
+import it.unisa.diem.gruppo01.classi.Catalogo;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -62,6 +63,10 @@ public class Interfaccia1Controller implements Initializable {
         if (errorMessageLabel != null) {
             errorMessageLabel.setText("");
         }
+        
+        // Inizializza il Catalogo all'avvio dell'app 
+        // 
+        Catalogo.getIstanza();
     }
 
     /**

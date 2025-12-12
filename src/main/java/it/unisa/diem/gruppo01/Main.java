@@ -6,11 +6,10 @@
 */
 
 package it.unisa.diem.gruppo01;
+import it.unisa.diem.gruppo01.classi.Catalogo;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -35,6 +34,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
+       Catalogo.getIstanza();
        Parent root = FXMLLoader.load(getClass().getResource("/it/unisa/diem/gruppo01/interfacce/Interfaccia1View.fxml"));
 
         
@@ -45,6 +45,17 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    
+    /*metodo per il salvataggio automatico alla chiusura
+    
+    
+    */
+    @Override
+    public void stop() throws Exception
+    {
+        Catalogo.salvaDati();
+        super.stop();
+    }
     /*
      * Il metodo main standard di Java.
      * L'unica sua funzione è chiamare il metodo

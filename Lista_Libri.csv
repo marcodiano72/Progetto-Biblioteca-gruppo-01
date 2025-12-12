@@ -1,4 +1,3 @@
 Elenco Libri
-Titolo;Autore;ISBN;Num_Copie
-31fdf;fs;2321;1
-BIBLIO;MAR;2213;2
+Titolo;Autore;ISBN;Anno pb;Num_Copie
+rrrr;rrr;333;0123-01-01;1

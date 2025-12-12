@@ -426,7 +426,7 @@ public class GestioneLibriController implements Initializable {
     @FXML
     private void saveLFile(ActionEvent event) throws IOException {
         
-        //Salvataggio con DOS (DataOutputStream): salva manualmente in file binario
+        //Salvataggio con CSV: salva manualmente in file csv
         catalogo.salvaCSV();  // creo un file e salvo i dati 
          
         System.out.println("\nLista libri salvata su file Lista_libri.csv\n");

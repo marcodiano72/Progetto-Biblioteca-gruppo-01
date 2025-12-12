@@ -12,14 +12,21 @@
 package it.unisa.diem.gruppo01.classi;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.TreeSet;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +40,7 @@ import java.util.logging.Logger;
  */
 public class Elenco {
 
-   
+    private String NOME_FILE_CSV = "Lista_studenti.csv";
     private TreeSet<Studente> elencoStudenti; ///< Insieme ordinato (TreeSet) degli studenti.
 
    
@@ -220,60 +227,162 @@ public class Elenco {
     
         
            // scrive il contenuto della struttura dati in un file CSV (file con valori separati da virgola)
- public void salvaCSV(String nomeFile) throws IOException {
+ public void salvaCSV() {
     
-    
-    // Usiamo try-with-resources per garantire la chiusura automatica del PrintWriter
-    try (PrintWriter pw = new PrintWriter(nomeFile)) { 
-        pw.append("Elenco Studneti");
-        // 1. Scrivi l'intestazione (header) del CSV
-        pw.println("Cognome; Nome; Matricola ; Email; PrestitiAttivi ;TitoloLibro ; AutoreLibro ; DataScadenza");
+    final String SEPARATORE = ";";
+    final String NOME_FILE_CSV = "Lista_studenti.csv"; 
 
-        // 2. Itera su tutti gli studenti
+    try (PrintWriter pw = new PrintWriter(new FileWriter(NOME_FILE_CSV))) {
+        
+        pw.println("Elenco Studenti"); 
+        
+        // Intestazione con 14 campi
+        pw.println("Cognome; Nome; Matricola; Email; Sanzione; Ritardo; PrestitoAttivo; ISBN; Titolo; Autore; DataInizio; DataScadenza; DataRestituzione; AnnoPubblicazione");
+
         for (Studente s : elencoStudenti) {
             
-            // Estrai i dati dello studente e la lista dei prestiti
+            // Dati base dello Studente
             String cognome = s.getCognome();
             String nome = s.getNome();
             String matricola = s.getMatricola();
             String email = s.getEmail();
-            List<Prestito> prestitiAttivi = s.getPrestitiAttivi();
+            String sanzione = s.getSanzione();
+            String ritardo = String.valueOf(s.isRitardo()); // boolean -> "true"/"false"
             
-            // 3. Itera sui prestiti dello studente
+            List<Prestito> prestitiAttivi = s.getPrestitiAttivi(); 
+
+            // Costruiamo la parte iniziale della riga
+            String rigaBase = cognome + SEPARATORE + nome + SEPARATORE + matricola + SEPARATORE + 
+                              email + SEPARATORE + sanzione + SEPARATORE + ritardo + SEPARATORE;
+
             if (prestitiAttivi.isEmpty()) {
-                // Caso: Studente senza prestiti attivi. Scrivi una riga comunque (opzionale)
-                pw.println(cognome + ";" + 
-                           nome + ";" + 
-                           matricola + ";" + 
-                           email + ";" + 
-                           "0" + ";" + // 0 Prestiti in questa riga
-                           "" + ";" + 
-                           "" + ";" + 
-                           "");
+                // Studente senza prestiti (solo riga base + 8 campi vuoti)
+                pw.println(rigaBase + 
+                           "0" + SEPARATORE + // PrestitoAttivo = 0
+                           SEPARATORE + SEPARATORE + SEPARATORE + // ISBN, Titolo, Autore
+                           SEPARATORE + SEPARATORE + SEPARATORE + SEPARATORE); // DataI, DataS, DataR, AnnoPb
             } else {
-                // Caso: Studente con N prestiti. Scrivi N righe.
+                // Studente con N prestiti: Scrivi N righe
                 for (Prestito p : prestitiAttivi) {
                     
+                    // Dati del Libro
+                    String isbn = p.getLibro().getIsbn(); 
                     String titolo = p.getLibro().getTitolo();
                     String autore = p.getLibro().getAutore();
-                    String dataScadenza = p.getDataScadenza().toString();
+                    String annoPb = p.getLibro().getAnnoPb().toString(); // Data Pubblicazione
                     
-                    // Costruisci la riga del CSV
-                    String riga = cognome + ";" + 
-                                  nome + ";" + 
-                                  matricola + ";" + 
-                                  email + ";" + 
-                                  "1" + ";" + // C'è 1 prestito in questa riga
-                                  titolo + ";" + 
-                                  autore + ";" + 
-                                  dataScadenza;
+                    // Dati del Prestito
+                    String dataInizio = p.getDataInizio().toString();
+                    String dataScadenza = p.getDataScadenza().toString();
+                    String dataRestituzione = (p.getDataRestituzione() != null) ? p.getDataRestituzione().toString() : "";
+                    
+                    String riga = rigaBase + 
+                                  "1" + SEPARATORE + // PrestitoAttivo = 1
+                                  isbn + SEPARATORE + titolo + SEPARATORE + autore + SEPARATORE + 
+                                  dataInizio + SEPARATORE + dataScadenza + SEPARATORE + dataRestituzione + SEPARATORE + 
+                                  annoPb;
                                   
-                    pw.println(riga); // Scrivi la riga nel file
+                    pw.println(riga);
                 }
             }
         }
-    } 
-    // Il pw.close() è chiamato automaticamente alla fine del blocco try
+        
+    } catch (IOException ex) {
+        Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Errore durante il salvataggio CSV.", ex);
+    }
+}
+ 
+/**
+ * Carica gli studenti dal file CSV nel TreeSet, gestendo righe multiple (prestiti).
+ */
+public void caricaDati() {
+    
+    HashMap<String, Studente> studentiMappa = new HashMap<>(); 
+    final String SEPARATORE = ";"; 
+    final String NOME_FILE_CSV = "Lista_studenti.csv"; 
+
+    try (BufferedReader br = new BufferedReader(new FileReader(NOME_FILE_CSV))) {
+        
+        br.readLine(); // Salta "Elenco Studenti"
+        br.readLine(); // Salta l'intestazione dei campi
+        
+        String riga;
+        
+        while ((riga = br.readLine()) != null) {
+            
+            try { 
+                String[] campi = riga.split(SEPARATORE, -1); // Usa -1 per includere campi vuoti
+                
+                // Richiede almeno 6 campi per i dati base dello Studente
+                if (campi.length >= 6) { 
+                    
+                    String matricola = campi[2].trim();
+                    Studente studenteCorrente = studentiMappa.get(matricola);
+                    
+                    if (studenteCorrente == null) {
+                        // Creazione Studente (solo se non esiste ancora nella mappa)
+                        String cognome = campi[0].trim();
+                        String nome = campi[1].trim();
+                        String email = campi[3].trim(); 
+                        String sanzione = campi[4].trim(); 
+                        boolean ritardo = Boolean.parseBoolean(campi[5].trim()); 
+                        
+                        // Costruttore Studente: Studente(nome, cognome, matricola, email, sanzione, ritardo)
+                        studenteCorrente = new Studente(nome, cognome, matricola, email, sanzione, ritardo); 
+                        studentiMappa.put(matricola, studenteCorrente);
+                    }
+                    
+                    // 2. GESTIONE PRESTITI (Richiede 14 campi in totale)
+                    // Campo [6] è PrestitoAttivo ("1")
+                    if (campi.length >= 14 && campi[6].trim().equals("1")) {
+                        
+                        // Dati del libro e prestito (campi 7-13)
+                        String isbn = campi[7].trim();
+                        String titolo = campi[8].trim();
+                        String autore = campi[9].trim();
+                        String dataInizioStr = campi[10].trim();
+                        String dataScadenzaStr = campi[11].trim();
+                        String dataRestituzioneStr = campi[12].trim();
+                        String annoPbStr = campi[13].trim(); // Data Pubblicazione
+                        
+                        // Conversione Date
+                        LocalDate dataInizio = LocalDate.parse(dataInizioStr); 
+                        LocalDate dataScadenza = LocalDate.parse(dataScadenzaStr); 
+                        LocalDate annoPb = LocalDate.parse(annoPbStr);
+                        
+                        LocalDate dataRestituzione = null;
+                        if (!dataRestituzioneStr.isEmpty()) {
+                            dataRestituzione = LocalDate.parse(dataRestituzioneStr);
+                        }
+                        
+                        // Creazione Oggetti Libro e Prestito
+                        // Assumo numCopie=0 per il libro in prestito (il conteggio è gestito nel Catalogo generale)
+                        Libro libro = new Libro(isbn, titolo, autore, annoPb, 0); 
+                        
+                        // Prestito costruttore: Prestito(libro, studente, dataInizio, dataScadenza, dataRestituzione)
+                        Prestito prestito = new Prestito(libro, studenteCorrente, dataInizio, dataScadenza, dataRestituzione); 
+                        
+                        studenteCorrente.aggiungiPrestito(prestito); 
+                    }
+                    
+                } else {
+                    System.err.println("AVVISO: Riga CSV ignorata (campi insufficienti o malformati): " + riga);
+                }
+            } catch (DateTimeParseException e) {
+                 System.err.println("ERRORE: Formato data non valido nella riga: " + riga);
+            } catch (Exception parsingEx) {
+                System.err.println("ERRORE CRITICO DI PARSING NELLA RIGA: " + riga);
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, parsingEx);
+            }
+        }
+        
+    } catch (IOException e) {
+        System.err.println("File dati non trovato o errore di lettura I/O. La collezione sarà vuota.");
+    }
+    
+    // Aggiungi tutti gli studenti unici dalla Mappa al TreeSet finale
+    this.elencoStudenti.clear(); 
+    this.elencoStudenti.addAll(studentiMappa.values()); 
 }
     /**
      * Restituisce una rappresentazione in formato stringa dell'intero elenco.

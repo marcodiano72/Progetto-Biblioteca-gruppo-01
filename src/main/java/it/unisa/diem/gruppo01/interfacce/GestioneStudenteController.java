@@ -381,8 +381,8 @@ public class GestioneStudenteController implements Initializable {
 
     @FXML
     private void saveSFile(ActionEvent event) throws IOException {
-        elenco.salvaCSV("Elenco_studenti.csv");
-                System.out.println("\nLista libri salvata su file Elenco_studenti.csv\n");
+        elenco.salvaCSV();
+        System.out.println("\nLista libri salvata su file Elenco_studenti.csv\n");
 
     }
     

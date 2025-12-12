@@ -300,16 +300,17 @@ public class Catalogo {
                 String[] dati = line.split(";");
                 
                 // Assicurati che la riga abbia 4 campi (Titolo, Autore, ISBN, Num_Copie)
-                if (dati.length == 4) {
+                if (dati.length == 5) {
                     try {
                         String titolo = dati[0].trim();
                         String autore = dati[1].trim();
                         String isbn = dati[2].trim();
-                        int numCopie = Integer.parseInt(dati[3].trim());
+                        LocalDate annoPb = LocalDate.parse(dati[3].trim());
+                        int numCopie = Integer.parseInt(dati[4].trim());
                         
                         // Per il LocalDate, usiamo un anno fittizio,
                         // dato che non è presente nel salvataggio/caricamento del CSV
-                        LocalDate annoPb = LocalDate.of(1900, 1, 1); 
+                     
                         
                         Libro libro = new Libro(isbn, titolo, autore, annoPb, numCopie);
                         this.inventarioLibri.add(libro);

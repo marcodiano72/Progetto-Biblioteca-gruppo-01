@@ -142,7 +142,7 @@
                               <Insets top="1.5" />
                            </HBox.margin>
                         </Label>
-                        <CheckBox fx:id="spuntaU" mnemonicParsing="false" onAction="#spuntaUtente">
+                        <CheckBox fx:id="spuntaU" mnemonicParsing="false">
                            <HBox.margin>
                               <Insets left="20.0" top="2.5" />
                            </HBox.margin>
@@ -170,7 +170,7 @@
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="inserisciT" onAction="#inserisciTitolo" promptText="Titolo">
+                        <TextField fx:id="inserisciT" onAction="#ricercaAutomaticaLibro" promptText="Titolo">
                            <VBox.margin>
                               <Insets left="20.0" right="6.0" />
                            </VBox.margin>
@@ -183,7 +183,7 @@
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="inserisciA" onAction="#inserisciAutore" promptText="Autore">
+                        <TextField fx:id="inserisciA" onAction="#ricercaAutomaticaLibro" promptText="Autore">
                            <VBox.margin>
                               <Insets left="20.0" right="6.0" />
                            </VBox.margin>
@@ -201,7 +201,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Label>
-                              <CheckBox fx:id="spuntaL" mnemonicParsing="false" onAction="#spuntaLibro">
+                              <CheckBox fx:id="spuntaL" mnemonicParsing="false">
                                  <HBox.margin>
                                     <Insets left="20.0" top="11.0" />
                                  </HBox.margin>

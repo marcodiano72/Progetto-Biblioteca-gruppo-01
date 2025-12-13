@@ -116,159 +116,113 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
      * Gestisce l'inserimento della matricola per la ricerca dello studente
      * @param event 
      */
-    @FXML
+   @FXML
     private void inserisciMatricola(ActionEvent event) {
         String matricola = inserisciM.getText();
         
-        if(elencoStudenti == null)return;
+        // Controlla se l'elenco è stato caricato
+        if(elencoStudenti == null) return;
         
-        //Ricerca dello studente
+        //Cerca lo studente nell'elenco
         studenteCorrente = elencoStudenti.cercaStudenteperMatricola(matricola);
         
         if(studenteCorrente != null){
-         inserisciN.setText(studenteCorrente.getNome());
-         inserisciC.setText(studenteCorrente.getCognome());
-         inserisciE.setText(studenteCorrente.getEmail());
-         
-         spuntaU.setSelected(false);
-         gestisciCampiLibro(false);
-         
-         //sblocca la checkBox e la rende cliccabile
-         spuntaU.setDisable(false);
-         
-        }else{
+            // 2. Se trovato, riempio i campi anagrafici
+            inserisciN.setText(studenteCorrente.getNome());
+            inserisciC.setText(studenteCorrente.getCognome());
+            inserisciE.setText(studenteCorrente.getEmail());
             
-            //studente non trovato
+            
+            // Controlla sùbito se lo studente può prendere libri
+            if(studenteCorrente.isAbilitato()){
+                
+                // CASO POSITIVO:
+                // Metto la spunta automaticamente (visivo)
+                spuntaU.setSelected(true); 
+                
+                // Disabilito la checkbox così l'utente non può toglierla per sbaglio
+                // Diventa un indicatore di stato "verde"
+                spuntaU.setDisable(true); 
+                
+                // Sblocco automaticamente la parte sotto per inserire il libro
+                gestisciCampiLibro(true);
+                
+            } else {
+                
+                // CASO NEGATIVO (Non abilitato):
+                spuntaU.setSelected(false);
+                spuntaU.setDisable(true); // Resta bloccata e vuota
+                gestisciCampiLibro(false); // Campi libro restano bloccati
+                
+                // Mostro subito l'errore specifico all'utente
+                if(studenteCorrente.isRitardo()){
+                    mostraAlert(AlertType.ERROR, "Studente Bloccato", "L'utente è in ritardo con le restituzioni.");
+                } else {
+                    mostraAlert(AlertType.ERROR, "Studente Bloccato", "Limite prestiti raggiunto (" + studenteCorrente.contaPrestitiAttivi() + "/3).");
+                }
+            }
+            
+        } else {
+            //Studente non trovato
             studenteCorrente = null;
             pulisciCampiAnagrafici();
             mostraAlert(AlertType.WARNING, "Attenzione", "Nessuno studente trovato con questa matricola.");
-           
-           
         }
     }
-
-
     
-    /**
-     * Metodo che gestisce il click sulla CheckBox (Utente abilitato)
-     * @param event 
-     */
-    
-@FXML
-private void spuntaUtente(ActionEvent event) {
-    System.out.println("--- DEBUG INIZIO ---");
-    
-    if(spuntaU.isSelected()){
-        System.out.println("1. Checkbox selezionata");
-
-        if(studenteCorrente == null){
-             System.out.println("ERRORE: Variabile studenteCorrente è NULL!");
-             mostraAlert(AlertType.ERROR, "Errore", "Rifare la ricerca matricola");
+  
+    @FXML
+    private void ricercaAutomaticaLibro(ActionEvent event) {
+        // Recupero i testi
+        String titolo = inserisciT.getText();
+        String autore = inserisciA.getText();
+        
+        // Controlla se i campi sono pieni
+        // Se manca uno dei due, non faccio partire la ricerca (magari l'utente sta ancora scrivendo)
+        if(titolo.isEmpty() || autore.isEmpty()){
+             mostraAlert(AlertType.WARNING, "Dati mancanti", "Inserisci sia Titolo che Autore per cercare.");
              return;
         }
-
-        System.out.println("2. Studente trovato: " + studenteCorrente.getCognome());
         
-        // VERIFICA CRITICA DEI DATI
-        System.out.println("   - Prestiti attivi: " + studenteCorrente.contaPrestitiAttivi());
-        System.out.println("   - È in ritardo? " + studenteCorrente.isRitardo());
-        System.out.println("   - ESITO isAbilitato(): " + studenteCorrente.isAbilitato());
-
-        if(!studenteCorrente.isAbilitato()){
-            System.out.println("3. BLOCCO: Lo studente non è abilitato. Entro nell'IF di errore.");
-            
-            // Mostriamo l'errore per capire il motivo
-            if(studenteCorrente.isRitardo()) {
-                mostraAlert(AlertType.ERROR, "Blocco", "Studente in ritardo!");
-            } else {
-                mostraAlert(AlertType.ERROR, "Blocco", "Limite prestiti raggiunto (" + studenteCorrente.contaPrestitiAttivi() + ")");
-            }
-
-            spuntaU.setSelected(false);
-            gestisciCampiLibro(false);
-            
+        //Ricerca nel catalogo
+        libroCorrente = null;
+        
+        if(catalogoLibri != null){
+             for(Libro l : catalogoLibri.getInventarioLibri()){
+                 if(l.getTitolo().equalsIgnoreCase(titolo) && l.getAutore().equalsIgnoreCase(autore)){
+                     libroCorrente = l;
+                     break;
+                 }
+             }
+        }
+        
+        // Verifica del risultato
+        if(libroCorrente == null){
+             // CASO: Libro non esiste
+             spuntaL.setSelected(false);
+             spuntaL.setDisable(true); // Checkbox grigia
+             salvaP.setDisable(true);  // Tasto salva bloccato
+             mostraAlert(AlertType.ERROR, "Non Trovato", "Il libro specificato non esiste nel catalogo.");
+             
+        } else if(!libroCorrente.isDisponibile()){
+             // CASO: Libro esiste ma copie esaurite
+             spuntaL.setSelected(false);
+             spuntaL.setDisable(true);
+             salvaP.setDisable(true);
+             mostraAlert(AlertType.ERROR, "Non Disponibile", "Tutte le copie di questo libro sono in prestito.");
+             
         } else {
-            System.out.println("3. SUCCESSO: Studente abilitato. Chiamo gestisciCampiLibro(true)");
-            gestisciCampiLibro(true); 
+             // CASO: SUCCESSO (Trovato e Disponibile)
+             
+             // Metto la spunta automaticamente (feedback visivo verde)
+             spuntaL.setSelected(true);
+             
+             // La disabilito così l'utente non la toglie per sbaglio
+             spuntaL.setDisable(true);
+             
+             // SBLOCCO FINALMENTE IL TASTO SALVA
+             salvaP.setDisable(false);
         }
-
-    } else {
-        System.out.println("Checkbox deselezionata -> Blocco tutto");
-        gestisciCampiLibro(false);
-    }
-    System.out.println("--- DEBUG FINE ---");
-}
-    
-    
-
-    @FXML
-    private void inserisciTitolo(ActionEvent event) {
-    }
-
-    @FXML
-    private void inserisciAutore(ActionEvent event) {
-    }
-
-    @FXML
-    private void spuntaLibro(ActionEvent event) {
-        
-        if(spuntaL.isSelected()){
-            
-            String titolo = inserisciT.getText();
-            String autore = inserisciA.getText();
-            
-            if(titolo.isEmpty() || autore.isEmpty()){
-                
-                mostraAlert(AlertType.ERROR, "Dati mancanti", "Inserisci Titolo e Autore.");
-                spuntaL.setSelected(false);
-                return;
-            }
-            
-            //Ricerca del libro nel catalogo
-            //Poichè catalogo è un TreeSet iteriamo per trovare una corrispondenza Titolo/Autore
-            
-            libroCorrente = null;
-            
-            if(catalogoLibri != null){
-                
-                for(Libro l : catalogoLibri.getInventarioLibri()){
-                    
-                    if(l.getTitolo().equalsIgnoreCase(titolo) && l.getAutore().equalsIgnoreCase(autore)){
-                        libroCorrente = l;
-                        break;
-                    }
-                }
-                
-            }
-            //Controllo esistenza
-            
-            if(libroCorrente == null){
-                
-                mostraAlert(AlertType.ERROR, "Libro non trovato", "Il libro specificato non è presente nel catalogo");
-                spuntaL.setSelected(false); //Annulla la spunta
-                return; 
-            }
-            
-            //Controllo disponibilità copie
-            
-            if(!libroCorrente.isDisponibile()){
-                
-                mostraAlert(AlertType.ERROR, "Libro non disponibile", "Le copie del libro sono esaurite");
-                spuntaL.setSelected(false); //Annulla la spunta
-                return; 
-                
-            }
-            
-            //Tutto OK. Il salvataggio viene abilitato
-            
-            salvaP.setDisable(false);  //sblocca il bottone salva
-            
-        }else{ //l'uente sta togliendo la spunta
-            salvaP.setDisable(true); //disabilita il salvataggio
-            libroCorrente = null; //resetta il libro selezionato
-            
-        }
-        
     }
 
     @FXML
@@ -330,82 +284,82 @@ private void spuntaUtente(ActionEvent event) {
 
     @FXML
     private void salvaRestituzione(ActionEvent event) {
-        
-        String matricola = inserisciMa.getText();
-        String isbn = inserisciISBN.getText();
-        String statoLibro = statoLibroBox.getValue(); // recupera il valore dalla Combobox
-        
-        if(matricola.isEmpty() || isbn.isEmpty()){
-            mostraAlert(AlertType.ERROR, "Dati mancanti", "Inserisci matricola e isbn per procedere.");
-            return;
-        }
-        if(statoLibro == null){
-            mostraAlert(AlertType.ERROR, "Dati mancanti", "Seleziona lo stato del lbro.");
-            return;
-        }
-        
-        //ricerca dello studente
-        if(elencoStudenti == null){
-            mostraAlert(AlertType.ERROR, "Non trovato", "Archivio studenti non trovato");
-            return;
-        }
-        Studente studente = elencoStudenti.cercaStudenteperMatricola(matricola);
-        
-        if(studente == null){
-            mostraAlert(AlertType.ERROR, "Non trovato", "Nessuno studente trovato con matricola: " + matricola);
-            return;
-        }
-        
-        //Cerca il prestito attivo tramite isbn
-        //Dobbiamo scorrere i prestiti attivi dello studente per trovare quello giusto
-        Prestito prestitoDaChiudere = null;
-        
-        for(Prestito p : studente.getPrestitiAttivi()){
-        if(p.getLibro().getIsbn().equals(isbn)){
-        prestitoDaChiudere = p;
-        break; //trovato
-    }
-    
-    }
-        
-        if(prestitoDaChiudere == null){
-            mostraAlert(AlertType.WARNING,"Nessun prestito", "Lo studente "+ studente.getCognome() + " non ha in prestito il libro con ISBN:" +isbn);
-            return;
-                  
-        }
-        
-        //Procedura di restituzione
-        
-        try{
-            
-            //Imposta la data di restituione ad oggi
-            prestitoDaChiudere.setDatarestituzione(LocalDate.now());
-            
-            //Incrementa le copie disponibili nel catalogo
-            prestitoDaChiudere.getLibro().incrementaCopie(1);
-            
-            //Calcolo sanzioni
-            String esitoSanzione = prestitoDaChiudere.gestioneSanzioni();
-            
-            //Rimuovi il prestito dalla lista prestiti attivi dello studente
-            studente.rimuoviPrestito(prestitoDaChiudere);
-            
-            elencoStudenti.salvaCSV(); 
-            catalogoLibri.salvaCSV();
-            
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Restituzione completata");
-            alert.setHeaderText("Libro restituito con successo");
-            alert.setContentText(esitoSanzione);  //mostra se cè una sanzione o è tutto ok
-            alert.showAndWait();
-            
-            pulisciCampiRestituzione();
-            
-        }catch(Exception e){
-            e.printStackTrace();
-            mostraAlert(AlertType.ERROR, "Errore", "Si è verificato un problema durante la restituzione.");
-        }
-                
+       
+       String matricola = inserisciMa.getText();
+       String isbn = inserisciISBN.getText();
+       String statoLibro = statoLibroBox.getValue(); 
+       
+       if(matricola.isEmpty() || isbn.isEmpty()){
+           mostraAlert(AlertType.ERROR, "Dati mancanti", "Inserisci matricola e isbn per procedere.");
+           return;
+       }
+       if(statoLibro == null){
+           mostraAlert(AlertType.ERROR, "Dati mancanti", "Seleziona lo stato del libro.");
+           return;
+       }
+       
+       if(elencoStudenti == null){
+           mostraAlert(AlertType.ERROR, "Non trovato", "Archivio studenti non trovato");
+           return;
+       }
+       
+       Studente studente = elencoStudenti.cercaStudenteperMatricola(matricola);
+       
+       if(studente == null){
+           mostraAlert(AlertType.ERROR, "Non trovato", "Nessuno studente trovato con matricola: " + matricola);
+           return;
+       }
+       
+       Prestito prestitoDaChiudere = null;
+       for(Prestito p : studente.getPrestitiAttivi()){
+           if(p.getLibro().getIsbn().equals(isbn)){
+               prestitoDaChiudere = p;
+               break; 
+           }
+       }
+       
+       if(prestitoDaChiudere == null){
+           mostraAlert(AlertType.WARNING,"Nessun prestito", "Lo studente "+ studente.getCognome() + " non ha in prestito il libro con ISBN:" +isbn);
+           return;
+       }
+       
+       try{
+           // Imposta la data di restituzione ad oggi
+           prestitoDaChiudere.setDatarestituzione(LocalDate.now());
+           
+           // --- MODIFICA IMPORTANTE: AGGIORNA IL CATALOGO ---
+           String isbnLibro = prestitoDaChiudere.getLibro().getIsbn();
+           
+           if(catalogoLibri != null) {
+               for(Libro l : catalogoLibri.getInventarioLibri()){
+                   if(l.getIsbn().equals(isbnLibro)){
+                       l.incrementaCopie(1); // Incrementa il libro nel catalogo
+                       break;
+                   }
+               }
+           }
+          
+           
+           String esitoSanzione = prestitoDaChiudere.gestioneSanzioni();
+           
+           studente.rimuoviPrestito(prestitoDaChiudere);
+           
+           // Salva le modifiche su file
+           elencoStudenti.salvaCSV(); 
+           catalogoLibri.salvaCSV();
+           
+           Alert alert = new Alert(Alert.AlertType.INFORMATION);
+           alert.setTitle("Restituzione completata");
+           alert.setHeaderText("Libro restituito con successo");
+           alert.setContentText(esitoSanzione); 
+           alert.showAndWait();
+           
+           pulisciCampiRestituzione();
+           
+       }catch(Exception e){
+           e.printStackTrace();
+           mostraAlert(AlertType.ERROR, "Errore", "Si è verificato un problema durante la restituzione.");
+       }     
     }
     
      @FXML

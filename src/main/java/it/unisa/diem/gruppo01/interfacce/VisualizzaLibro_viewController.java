@@ -61,7 +61,7 @@ public class VisualizzaLibro_viewController implements Initializable {
         titolo.setText(l.getTitolo());
         autore.setText(l.getAutore());
         isbn.setText(l.getIsbn());
-        anno.setText(l.getAnnoPb().toString());
+        anno.setText(String.valueOf(l.getAnnoPb().getYear()));
         copie.setText(String.valueOf(l.getNumCopie()));
 
     }

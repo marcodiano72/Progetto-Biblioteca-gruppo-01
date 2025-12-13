@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.time.format.DateTimeFormatter;
  
 
 /**
@@ -225,10 +226,7 @@ public class Elenco {
         
     }
     
-        
-           // scrive il contenuto della struttura dati in un file CSV (file con valori separati da virgola)
- public void salvaCSV() {
-    
+        public void salvaCSV() {
     final String SEPARATORE = ";";
     final String NOME_FILE_CSV = "Lista_studenti.csv"; 
 
@@ -247,7 +245,7 @@ public class Elenco {
             String matricola = s.getMatricola();
             String email = s.getEmail();
             String sanzione = s.getSanzione();
-            String ritardo = String.valueOf(s.isRitardo()); // boolean -> "true"/"false"
+            String ritardo = String.valueOf(s.isRitardo()); 
             
             List<Prestito> prestitiAttivi = s.getPrestitiAttivi(); 
 
@@ -256,20 +254,21 @@ public class Elenco {
                               email + SEPARATORE + sanzione + SEPARATORE + ritardo + SEPARATORE;
 
             if (prestitiAttivi.isEmpty()) {
-                // Studente senza prestiti (solo riga base + 8 campi vuoti)
                 pw.println(rigaBase + 
-                           "0" + SEPARATORE + // PrestitoAttivo = 0
-                           SEPARATORE + SEPARATORE + SEPARATORE + // ISBN, Titolo, Autore
-                           SEPARATORE + SEPARATORE + SEPARATORE + SEPARATORE); // DataI, DataS, DataR, AnnoPb
+                           "0" + SEPARATORE + 
+                           SEPARATORE + SEPARATORE + SEPARATORE + 
+                           SEPARATORE + SEPARATORE + SEPARATORE + SEPARATORE);
             } else {
-                // Studente con N prestiti: Scrivi N righe
+                // AGGIUNGI QUESTO IMPORT IN CIMA AL FILE: import java.time.format.DateTimeFormatter;
+                DateTimeFormatter formatterAnno = DateTimeFormatter.ofPattern("yyyy");
+                
                 for (Prestito p : prestitiAttivi) {
                     
                     // Dati del Libro
                     String isbn = p.getLibro().getIsbn(); 
                     String titolo = p.getLibro().getTitolo();
                     String autore = p.getLibro().getAutore();
-                    String annoPb = p.getLibro().getAnnoPb().toString(); // Data Pubblicazione
+                    String annoPb = p.getLibro().getAnnoPb().format(formatterAnno); // SOLO ANNO!
                     
                     // Dati del Prestito
                     String dataInizio = p.getDataInizio().toString();
@@ -279,7 +278,7 @@ public class Elenco {
                     String riga = rigaBase + 
                                   prestitiAttivi.size() + SEPARATORE + 
                                   isbn + SEPARATORE + titolo + SEPARATORE + autore + SEPARATORE + 
-                                  annoPb+ SEPARATORE + dataInizio + SEPARATORE + dataScadenza + SEPARATORE + dataRestituzione ;
+                                  annoPb + SEPARATORE + dataInizio + SEPARATORE + dataScadenza + SEPARATORE + dataRestituzione;
                                   
                     pw.println(riga);
                 }
@@ -290,7 +289,7 @@ public class Elenco {
         Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Errore durante il salvataggio CSV.", ex);
     }
 }
- 
+        
 /**
  * Carica gli studenti dal file CSV nel TreeSet, gestendo righe multiple (prestiti).
  */
@@ -326,29 +325,41 @@ public void caricaDati() {
                         String sanzione = campi[4].trim(); 
                         boolean ritardo = Boolean.parseBoolean(campi[5].trim()); 
                         
-                        // Costruttore Studente: Studente(nome, cognome, matricola, email, sanzione, ritardo)
+                        // Costruttore Studente
                         studenteCorrente = new Studente(nome, cognome, matricola, email, sanzione, ritardo); 
                         studentiMappa.put(matricola, studenteCorrente);
                     }
                     
-                    // 2. GESTIONE PRESTITI (Richiede 14 campi in totale)
-                    // Campo [6] è PrestitoAttivo ("1")
-                    if (campi.length >= 14 && campi[6].trim().equals("1")) {
+                    // GESTIONE PRESTITI (Richiede 14 campi in totale)
+                    if (campi.length >= 14 && !campi[6].trim().isEmpty() && Integer.parseInt(campi[6].trim()) > 0) {
                         
                         // Dati del libro e prestito (campi 7-13)
                         String isbn = campi[7].trim();
                         String titolo = campi[8].trim();
                         String autore = campi[9].trim();
-                        String annoPbStr = campi[10].trim(); // Data Pubblicazione
+                        String annoPbStr = campi[10].trim(); // Anno Pubblicazione (ora solo "2023")
                         String dataInizioStr = campi[11].trim();
                         String dataScadenzaStr = campi[12].trim();
                         String dataRestituzioneStr = campi[13].trim();
                        
-                        
-                        // Conversione Date
+                        // CONVERSIONE DATA INIZIO E SCADENZA (formato completo)
                         LocalDate dataInizio = LocalDate.parse(dataInizioStr); 
                         LocalDate dataScadenza = LocalDate.parse(dataScadenzaStr); 
-                        LocalDate annoPb = LocalDate.parse(annoPbStr);
+                        
+                        // CONVERSIONE ANNO PUBBLICAZIONE (MODIFICATO)
+                        LocalDate annoPb;
+                        if (annoPbStr.length() == 4 && annoPbStr.matches("\\d{4}")) {
+                            // Solo anno: crea LocalDate 1-gennaio-anno
+                            annoPb = LocalDate.of(Integer.parseInt(annoPbStr), 1, 1);
+                        } else {
+                            // Formato completo o errore
+                            try {
+                                annoPb = LocalDate.parse(annoPbStr);
+                            } catch (DateTimeParseException e) {
+                                System.err.println("Errore parsing anno pubblicazione: " + annoPbStr);
+                                annoPb = LocalDate.now(); // Default
+                            }
+                        }
                         
                         LocalDate dataRestituzione = null;
                         if (!dataRestituzioneStr.isEmpty()) {
@@ -356,17 +367,14 @@ public void caricaDati() {
                         }
                         
                         // Creazione Oggetti Libro e Prestito
-                        // Assumo numCopie=0 per il libro in prestito (il conteggio è gestito nel Catalogo generale)
                         Libro libro = new Libro(isbn, titolo, autore, annoPb, 0); 
-                        
-                        // Prestito costruttore: Prestito(libro, studente, dataInizio, dataScadenza, dataRestituzione)
                         Prestito prestito = new Prestito(libro, studenteCorrente, dataInizio, dataScadenza, dataRestituzione); 
                         
                         studenteCorrente.aggiungiPrestito(prestito); 
                     }
                     
                 } else {
-                    System.err.println("AVVISO: Riga CSV ignorata (campi insufficienti o malformati): " + riga);
+                    System.err.println("AVVISO: Riga CSV ignorata (campi insufficienti): " + riga);
                 }
             } catch (DateTimeParseException e) {
                  System.err.println("ERRORE: Formato data non valido nella riga: " + riga);

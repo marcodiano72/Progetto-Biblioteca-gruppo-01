@@ -103,6 +103,13 @@ public class GestioneLibriController implements Initializable {
         System.out.println("Catalogo iniettato in GestioneLibriController. Dati caricati nella tabella.");
     }
    
+     
+    private void aggiornaInterfaccia(){
+        datiTabella.clear();
+        datiTabella.addAll(catalogo.getInventarioLibri());
+    }
+    
+    
     /*
     * Metodo chiamato per inizializzare un controller dopo che il suo elemento radice è stato completamente elaborato.
      * Viene utilizzato per setup iniziali, come l'impostazione dei listener o il caricamento dei dati di default.
@@ -399,62 +406,67 @@ private void modLibri(ActionEvent event) {
     */
 
     @FXML
+   /**
+     * Gestisce l'eliminazione di un libro selezionato dalla TableView.
+     * Chiede conferma all'utente prima di procedere.
+     * * @param event L'evento di azione (es. click sul pulsante Elimina).
+     */
+   
     private void deleteLibri(ActionEvent event) {
         
-        //Recuperiamo il libro selezionato nella tabella
-        //il metodo getSelectionModel() gestisce i click sulle righe
-        //il metodo getSelectedItem() restituisce l'oggetto libro corrispondente
+       
+        // TEST INIZIALIZZAZIONE CATALOGO: Se vedi l'alert, il Catalogo non è stato iniettato.
+        if (catalogo == null) {
+             Alert alertDebug = new Alert(Alert.AlertType.ERROR);
+             alertDebug.setTitle("Errore Interno");
+             alertDebug.setHeaderText("Catalogo non inizializzato");
+             alertDebug.setContentText("Impossibile procedere: l'oggetto Catalogo è NULL. Verifica la chiamata a setCatalogo().");
+             alertDebug.showAndWait();
+             return;
+        }
         
+        // 1. Recupera il libro selezionato nella tabella
         Libro libroSelezionato = tableViewLibri.getSelectionModel().getSelectedItem();
         
-        
-        //Controlla che l'utente abbia selezionato un libro
+        // 2. Controlla che l'utente abbia selezionato un libro
         if(libroSelezionato == null) {
             
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Nessuna selezione");
             alert.setHeaderText(null);
-            alert.setContentText("Per eliminare un libro devi prima selezionarlo cliccandoci sopra");
+            alert.setContentText("Per eliminare un libro devi prima selezionarlo cliccandoci sopra.");
             alert.showAndWait();
             return;
             
-          }
+        }
         
-        //Conferma per l'eliminazione di un libro dalla lista
-        
-        Alert conferma = new Alert(Alert.AlertType.CONFIRMATION);
-        conferma.setTitle("Conferma eliminazione");
-        conferma.setHeaderText(null);
-        conferma.setContentText("Sei sicuro di voler eliminare il libro " + libroSelezionato.getTitolo() + " ?");
-        conferma.showAndWait();
+            Alert conferma = new Alert(Alert.AlertType.CONFIRMATION);
+            conferma.setTitle("Conferma eliminazione");
+            conferma.setHeaderText(null);
+            conferma.setContentText("Sei sicuro di voler eliminare lo studente " + libroSelezionato.getTitolo() + " ?");
+            conferma.showAndWait();
         
          Optional<ButtonType> result = conferma.showAndWait();
-         
-         //Verifica se c'è un risultato e se quel risultato è il tasto OK
-         if(result.isPresent() && result.get() == ButtonType.OK);
-         {
-            // 1. Chiama il Model Manager per eseguire l'azione
-             boolean rimosso = catalogo.eliminaLibro(libroSelezionato.getIsbn());
-             
-             if (rimosso) {
-                 // 2. Aggiorna la TableView per riflettere lo stato corrente del Catalogo
-                 datiTabella.clear();
-                 datiTabella.addAll(catalogo.getInventarioLibri());
-                 
-                 Alert successo = new Alert(Alert.AlertType.INFORMATION);
-                 successo.setHeaderText(null);
-                 successo.setContentText("Libro eliminato con successo.");
-                 successo.showAndWait();
-             } else {
-                 // Questo caso non dovrebbe succedere se il libro è stato selezionato dalla tabella
-                 Alert errore = new Alert(Alert.AlertType.ERROR);
-                 errore.setHeaderText(null);
-                 errore.setContentText("Errore durante l'eliminazione: libro non trovato nel catalogo.");
-                 errore.showAndWait();
-             }
-        }
-         
+
         
+        // 4. Esegue l'eliminazione solo se l'utente ha premuto OK
+        if (result.isPresent() && result.get() == ButtonType.OK) 
+        {
+            // Esegue l'azione sul modello (Catalogo)
+            boolean rimosso = catalogo.eliminaLibro(libroSelezionato.getIsbn());
+            
+            if (rimosso) {
+                // Aggiorna l'interfaccia rimuovendo il libro dall'ObservableList
+               aggiornaInterfaccia();
+            } else {
+                // Logica di fallback se il libro era in tabella ma non nel catalogo (improbabile)
+                Alert errore = new Alert(Alert.AlertType.ERROR);
+                errore.setHeaderText("Errore Eliminazione");
+                errore.setContentText("Il libro non è stato trovato nel catalogo per l'eliminazione.");
+                errore.showAndWait();
+            }
+        }
+        // Se l'utente preme ANNULLA, il codice termina qui.
     }
     
  

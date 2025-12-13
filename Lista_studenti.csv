@@ -1,4 +1,5 @@
 Elenco Studenti
-Cognome; Nome; Matricola; Email; Sanzione; Ritardo; PrestitoAttivo; ISBN; Titolo; Autore; DataInizio; DataScadenza; DataRestituzione; AnnoPubblicazione
-Azzato;giovanni;008;azz;Nessuna;false;1;234;Diario di ciccio;CiccioGamer;2025-12-13;2026-02-01;;2020-01-01
-maroc;diano;09099;gggg;Nessuna;false;0;;;;;;;;
+Cognome; Nome; Matricola; Email; Sanzione; Ritardo; PrestitoAttivo; ISBN; Titolo; Autore; AnnoPubblicazione; DataInizio; DataScadenza; DataRestituzione
+diano;maroc;09099;gggg;Nessuna;false;0;;;;;;;;
+giovanni;Azzato;008;azz;Nessuna;false;1;567;lll;john;2000-01-01;2025-12-13;2026-02-01;
+giovanni;Azzato;008;azz;Nessuna;false;1;123;moby dick;ciro;2010-01-01;2025-12-13;2026-02-01;

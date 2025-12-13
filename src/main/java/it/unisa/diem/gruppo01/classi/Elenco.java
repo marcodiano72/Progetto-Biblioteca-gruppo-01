@@ -237,7 +237,7 @@ public class Elenco {
         pw.println("Elenco Studenti"); 
         
         // Intestazione con 14 campi
-        pw.println("Cognome; Nome; Matricola; Email; Sanzione; Ritardo; PrestitoAttivo; ISBN; Titolo; Autore; DataInizio; DataScadenza; DataRestituzione; AnnoPubblicazione");
+        pw.println("Cognome; Nome; Matricola; Email; Sanzione; Ritardo; PrestitoAttivo; ISBN; Titolo; Autore; AnnoPubblicazione; DataInizio; DataScadenza; DataRestituzione");
 
         for (Studente s : elencoStudenti) {
             
@@ -279,8 +279,7 @@ public class Elenco {
                     String riga = rigaBase + 
                                   "1" + SEPARATORE + // PrestitoAttivo = 1
                                   isbn + SEPARATORE + titolo + SEPARATORE + autore + SEPARATORE + 
-                                  dataInizio + SEPARATORE + dataScadenza + SEPARATORE + dataRestituzione + SEPARATORE + 
-                                  annoPb;
+                                  annoPb+ SEPARATORE + dataInizio + SEPARATORE + dataScadenza + SEPARATORE + dataRestituzione ;
                                   
                     pw.println(riga);
                 }
@@ -340,10 +339,11 @@ public void caricaDati() {
                         String isbn = campi[7].trim();
                         String titolo = campi[8].trim();
                         String autore = campi[9].trim();
-                        String dataInizioStr = campi[10].trim();
-                        String dataScadenzaStr = campi[11].trim();
-                        String dataRestituzioneStr = campi[12].trim();
-                        String annoPbStr = campi[13].trim(); // Data Pubblicazione
+                        String annoPbStr = campi[10].trim(); // Data Pubblicazione
+                        String dataInizioStr = campi[11].trim();
+                        String dataScadenzaStr = campi[12].trim();
+                        String dataRestituzioneStr = campi[13].trim();
+                       
                         
                         // Conversione Date
                         LocalDate dataInizio = LocalDate.parse(dataInizioStr); 

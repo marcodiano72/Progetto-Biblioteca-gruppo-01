@@ -153,7 +153,7 @@
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="libro2Label" prefHeight="17.0" prefWidth="148.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <Label fx:id="libro2Label" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="205.0" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <font>
                         <Font size="16.0" />
                      </font></Label>
@@ -184,9 +184,9 @@
                      <font>
                         <Font size="16.0" />
                      </font></Label>
-                  <Label fx:id="titolo1" prefHeight="18.0" prefWidth="203.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label fx:id="titolo2" prefHeight="18.0" prefWidth="203.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Label fx:id="titolo3" prefHeight="18.0" prefWidth="203.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Label fx:id="titolo1" alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="212.0" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label fx:id="titolo2" alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="110.0" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label fx:id="titolo3" alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="203.0" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <Label fx:id="inizio2" prefHeight="18.0" prefWidth="203.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                   <Label fx:id="inizio1" prefHeight="18.0" prefWidth="203.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                   <Label fx:id="fine1" prefHeight="18.0" prefWidth="203.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
@@ -196,7 +196,7 @@
                </children>
                <columnConstraints>
                   <ColumnConstraints />
-                  <ColumnConstraints />
+                  <ColumnConstraints halignment="CENTER" />
                   <ColumnConstraints />
                   <ColumnConstraints />
                </columnConstraints>

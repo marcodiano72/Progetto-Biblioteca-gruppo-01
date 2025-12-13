@@ -109,8 +109,23 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
             statoLibroBox.getItems().addAll("Ottimo", "Buono", "Danneggiato");
             statoLibroBox.setValue("Ottimo");
         }
+        
+        
+        inserisciT.setOnAction(this::ricercaAutomaticaLibro);
+        inserisciA.setOnAction(this::ricercaAutomaticaLibro);
+        
+        
+        inserisciT.textProperty().addListener((obs, oldV, newV) -> resetLibro());
+        inserisciA.textProperty().addListener((obs, oldV, newV) -> resetLibro());
+        
        
-    }    
+    }   
+    
+    private void resetLibro(){
+        spuntaL.setSelected(false);
+        libroCorrente = null;
+        salvaP.setDisable(true);
+    }
 
     /**
      * Gestisce l'inserimento della matricola per la ricerca dello studente
@@ -171,22 +186,22 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
     }
     
   
-    @FXML
+   @FXML
     private void ricercaAutomaticaLibro(ActionEvent event) {
-        // Recupero i testi
-        String titolo = inserisciT.getText();
-        String autore = inserisciA.getText();
+        // 1. Prendo i testi e rimuovo spazi inutili
+        String titolo = inserisciT.getText().trim();
+        String autore = inserisciA.getText().trim();
         
-        // Controlla se i campi sono pieni
-        // Se manca uno dei due, non faccio partire la ricerca (magari l'utente sta ancora scrivendo)
+        // Se i campi sono vuoti, esco subito
         if(titolo.isEmpty() || autore.isEmpty()){
-             mostraAlert(AlertType.WARNING, "Dati mancanti", "Inserisci sia Titolo che Autore per cercare.");
-             return;
+            // Non mostro alert qui per non disturbare mentre si scrive, 
+            // ma resetto la spunta
+            spuntaL.setSelected(false);
+            return;
         }
         
-        //Ricerca nel catalogo
+        // 2. Ricerca nel catalogo
         libroCorrente = null;
-        
         if(catalogoLibri != null){
              for(Libro l : catalogoLibri.getInventarioLibri()){
                  if(l.getTitolo().equalsIgnoreCase(titolo) && l.getAutore().equalsIgnoreCase(autore)){
@@ -196,32 +211,30 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
              }
         }
         
-        // Verifica del risultato
-        if(libroCorrente == null){
-             // CASO: Libro non esiste
-             spuntaL.setSelected(false);
-             spuntaL.setDisable(true); // Checkbox grigia
-             salvaP.setDisable(true);  // Tasto salva bloccato
-             mostraAlert(AlertType.ERROR, "Non Trovato", "Il libro specificato non esiste nel catalogo.");
-             
-        } else if(!libroCorrente.isDisponibile()){
-             // CASO: Libro esiste ma copie esaurite
-             spuntaL.setSelected(false);
-             spuntaL.setDisable(true);
-             salvaP.setDisable(true);
-             mostraAlert(AlertType.ERROR, "Non Disponibile", "Tutte le copie di questo libro sono in prestito.");
-             
-        } else {
-             // CASO: SUCCESSO (Trovato e Disponibile)
-             
-             // Metto la spunta automaticamente (feedback visivo verde)
+        // 3. Logica di visualizzazione (UGUALE A SPUNTA_U)
+        if(libroCorrente != null && libroCorrente.isDisponibile()){
+             // CASO POSITIVO:
+             // Metto la spunta (visivo)
              spuntaL.setSelected(true);
              
-             // La disabilito così l'utente non la toglie per sbaglio
+             // La blocco (così l'utente non può toglierla, è un indicatore di stato)
              spuntaL.setDisable(true);
              
-             // SBLOCCO FINALMENTE IL TASTO SALVA
+             // Abilito il salvataggio
              salvaP.setDisable(false);
+             
+        } else {
+             // CASO NEGATIVO (Non trovato o non disponibile):
+             spuntaL.setSelected(false);
+             spuntaL.setDisable(true); // Resta bloccata e vuota
+             salvaP.setDisable(true);
+             
+             // Mostro l'errore specifico
+             if(libroCorrente == null) {
+                 mostraAlert(AlertType.ERROR, "Non Trovato", "Libro non presente in catalogo.");
+             } else {
+                 mostraAlert(AlertType.ERROR, "Non Disponibile", "Tutte le copie sono in prestito.");
+             }
         }
     }
 
@@ -374,20 +387,19 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
     
     //Metodo per attivare/disattivare i campi del libro
     
-    public void gestisciCampiLibro(boolean stato){
+   public void gestisciCampiLibro(boolean stato){
         inserisciT.setDisable(!stato);
         inserisciA.setDisable(!stato);
-        spuntaL.setDisable(!stato);
         
-        //Se sblocchiamo i campi (e quindi stato = True), il bottone salvaP deve restare disabilitato
-        //finchè non si spunta la CheckBox ("Libro disponibile").
-        //se stato = false, disabilitiamo tutto.
+        // La checkbox spuntaL deve restare SEMPRE disabilitata all'interazione manuale
+        spuntaL.setDisable(true); 
         
         if(!stato){
-        salvaP.setDisable(true);
-        spuntaL.setSelected(false);
+            salvaP.setDisable(true);
+            spuntaL.setSelected(false);
+            inserisciT.clear(); // Opzionale: pulisce i campi se lo studente cambia
+            inserisciA.clear();
         }
-        
     }
     
     public void mostraAlert(AlertType type, String titolo, String contenuto ){
@@ -434,6 +446,7 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
                ex.printStackTrace();
             }
     }
-    
+
+  
     
 }

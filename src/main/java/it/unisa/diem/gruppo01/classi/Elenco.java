@@ -277,7 +277,7 @@ public class Elenco {
                     String dataRestituzione = (p.getDataRestituzione() != null) ? p.getDataRestituzione().toString() : "";
                     
                     String riga = rigaBase + 
-                                  "1" + SEPARATORE + // PrestitoAttivo = 1
+                                  prestitiAttivi.size() + SEPARATORE + 
                                   isbn + SEPARATORE + titolo + SEPARATORE + autore + SEPARATORE + 
                                   annoPb+ SEPARATORE + dataInizio + SEPARATORE + dataScadenza + SEPARATORE + dataRestituzione ;
                                   

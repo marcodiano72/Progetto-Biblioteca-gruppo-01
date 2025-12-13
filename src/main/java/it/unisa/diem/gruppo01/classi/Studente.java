@@ -33,7 +33,7 @@ public class Studente {
     private String sanzione; ///< Descrizione della sanzione eventualmente applicata allo studente.
     private boolean ritardo; ///< Indica se lo studente è in ritardo con la restituzione di un prestito.
     private List<Prestito> prestitiAttivi; ///< Lista dei prestiti attualmente attivi per lo studente.
-    
+    private Prestito prestito;
     
     /**
      * Costruttore della classe
@@ -52,7 +52,7 @@ public class Studente {
         this.nome = nome;
         this.matricola = matricola;
         this.email = email;
-        this.sanzione = "Nessuna"; //valore iniziale
+        this.sanzione = "Nessuna";
         this.ritardo = false;
         prestitiAttivi = new ArrayList<>();
      
@@ -153,6 +153,13 @@ public class Studente {
      * @return La stringa che descrive lo stato di sanzione.
      */
     public String getSanzione(){
+        for(Prestito p: prestitiAttivi)
+        {
+            if(!p.gestioneSanzioni().equals("Nessun ritardo riscontrato."))
+            {
+                return p.gestioneSanzioni();
+            }    
+        }
       return sanzione;
     }
     

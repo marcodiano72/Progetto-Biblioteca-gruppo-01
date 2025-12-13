@@ -157,6 +157,14 @@ public class Catalogo {
         }
     }
     
+public boolean incrementaCopie(String isbn) {
+    Libro libro = cercaLibroPerISBN(isbn);   // questo metodo esiste già
+    if (libro != null) {
+        libro.incrementaCopie(1);            // metodo esistente in Libro
+        return true;
+    }
+    return false;
+}
 
     /*
     *Rimuove un libro dal catalogo utilizzando il suo ISBN.
@@ -347,6 +355,8 @@ public class Catalogo {
         sb.append("================================================");
         return sb.toString();
     }
+
+
     
    
     

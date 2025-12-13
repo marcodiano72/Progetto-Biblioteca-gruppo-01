@@ -203,48 +203,53 @@ public class GestioneLibriController implements Initializable {
             return;
         }
         
-        try{
-            //bisogna convertire anno, perchè Libro richiede una data LocalDate, ma noi inseriamo una Stringa nel textfield
-            int anno = Integer.parseInt(annoP); //converte in Int
-            LocalDate annoPubblicazione = LocalDate.of(anno,1,1); //converte nel formato 01/01/anno;
-            
-            Libro nuovoLibro = new Libro(isbn,titolo,autore,annoPubblicazione,1);
-            
-            boolean aggiunto = catalogo.aggiungiLibro(nuovoLibro);
-            
-            //se il catalogo ha modificato l'inventario, aggiorno la TableView
-            //ricarico i dati
-            datiTabella.clear();
-            datiTabella.addAll(catalogo.getInventarioLibri());
-            
-            
-            //Messaggio di conferma di libro aggiunto
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText(null);
-            if(aggiunto == true)
-            {
-               alert.setContentText("Libro aggiunto al catalogo con successo");
-               
-            }else
-            {
-                alert.setContentText("Libro già esistente. Numero copie incrementato");
-            }
-            alert.showAndWait();
-            pulisciCampi();
-            
-           
-        }catch(NumberFormatException ex){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("L'anno deve essere un numero valido");
-            alert.showAndWait();
-            
-        }catch(IllegalArgumentException ex){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Errore nei dati inseriti");
-            alert.showAndWait();
-        
+    try {
+    int anno = Integer.parseInt(annoP);
+    LocalDate annoPubblicazione = LocalDate.of(anno, 1, 1);
+
+    // Controllo: stesso titolo, autore, isbn e anno
+    boolean libroIdenticoTrovato = false;
+    for (Libro libroEsistente : catalogo.getInventarioLibri()) {
+        if (libroEsistente.getTitolo().equalsIgnoreCase(titolo) &&
+            libroEsistente.getAutore().equalsIgnoreCase(autore) &&
+            libroEsistente.getIsbn().equals(isbn) &&
+            libroEsistente.getAnnoPb().getYear() == anno) {
+
+            catalogo.incrementaCopie(libroEsistente.getIsbn());
+            libroIdenticoTrovato = true;
+            break;
         }
-        
+    }
+
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setHeaderText(null);
+
+    if (!libroIdenticoTrovato) {
+        // aggiunta normale
+        Libro nuovoLibro = new Libro(isbn, titolo, autore, annoPubblicazione, 1);
+        catalogo.aggiungiLibro(nuovoLibro);
+        alert.setContentText("Libro aggiunto al catalogo con successo");
+    } else {
+        alert.setContentText("Libro già esistente. Numero copie incrementato");
+    }
+
+    alert.showAndWait();
+
+    // aggiorna tabella
+    datiTabella.clear();
+    datiTabella.addAll(catalogo.getInventarioLibri());
+
+    pulisciCampi();
+
+} catch (NumberFormatException ex) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setContentText("L'anno deve essere un numero valido");
+    alert.showAndWait();
+} catch (IllegalArgumentException ex) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setContentText("Errore nei dati inseriti");
+    alert.showAndWait();
+}
         
         
     }
@@ -285,6 +290,17 @@ private void modLibri(ActionEvent event) {
     // 2. Recupera i dati dai campi di input
     String nuovoTitolo = tfTitolo.getText();
     String nuovoAutore = tfAutore.getText();
+
+//CONTROLLO ISBN NON MODIFICABILE ***
+String nuovoIsbn = tfIsbn.getText().trim();
+if (!nuovoIsbn.isEmpty() && !nuovoIsbn.equals(libroSelezionato.getIsbn())) {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Modifica non consentita");
+    alert.setHeaderText(null);
+    alert.setContentText("Attenzione. Non è possibile modificare l'isbn del libro selezionato.");
+    alert.showAndWait();
+    return;  // Blocca la modifica
+}
     String nuovoAnnoPb = tfAnno.getText();
 
     // 3. Se un campo è vuoto o solo spazi, mantieni il valore esistente

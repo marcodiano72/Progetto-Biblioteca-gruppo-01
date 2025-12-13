@@ -459,7 +459,7 @@ if (!nuovoIsbn.isEmpty() && !nuovoIsbn.equals(libroSelezionato.getIsbn())) {
             Alert conferma = new Alert(Alert.AlertType.CONFIRMATION);
             conferma.setTitle("Conferma eliminazione");
             conferma.setHeaderText(null);
-            conferma.setContentText("Sei sicuro di voler eliminare lo studente " + libroSelezionato.getTitolo() + " ?");
+            conferma.setContentText("Sei sicuro di voler eliminare il libro " + libroSelezionato.getTitolo() + " ?");
             conferma.showAndWait();
         
          Optional<ButtonType> result = conferma.showAndWait();

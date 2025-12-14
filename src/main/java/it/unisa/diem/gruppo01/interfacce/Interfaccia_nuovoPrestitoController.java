@@ -1,8 +1,13 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+*@file Interfaccia_nuovoPrestitoController.java
+ *@brief Controller FXML per la gestione dei prestiti e delle restituzioni.
+ * Gestisce l'interfaccia utente per registrare un nuovo prestito (dopo aver
+ * verificato l'abilitazione dello studente e la disponibilità del libro)
+ * e per registrare una restituzione (applicando eventuali sanzioni).
+ *
+ *@author gruppo01
+ *@version 1.0
+*/
 package it.unisa.diem.gruppo01.interfacce;
 
 import it.unisa.diem.gruppo01.classi.Catalogo;
@@ -31,9 +36,14 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
- * FXML Controller class
- *
- * @author nicolaazzato
+ * @brief CONTROLLER FXML:Interfaccia_nuovoPrestitoController
+ * Controllore FXML per l'interfaccia di gestione Prestiti.
+ * Questa classe è responsabile di:
+ * Ricevere le istanze dei modelli Elenco e Catalogo.
+ * Gestire la ricerca dello studente per matricola e verificarne l'abilitazione.
+ * Gestire la ricerca del libro per titolo/autore e verificarne la disponibilità.
+ * Registrare un nuovo prestito, aggiornando lo stato del libro e dello studente.
+ * Registrare una restituzione, aggiornando lo stato del libro e applicando sanzioni.
  */
 public class Interfaccia_nuovoPrestitoController implements Initializable {
 

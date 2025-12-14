@@ -1,8 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/**
+*@file GestioneLibriStudente.java
+ *@brief Controller FXML per la schermata di gestione degli studenti.
+ * Gestisce l'interfaccia utente per l'aggiunta, la modifica, la ricerca e l'eliminazione
+ * degli studenti nel sistema bibliotecario, interagendo con l'oggetto  elenco
+*@author gruppo01
+*@version 1.0
+*/
 package it.unisa.diem.gruppo01.interfacce;
 
 import it.unisa.diem.gruppo01.classi.Elenco;
@@ -33,12 +36,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 /**
- * FXML Controller class
- *
- * @author Utente
+ * @brief Controller FXML: GestioneStudenteController
+ * Implementa le funzionalità per la gestione
+ * degli studenti, garantendo che i dati siano correttamente visualizzati e modificati
+ * tramite la TableView e l'oggetto elenco
  */
 public class GestioneStudenteController implements Initializable {
 
+    // CAMPI FXML (PULSANTI E INPUT)
     @FXML
     private Button addSButton;
     @FXML
@@ -50,9 +55,11 @@ public class GestioneStudenteController implements Initializable {
     @FXML
     private Button exitSButton;
     @FXML
-    private Button saveSButton;
+    private Button saveSButton; ///< Pulsante per salvare l'elenco degli studenti su file (CSV).
     @FXML
-    private Button menuSButton;
+    private Button menuSButton; ///< Pulsante per tornare al menu principale.
+   
+    // Campi di input per Aggiunta/Modifica
     @FXML
     private TextField tfCognome;
     @FXML
@@ -62,26 +69,35 @@ public class GestioneStudenteController implements Initializable {
     @FXML
     private TextField tfEmail;
     @FXML
-    private Label ricerca;
+    private Label ricerca;///<Etichetta per visualizzare messaggi di stato o di errore relativi alla ricerca.
+    
+    // Campi di input per Ricerca
     @FXML
     private TextField insMatricola;
     @FXML
     private TextField insCognome;
+    
+    // TableView e Colonne
     @FXML
-    private TableView<Studente> tableViewStudenti;
+    private TableView<Studente> tableViewStudenti; ///<Tabella per la visualizzazione dell'anagrafica degli studenti
     @FXML
-    private TableColumn<Studente, String> colCognome;
+    private TableColumn<Studente, String> colCognome; ///< Colonna per visualizzare il cognome dello studente.
     @FXML
-    private TableColumn<Studente, String> colNome;
+    private TableColumn<Studente, String> colNome; ///< Colonna per visualizzare il nome dello studente
     @FXML
-    private TableColumn<Studente, String> colMatr;
+    private TableColumn<Studente, String> colMatr; ///<Colonna per visualizzare la matricola dello studente
     
     
    
-    private Elenco elenco;
-    private ObservableList<Studente> listaStudenti = FXCollections.observableArrayList();
-   /* Metodo chiamato per inizializzare un controller dopo che il suo elemento radice è stato completamente elaborato.
-     * Viene utilizzato per setup iniziali, come l'impostazione dei listener o il caricamento dei dati di default.
+    private Elenco elenco; ///< Istanza dell'Elenco, il modello dati che contiene tutti gli studenti.
+    private ObservableList<Studente> listaStudenti = FXCollections.observableArrayList(); ///< Lista osservabile per sincronizzare i dati dell'Elenco con la TableView
+   
+    
+    /* @brief Metodo chiamato per inizializzare un controller dopo che il suo elemento radice è stato completamente elaborato.
+     * Inizializza l'oggetto Elenco.
+     * Configura il binding delle colonne della tabella.
+     * Carica i dati iniziali dal file CSV.
+     * Imposta il gestore per il doppio clic per la visualizzazione dei dettagli.
      *
      * @param url L'ubicazione relativa o assoluta del file FXML.
      * @param rb Le risorse utilizzate per localizzare l'oggetto radice.
@@ -90,27 +106,24 @@ public class GestioneStudenteController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         elenco = new Elenco();
-        // Collegamento Colonne -> attributi classe libro
-        //(new PropertyValueFactory(")) questo metodo per ogni libro passato cerca l'attributo che si specifica 
-        //all'interno delle parentesi, o meglio cerca il metodo getAttributo(), prende qel valore e lo inserisce nella casella.
+        // Configurazione del PropertyValueFactory (binding colonna -> attributo Studente)
         colCognome.setCellValueFactory(new PropertyValueFactory("cognome"));
         colNome.setCellValueFactory(new PropertyValueFactory("nome"));
         colMatr.setCellValueFactory(new PropertyValueFactory("matricola"));
         
-                // 1. CARICA I DATI DAL FILE CSV
+        // CARICA I DATI DAL FILE CSV
         elenco.caricaDati();
     
-        // 2. AGGIORNA LA VISTA
+        // AGGIORNA LA VIEW con i dati caricati
         listaStudenti.addAll(elenco.getElencoStudenti());
         tableViewStudenti.setItems(listaStudenti);
-        //Collegamento Lista -> Tabella
-        tableViewStudenti.setItems(listaStudenti);
         
         
-        //Aggiungiamo un gestore di eventi del mouse alla tabella
+        
+        //Gestore di eventi per il doppio click sulla riga della tabella
         
         tableViewStudenti.setOnMouseClicked(event ->{
-            //Controlla se è un doppio click (lick count == 2) e se è una riga selezionata
+            //Controlla se è un doppio click e se è una riga selezionata
             
             if(event.getClickCount() == 2 && tableViewStudenti.getSelectionModel().getSelectedItem() != null){
             Studente studenteSelezionato = tableViewStudenti.getSelectionModel().getSelectedItem();
@@ -119,10 +132,22 @@ public class GestioneStudenteController implements Initializable {
         }
         });
     }
+    
+    /*
+    * @brief Metodo ch verifica che l'email inserita sia non vuota e termini con il dominio istituzionale "@studenti.unisa.it".
+     * @param email La stringa email da validare.
+     * @return true se l'email è valida, altrimenti false
+    */
      private boolean isValidEmail(String email) {
     return email != null && !email.isEmpty() && email.endsWith("@studenti.unisa.it");
 }
-    
+ 
+     
+     /*
+     * @brief Metodo che carica la vista dettagliata di uno studente selezionato in una nuova finestra .
+     * Trasferisce i dati dello studente al controller  VisualizzaStudente_viewController.
+     * @param s L'oggetto Studente i cui dettagli devono essere visualizzati.
+     */
     private void apriDettagliStudente(Studente s){
         
         try{
@@ -157,7 +182,7 @@ public class GestioneStudenteController implements Initializable {
     }
     
     /**
-     * Copia i dati da elenco(TreeSet) e li inserisce in listaStudenti (observableList).
+     * @brief Metodo che copia i dati da elenco(TreeSet) e li inserisce in listaStudenti (observableList).
      * Assicura che l'ordinamento per cognome definito in elenco venga rispettato.
      */
     
@@ -165,10 +190,12 @@ public class GestioneStudenteController implements Initializable {
         listaStudenti.clear();
         listaStudenti.addAll(elenco.getElencoStudenti());
     }
- /*
-    * Gestisce l'evento di clic sul pulsante Aggiungi Studente.
+    
+    
+    /*
+    * @brief Metodo che gestisce l'evento di clic sul pulsante Aggiungi Studente.
      * Funzionalità: Raccoglie i dati dai campi di testo, crea un nuovo
-     * oggetto studente e lo aggiunge all' ELenco.
+     * oggetto studente e lo aggiunge all' elenco.
      * @param event L'evento di azione generato dal clic.
      */
     @FXML
@@ -182,14 +209,13 @@ public class GestioneStudenteController implements Initializable {
     //Controllo campi vuoti (in caso di mancata compilazione mostra avviso)
         if(cognome.isEmpty() || nome.isEmpty() || matricola.isEmpty() || email.isEmpty()){
             
-            //Alert è una finestra pre-programmata da Java che serve per mostrare messaggi
-            //Questa riga costruisce la finestra
+           
             
-            Alert alert = new Alert(Alert.AlertType.WARNING);   //AlertType.Warning mostra un'icona triangolo gialla (Avviso)
+            Alert alert = new Alert(Alert.AlertType.WARNING);   
             alert.setTitle("Dati mancanti");  //Titolo che compare nella parte alta della finestra
-            alert.setHeaderText(null); //L'alert è diviso in due parti l'Header e il testo normale. In questo caso non cè Header
-            alert.setContentText("Attenzione: devi compilare tutti i campi"); //testo normale
-            alert.showAndWait(); //show() mostra la finestra e ...AndWait() signific che il codice si interrompe
+            alert.setHeaderText(null);
+            alert.setContentText("Attenzione: devi compilare tutti i campi");
+            alert.showAndWait(); //show() mostra la finestra e ...AndWait() significa che il codice si interrompe quando mostrata
             return;
     }
 if (!isValidEmail(email)) {
@@ -198,8 +224,8 @@ if (!isValidEmail(email)) {
     alert.setHeaderText(null);
     alert.setContentText("L'email deve terminare con '@studenti.unisa.it'. Inserisci un indirizzo valido.");
     alert.showAndWait();
-    tfEmail.clear();  // Pulisce il campo per ripetere
-    tfEmail.requestFocus();  // Focus sul campo per editing immediato
+    tfEmail.clear(); 
+    tfEmail.requestFocus(); 
     return;
 }
 
@@ -218,12 +244,9 @@ if (!isValidEmail(email)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Errore nei dati inseriti");
                 alert.showAndWait();
-            
-                
             }
-            
          
-          }catch(IllegalArgumentException ex){
+        }catch(IllegalArgumentException ex){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Errore nei dati inseriti");
             alert.showAndWait();
@@ -231,7 +254,7 @@ if (!isValidEmail(email)) {
         } 
     }
     /**
-     * Pulisce le caselle di testo
+     * @brief Metodo che pulisce le caselle di testo
      */
     
     private void pulisciCampi(){
@@ -240,9 +263,18 @@ if (!isValidEmail(email)) {
         tfMatricola.clear();
         tfEmail.clear();
     }
+    
+    
 
+    /*
+    * @brief Metodo che gestisce l'evento di clic sul pulsante Modifica Studente (modSButton).
+     * Aggiorna i dati dello studente selezionato, ignorando i campi lasciati vuoti.
+     * L'aggiornamento viene eseguito sulla base della matricola dello studente selezionato.
+     *
+     * @param event L'evento di azione generato dal clic.
+    */
     @FXML
-private void modStudent(ActionEvent event) {
+    private void modStudent(ActionEvent event) {
     // 1. Studente selezionato dalla TableView
     Studente studenteSelezionato = (Studente) tableViewStudenti.getSelectionModel().getSelectedItem();
     if (studenteSelezionato == null) {
@@ -253,15 +285,15 @@ private void modStudent(ActionEvent event) {
         return;
     }
 
-    // Matricola chiave (non la cambi nell'elenco)
+   
     String matricolaDaModificare = studenteSelezionato.getMatricola();
 
-    // 2. Recupera i dati dai campi di input
+    // Recupera i dati dai campi di input
     String nuovoCognome = tfCognome.getText();
     String nuovoNome    = tfNome.getText();
     String nuovaEmail   = tfEmail.getText();
 
-    // 3. Se un campo è vuoto, mantieni il valore esistente
+    //Se un campo è vuoto, mantieni il valore esistente
     if (nuovoCognome == null || nuovoCognome.isEmpty()) {
         nuovoCognome = studenteSelezionato.getCognome();
     }
@@ -272,7 +304,7 @@ private void modStudent(ActionEvent event) {
         nuovaEmail = studenteSelezionato.getEmail();
     }
 
-    // 3b. Controllo formato email UNISA
+    //  Controllo formato email UNISA
     if (!isValidEmail(nuovaEmail)) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Email non valida");
@@ -283,7 +315,7 @@ private void modStudent(ActionEvent event) {
         return;   // blocca la modifica
     }
 
-    // 4. Chiamata a Elenco
+    //Chiamata a Elenco
     boolean modificato = elenco.modificaStudente(
             matricolaDaModificare,
             nuovoNome,
@@ -308,6 +340,13 @@ private void modStudent(ActionEvent event) {
     pulisciCampi();
 }
 
+    
+    /*
+     * @brief Metodo che gestisce l'evento di clic sul pulsante Cerca Studente (searchSButton).
+     * Filtra la lista degli studenti in base alla Matricola e/o al Cognome.
+     *
+     * @param event L'evento di azione generato dal clic.
+    */
     @FXML
     private void searchStudent(ActionEvent event) {
     
@@ -323,11 +362,9 @@ private void modStudent(ActionEvent event) {
             aggiornaInterfaccia();
             return;
         }
-            //Creazione di una lista osservabile temporanea per i risultati della ricerca
+            
             ObservableList<Studente> risultatiRicerca = FXCollections.observableArrayList();
-            
-            
-            //Scorriamo l'elenco originale
+       
             
             for(Studente studente: elenco.getElencoStudenti()){
               
@@ -341,10 +378,10 @@ private void modStudent(ActionEvent event) {
             }
             }
             
-            //A questo punto mostriamo nella tabella i risultati trovati
+            //Mostra nella tabella i risultati trovati
             tableViewStudenti.setItems(risultatiRicerca);
            
-            //Gestione MESSAGGIO
+            //Gestione MESSAGGIO -->nessuno studente trovato
             if(risultatiRicerca.isEmpty()){
                 
                 ricerca.setText("Nessuno studente Trovato.");
@@ -354,10 +391,11 @@ private void modStudent(ActionEvent event) {
             
         }
     
-/*
-    
-    */
-
+    /*
+     *@brief Metodo che gestisce l'eliminazione di uno studente selezionato dalla TableView (deleteSButton).
+     * Richiede una conferma esplicita all'utente prima di rimuovere lo studente dall'elenco.
+     * @param event L'evento di azione generato dal clic.
+     */
     @FXML
     private void deleteStudent(ActionEvent event) {
         
@@ -367,7 +405,7 @@ private void modStudent(ActionEvent event) {
         
         Studente studenteSelezionato = tableViewStudenti.getSelectionModel().getSelectedItem();
         
-        //Controlla che l'utente abbia selezionato uno studente
+        //Controlla che il gestore abbia selezionato uno studente
         if(studenteSelezionato == null) {
             
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -416,6 +454,10 @@ private void modStudent(ActionEvent event) {
  
     
     /*
+     * @brief Metodo che gestisce l'evento di clic sul pulsante Esci (exitSButton).
+     * Chiude la finestra corrente.
+     *
+     * @param event L'evento di azione generato dal clic.
     
     */
 
@@ -428,6 +470,16 @@ private void modStudent(ActionEvent event) {
         stageExit.close();
     }
 
+    
+    
+    /*
+     * @brief Metodo che gestisce l'evento di clic sul pulsante Salva (saveSButton).
+     * Invocando elenco.salvaCSV(), persiste lo stato attuale dell'Elenco
+     * su un file in formato CSV.
+     *
+     * @param event L'evento di azione generato dal clic.
+     * @throws IOException Se si verifica un errore durante la scrittura del file.
+    */
     @FXML
     private void saveSFile(ActionEvent event) throws IOException {
         elenco.salvaCSV();
@@ -435,6 +487,13 @@ private void modStudent(ActionEvent event) {
 
     }
     
+    
+    /*
+     * @brief Metodo che gestisce l'evento di clic sul pulsante *enu (menuSButton).
+     * Carica la vista del Menu Principale e mostra la scena.
+     *
+     * @param event L'evento di azione generato dal clic.
+    */
     @FXML
     private void menuSReturn(ActionEvent event) {
            try {

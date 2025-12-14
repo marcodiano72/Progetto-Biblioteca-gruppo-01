@@ -143,7 +143,7 @@ public class Catalogo {
     }
 
     /**
-     * Aggiunge un nuovo libro al catalogo. Se il libro (stesso ISBN) esiste già,
+     * @brief Aggiunge un nuovo libro al catalogo. Se il libro (stesso ISBN) esiste già,
      * aggiorna il numero di copie e restituisce false.
      * @param[in] nuovoLibro L'oggetto Libro da aggiungere o usare per incrementare le copie.
      * @return true  se il libro è stato aggiunto come nuovo elemento, false se è stato aggiornato un libro esistente.

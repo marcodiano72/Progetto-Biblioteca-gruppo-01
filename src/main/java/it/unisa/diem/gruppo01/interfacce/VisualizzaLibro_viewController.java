@@ -28,7 +28,8 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 /**
- * @brief Classe controller per la finestra di visualizzazione dettagli libro.
+ * @brief CONTROLLER FXML: VisualizzaLibro_viewController
+ * Classe controller per la finestra di visualizzazione dettagli libro.
  * Riceve un oggetto Libro dal controller principale (GestioneLibriController)
  * e popola le label con le informazioni corrispondenti.
  */

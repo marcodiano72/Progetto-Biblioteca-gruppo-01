@@ -26,7 +26,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
- * @brief Classe controller per la finestra di visualizzazione  dettagli studente.
+ * @brief CONTROLLER FXML: VisualizzaStudente_viewController
+ * Classe controller per la finestra di visualizzazione  dettagli studente.
  * Riceve un oggetto Studente dal controller principale (GestioneStudenteController) e popola le label 
  * con le informazioni corrispondenti.
  * 

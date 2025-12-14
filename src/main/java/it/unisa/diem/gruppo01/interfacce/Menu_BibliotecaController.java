@@ -1,3 +1,13 @@
+/*
+*@file Menu_BibliotecaController.java
+ *@brief Controller FXML per la schermata del Menu Principale della Biblioteca.
+ * Gestisce la navigazione verso le diverse sezioni di gestione (Libri, Studenti, Prestiti)
+ * e inizializza i modelli dati principali (Catalogo e Elenco) per l'intera applicazione.
+ *
+ *@author gruppo01
+ *@version 1.0
+*/
+
 package it.unisa.diem.gruppo01.interfacce;
 
 import it.unisa.diem.gruppo01.classi.Catalogo;
@@ -24,36 +34,59 @@ import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+/*
+*@brief CONTROLLER FXML: Menu_BibliotecaController
+ * Responsabile dell'inizializzazione dei dati globali (Catalogo Libri e Elenco Studenti)
+ * e della transizione verso le interfacce di Gestione.
+*/
 public class Menu_BibliotecaController implements Initializable {
 
     @FXML
-    private Button gestioneLButton;
+    private Button gestioneLButton; ///< Pulsante per accedere all'interfaccia di gestione dei libri.
     @FXML
-    private Button gestioneSButton;
+    private Button gestioneSButton;  ///< Pulsante per accedere all'interfaccia di gestione dei studenti.
     @FXML
-    private Button gestionePButton;
+    private Button gestionePButton; ///< Pulsante per accedere all'interfaccia di gestione dei prestiti.
     @FXML
-    private Button gestioneEButton;
+    private Button gestioneEButton; ///< Pulsante per accedere all'interfaccia di login
     @FXML
-    private DatePicker data; 
+    private DatePicker data;  ///< Campo per visualizzare la data corrente
     @FXML
-    private Label orario;
+    private Label orario; ///< Etichetta per visualizzare l'orario corrente in tempo reale.
     
-    // --- CAMBIAMENTO 1: Aggiungi le variabili di istanza per i dati ---
+    
+    
     private Catalogo catalogo;
-    private Elenco elenco; // Manca la lista studenti nel menu!
-    // -----------------------------------------------------------------
+    private Elenco elenco; 
+  
+    
 
+    /*
+     * @brief Metodo che imposta l'istanza del Catalogo.
+     * @param catalogo L'istanza del Catalogo da utilizzare.
+    */
     public void setCatalogo(Catalogo catalogo) {
         this.catalogo = catalogo;
         System.out.println("Catalogo ricevuto con successo nel Menu' Principale");
     }
     
-    // (Opzionale) Se vuoi passare l'elenco già caricato da altre parti
+    
+    /*
+     * @brief Metodo che imposta l'istanza dell'Elenco Studenti.
+     * @param elenco L'istanza dell'Elenco Studenti da utilizzare.
+    */
     public void setElenco(Elenco elenco) {
         this.elenco = elenco;
     }
+    
 
+    /*
+     * @brief Metodo che inizializza il controller dopo che l'elemento radice FXML è stato elaborato.
+     * Configura i Tooltip per i pulsanti.
+     * Inizializza i Modelli Dati: Ottiene l'istanza del Catalogo e carica l'Elenco Studenti.
+     * @param url L'ubicazione relativa o assoluta del file FXML.
+     * @param rb Le risorse utilizzate per localizzare l'oggetto radice
+    */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // ... (Codice Tooltip e Data invariato) ...
@@ -62,6 +95,8 @@ public class Menu_BibliotecaController implements Initializable {
         gestionePButton.setTooltip(new Tooltip("Accede alla sezione dedicata alla gestione dei prestiti"));
         gestioneEButton.setTooltip(new Tooltip("Torna al login"));
         
+        
+        //Setup Data e ora
         data.setValue(LocalDate.now());
         data.setDisable(true); 
 
@@ -75,16 +110,24 @@ public class Menu_BibliotecaController implements Initializable {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
         
-        // --- CAMBIAMENTO 2: Inizializzazione Dati ---
-        // Assicuriamoci che i dati esistano quando il menu parte
+      
+        
         this.catalogo = Catalogo.getIstanza();
         
         // Inizializziamo l'elenco e carichiamo i dati dal file CSV
-        // Così il Menu ha la lista studenti pronta da passare alla schermata Prestiti
         this.elenco = new Elenco();
         this.elenco.caricaDati(); 
-    }    
+    }  
+    
+    
 
+    /*
+     * @brief Metofo che gestisce l'evento di clic sul pulsante Gestione Libri (gestioneLButton).
+     * Carica la vista GestioneLibri_view.fxml e passa l'istanza del Catalogo
+     * al relativo controller.
+     *
+     * @param event L'evento di azione generato dal clic.
+    */
     @FXML
     private void openLibriInterface(ActionEvent event) {
         try {
@@ -92,7 +135,7 @@ public class Menu_BibliotecaController implements Initializable {
             Parent libriParent = loader.load();
 
             GestioneLibriController libriController = loader.getController();
-            // Passiamo il catalogo (Singleton)
+           
             libriController.setCatalogo(this.catalogo); 
             
             Scene libriScene = new Scene(libriParent);
@@ -106,13 +149,18 @@ public class Menu_BibliotecaController implements Initializable {
             ex.printStackTrace();
         }
     }
-
+    
+    
+    /*
+     * @brief Metodo che gestisce l'evento di clic sul pulsante Gestione Studenti (gestioneSButton).
+     * Carica la vista GestioneStudente_view.fxml.
+     *
+     * @param event L'evento di azione generato dal clic.
+    */
     @FXML
     private void openStudentInterface(ActionEvent event){
         try {
-            // Nota: Qui potresti voler passare 'this.elenco' al controller studenti 
-            // invece di farglielo ricaricare da zero, per mantenere coerenza nei dati.
-            // Ma per ora lasciamo come avevi fatto tu, funziona lo stesso (anche se meno efficiente).
+            
             Parent studentiParent = FXMLLoader.load(getClass().getResource("/it/unisa/diem/gruppo01/interfacce/GestioneStudente_view.fxml"));
             Scene studentiScene = new Scene(studentiParent);
             
@@ -127,19 +175,25 @@ public class Menu_BibliotecaController implements Initializable {
         }
     }
 
-    // --- CAMBIAMENTO 3: IL METODO CRITICO ---
+    
+
+    /*
+     * @brief Metodo che gestisce l'evento di clic sul pulsante Gestione Prestiti (gestionePButton).
+     * Carica la vista nterfaccia_nuovoPrestito.fxml e, 
+     * passa sia l'istanza di Elenco (studenti) che l'istanza di Catalogo (libri)
+     * al controller dei prestiti affinché possa operare sui dati.
+     *
+     * @param event L'evento di azione generato dal clic.
+    */
     @FXML
     private void openPrestitiInterface(ActionEvent event) {
         try {
-            // 1. Usa FXMLLoader classico, NON il metodo statico load()
+        
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/unisa/diem/gruppo01/interfacce/Interfaccia_nuovoPrestito.fxml"));
-            Parent prestitiParent = loader.load(); // Carica la grafica
+            Parent prestitiParent = loader.load(); 
             
-            // 2. Ottieni il controller
             Interfaccia_nuovoPrestitoController prestitiController = loader.getController();
             
-            // 3. PASSA I DATI! Questo è il passaggio che mancava.
-            // Passiamo l'elenco studenti (che abbiamo caricato nell'initialize) e il catalogo
             prestitiController.setDati(this.elenco, this.catalogo);
             
             Scene prestitiScene = new Scene(prestitiParent);
@@ -154,6 +208,12 @@ public class Menu_BibliotecaController implements Initializable {
         }
     }
 
+    
+    /*
+     *@brief Metodo che gestisce l'evento di clic sul pulsante Esci (gestioneEButton).
+     * Ritorna all'interfaccia di login Interfaccia1View.fxm.
+     * @param event L'evento di azione generato dal clic.
+    */
     @FXML
     private void openExitInterface(ActionEvent event) {
         try {

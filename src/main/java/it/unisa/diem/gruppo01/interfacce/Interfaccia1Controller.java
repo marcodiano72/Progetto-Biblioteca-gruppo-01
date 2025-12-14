@@ -28,7 +28,7 @@ import javafx.scene.control.Label;
 
 
 /**
- * @brief Controller FXML per l'interfaccia di login.
+ * @brief CONTROLLER FXML:Interfaccia1Controller
  * Gestisce l'autenticazione dell'utente confrontando le credenziali inserite
  * con quelle predefinite e carica l'interfaccia del Menu Principale.
  * @invariant usernameField != null

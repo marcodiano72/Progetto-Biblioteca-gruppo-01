@@ -39,7 +39,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
- * Controller FXML: GestioneLibriController
+ * @brief Controller FXML: GestioneLibriController
  * Controllore FXML per la schermata di gestione dei libri nel sistema bibliotecario.
  * Gestisce le interazioni utente per aggiungere, modificare, cercare, eliminare e salvare
  * l'inventario dei libri.
@@ -105,7 +105,7 @@ public class GestioneLibriController implements Initializable {
   
     
     /*
-     * Metodo per inserire l'istanza del Catalogo nel controller.
+     * @brief Metodo per inserire l'istanza del Catalogo nel controller.
      * È cruciale per l'interazione con il modello di dati. Inizializza anche l'ObservableList
      * e la collega alla TableView.
      * @param catalogo L'istanza del Catalogo da utilizzare
@@ -121,7 +121,7 @@ public class GestioneLibriController implements Initializable {
    
     
     /*
-    * Aggiorna l' ObservableList  e di conseguenza la TableView
+    * @brief Metodo che aggiorna l' ObservableList  e di conseguenza la TableView
     * con i dati  presenti nel Catalogo.
     */
     private void aggiornaInterfaccia(){
@@ -131,7 +131,7 @@ public class GestioneLibriController implements Initializable {
     
     
     /*
-    * Metodo chiamato per inizializzare un controller dopo che il suo elemento radice è stato completamente elaborato.
+    * @brief Metodo chiamato per inizializzare un controller dopo che il suo elemento radice è stato completamente elaborato.
      * Configura il binding delle colonne della tabella con gli attributi dell'oggetto Libro
      * e imposta il gestore eventi per il doppio clic sulla tabella.
      * @param url L'ubicazione relativa o assoluta del file FXML.
@@ -159,7 +159,7 @@ public class GestioneLibriController implements Initializable {
     
     
     /*
-    * Carica la vista dettagliata di un libro selezionato in una nuova finestra.
+    * @brief Metodo che carica la vista dettagliata di un libro selezionato in una nuova finestra.
     * Trasferisce i dati del libro selezionato al controller VisualizzaLibro_viewController.
     *
     */
@@ -198,7 +198,7 @@ public class GestioneLibriController implements Initializable {
      
 
     /*
-    * Gestisce l'evento di clic sul pulsante Aggiungi Libro.
+    * @brief Metodo che gestisce l'evento di clic sul pulsante Aggiungi Libro.
      * Funzionalità: Raccoglie i dati dai campi di testo, crea un nuovo
      * oggetto Libro e lo aggiunge al Catalogo.
      * @param event L'evento di azione generato dal clic.
@@ -287,15 +287,15 @@ public class GestioneLibriController implements Initializable {
     }
 
     
-    /*
-    * Gestisce l'evento di clic sul pulsante Modifica Libro.
+     /*
+     * @brief Metodo che gestisce l'evento di clic sul pulsante Modifica Libro.
      *  Funzionalità: Cerca un libro tramite un identificatore e aggiorna
      * i suoi dettagli (es. titolo, autore o numero di copie) con i valori presenti nei campi di testo.
      * Richiede che un libro sia selezionato.
      * Non consente la modifica dell'ISBN.
      * Se un campo è lasciato vuoto, mantiene il valore esistente del libro.
      * @param event L'evento di azione generato dal clic.
-    */
+      */
   @FXML
 private void modLibri(ActionEvent event) {
     // 1. Libro selezionato dalla TableView
@@ -389,7 +389,7 @@ if (!nuovoIsbn.isEmpty() && !nuovoIsbn.equals(libroSelezionato.getIsbn())) {
 }
     
     /*
-    * Gestisce l'evento di clic sul pulsante Cerca Libro (searchLButton).
+    * @brief Metodo che gestisce l'evento di clic sul pulsante Cerca Libro (searchLButton).
     * Filtra l'inventario dei libri visualizzati nella TableView in base
     * ai criteri inseriti nei campi di ricerca (Titolo, Autore, ISBN).
     * @param event L'evento di azione generato dal clic.
@@ -452,7 +452,7 @@ if (!nuovoIsbn.isEmpty() && !nuovoIsbn.equals(libroSelezionato.getIsbn())) {
 
    
    /**
-     * Gestisce l'eliminazione di un libro selezionato dalla TableView.
+     * @brief Metodo che gestisce l'eliminazione di un libro selezionato dalla TableView.
      * Chiede conferma all'utente prima di procedere.
      * @param event L'evento di azione (es. click sul pulsante Elimina).
      */
@@ -517,7 +517,7 @@ if (!nuovoIsbn.isEmpty() && !nuovoIsbn.equals(libroSelezionato.getIsbn())) {
  
     
     /*
-    * Gestisce l'evento di clic sul pulsante Esci (exitLButton).
+    * @brief Metodo che gestisce l'evento di clic sul pulsante Esci (exitLButton).
      * Chiude la finestra corrente.
      * @param event L'evento di azione generato dal clic.
     
@@ -532,7 +532,7 @@ if (!nuovoIsbn.isEmpty() && !nuovoIsbn.equals(libroSelezionato.getIsbn())) {
     
     
     /*
-    * Gestisce l'evento di clic sul pulsante Salva (saveLButton).
+    * @brief Metodo ch gestisce l'evento di clic sul pulsante Salva (saveLButton).
      * Invocando catalogo.salvaCSV(), persiste lo stato attuale del Catalogo
      * su un file in formato CSV.
      *
@@ -548,7 +548,7 @@ if (!nuovoIsbn.isEmpty() && !nuovoIsbn.equals(libroSelezionato.getIsbn())) {
     
     
     /*
-     * Gestisce l'evento di clic sul pulsante Menu' (menuButton).
+     * @brief Metodo che gestisce l'evento di clic sul pulsante Menu' (menuButton).
      * Carica la vista del Menu Principale e trasferisce l'istanza del Catalogo
      * al nuovo controller (Menu_BibliotecaController) prima di mostrare la scena.
      *

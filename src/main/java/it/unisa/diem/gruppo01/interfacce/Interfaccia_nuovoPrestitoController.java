@@ -194,7 +194,7 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
                 
                 // Mostro subito l'errore specifico all'utente
                 if(studenteCorrente.isRitardo()){
-                    mostraAlert(AlertType.ERROR, "Studente Bloccato", "L'utente è in ritardo con le restituzioni.");
+                    mostraAlert(AlertType.ERROR, "Studente Bloccato", "L'utente non è abilitato perchè sanzionato");
                 } else {
                     mostraAlert(AlertType.ERROR, "Studente Bloccato", "Limite prestiti raggiunto (" + studenteCorrente.contaPrestitiAttivi() + "/3).");
                 }

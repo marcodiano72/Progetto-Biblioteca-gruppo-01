@@ -59,7 +59,7 @@ public class Studente {
         this.nome = nome;
         this.matricola = matricola;
         this.email = email;
-        this.sanzione = "Nessuna";
+        this.sanzione = sanzione;
         this.ritardo = ritardo;
         prestitiAttivi = new ArrayList<>();
      

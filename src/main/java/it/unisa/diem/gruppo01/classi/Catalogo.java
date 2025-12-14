@@ -1,7 +1,9 @@
 /**
 *@file Catalogo.java
 *@brief Questo file gestisce l'inventario dei libri della biblioteca.
-*
+* Contiene la logica per aggiungere, rimuovere, modificare e cercare libri.
+* 
+* @author Gruppo01
 *@version 1.0
 */
 
@@ -32,12 +34,12 @@ import javafx.collections.ObservableList;
  
 
 /**
- * Classe Catalogo
- * Gestisce l'inventario dei libri della biblioteca. Utilizza un TreeSet
- * con un comparatore personalizzato (LibroComparator) per mantenere i libri
- * ordinati alfabeticamente per titolo*.
- *
+ * @brief Classe Singleton che gestisce l'inventario dei libri della biblioteca.
+ * Utilizza un TreeSet con un comparatore personalizzato (LibroComparator) 
+ * per mantenere i libri ordinati alfabeticamente per titolo.
+ * Gestisce inoltre il caricamento e il salvataggio dei dati su file CSV.
  */
+
 public class Catalogo {
 
    /**
@@ -47,25 +49,29 @@ public class Catalogo {
     private static Catalogo istanza;
     
     
-    private TreeSet<Libro> inventarioLibri; // TreeSet per mantenere i libri ordinati alfabeticamente per titolo.
+    private TreeSet<Libro> inventarioLibri; ///< Collezione ordinata dei libri (ordinamento per Titolo, poi Isbn).
 
-    private final static String NOME_FILE_CSV = "Lista_Libri.csv";
+    private final static String NOME_FILE_CSV = "Lista_Libri.csv"; ///< Nome del file utilizzato per la persistenza dei dati.
     
-    private final static String DIR = NOME_FILE_CSV;
+    private final static String DIR = NOME_FILE_CSV; 
+    
+    
     /**
-     * Costruttore della classe Catalogo.
-     * Inizializza il TreeSet con un'istanza
-     * di LibroComparator per definire l'ordinamento.
-     */
+     * @brief Costruttore della classe Catalogo.
+     * Inizializza il TreeSet con un'istanza di LibroComparator per definire l'ordinamento.
+     * 
+     */
+    
     public Catalogo() 
     {
         this.inventarioLibri = new TreeSet<>(new LibroComparator());
     }
     
     /**
-     * Restituisce la collezione di libri che costituisce l'inventario.
-     * @return il TreeSet dei libri.
+     * @brief Restituisce la collezione di libri che costituisce l'inventario.
+     * @return il TreeSet contenente gli oggetti Libro.
      */
+    
     public TreeSet<Libro> getInventarioLibri()
     {
         return inventarioLibri;
@@ -73,8 +79,8 @@ public class Catalogo {
     
     /**
      * Metodo statico per accedere all'unica istanza del Catalogo (Singleton).
-     * Carica i dati dal disco la prima volta che viene chiamato.
-     * * @return L'unica istanza esistente di Catalogo.
+     * Carica i dati dal disco la prima volta che viene chiamato se l'istanza non esiste.
+     * @return L'unica istanza esistente di Catalogo.
      */
     public static Catalogo getIstanza() {
         if (istanza == null) {
@@ -85,10 +91,12 @@ public class Catalogo {
         return istanza;
     }
         
-        /**
-     * Metodo statico per forzare il salvataggio dei dati.
-     * Deve essere chiamato da Main.stop() alla chiusura dell'applicazione.
+     /**
+     * @brief Metodo statico per forzare il salvataggio dei dati.
+     * Deve essere chiamato da Main.stop() alla chiusura dell'applicazione per persistere le modifiche.
+     * @post i dati attuali in memoria vengono scritti nel file CSV
      */
+    
     public static void salvaDati()
     {
         if (istanza != null)
@@ -99,12 +107,11 @@ public class Catalogo {
     }
     
     
-   /*
-    * Cerca un libro all'interno del catalogo utilizzando il suo codice ISBN.
+   /**
+    * @brief Cerca un libro all'interno del catalogo utilizzando il suo codice ISBN.
     * Questo metodo è un utility interna.
-    *
-    * @param isbn Il codice ISBN del libro da cercare.
-    * @return L'oggetto  trovato, o null se non presente.
+    * @param[in] isbn Il codice ISBN del libro da cercare.
+    * @return L'oggetto Libro trovato, oppure null se non presente.
     */
     private Libro cercaLibroPerISBN(String isbn) {
         for (Libro libro : inventarioLibri) {
@@ -115,12 +122,12 @@ public class Catalogo {
         return null;
     }
     
-    /*
-     * Classe Interna: LibroComparator
-     * Implementa l'interfaccia Comparator per definire l'ordinamento degli oggetti Libro
-     * all'interno del Treeset. L'ordinamento è alfabetico per titolo (insensibile al caso)
-     * e, in caso di titoli identici, utilizza l'ISBN per garantire l'unicità.
-    */
+    /**
+     * @brief Implementa l'interfaccia Comparator per definire l'ordinamento dei libri.
+     * L'ordinamento è alfabetico per titolo (case-insensitive).
+     * In caso di titoli identici, utilizza l'ISBN per garantire l'unicità nel TreeSet.
+     */
+    
     public class LibroComparator implements Comparator<Libro> {
         @Override
         public int compare(Libro l1, Libro l2) {
@@ -135,12 +142,13 @@ public class Catalogo {
         }
     }
 
-    /*
-      Aggiunge un nuovo libro al catalogo. Se il libro (stesso ISBN) esiste già,
-      aggiorna il numero di copie e restituisce false.
-    * @param nuovoLibro L'oggetto Libro da aggiungere o usare per incrementare le copie.
+    /**
+     * Aggiunge un nuovo libro al catalogo. Se il libro (stesso ISBN) esiste già,
+     * aggiorna il numero di copie e restituisce false.
+     * @param[in] nuovoLibro L'oggetto Libro da aggiungere o usare per incrementare le copie.
      * @return true  se il libro è stato aggiunto come nuovo elemento, false se è stato aggiornato un libro esistente.
      */
+    
     public boolean aggiungiLibro(Libro nuovoLibro) {
         
         Libro libroEsistente = cercaLibroPerISBN(nuovoLibro.getIsbn());
@@ -157,7 +165,13 @@ public class Catalogo {
         }
     }
     
-public boolean incrementaCopie(String isbn) {
+    /**
+     * @brief Incrementa di una unità le copie di un libro dato il suo ISBN.
+     * @param[in] isbn Il codice ISBN del libro.
+     * @return true se il libro esiste ed è stato incrementato, false altrimenti.
+     */
+    
+ public boolean incrementaCopie(String isbn) {
     Libro libro = cercaLibroPerISBN(isbn);   // questo metodo esiste già
     if (libro != null) {
         libro.incrementaCopie(1);            // metodo esistente in Libro
@@ -166,11 +180,12 @@ public boolean incrementaCopie(String isbn) {
     return false;
 }
 
-    /*
-    *Rimuove un libro dal catalogo utilizzando il suo ISBN.
-    * @param isbn Il codice ISBN del libro da rimuovere.
-     * @return true se il libro è stato trovato e rimosso, false altrimenti.
-     */
+    /**
+    *@brief Rimuove un libro dal catalogo utilizzando il suo ISBN.
+    * @param[in] isbn Il codice ISBN del libro da rimuovere.
+    * @return true se il libro è stato trovato e rimosso, false altrimenti.
+    */
+ 
     public boolean eliminaLibro(String isbn) {
         
         
@@ -184,6 +199,20 @@ public boolean incrementaCopie(String isbn) {
         System.out.println("Libro con ISBN " + isbn + " non trovato per l'eliminazione.");
         return false;
     }
+    
+    /**
+     * @brief Modifica i dettagli di un libro esistente.
+     * Gestisce la rimozione e il reinserimento nel TreeSet se i campi che influenzano
+     * l'ordinamento (Titolo o Autore) vengono modificati.
+     * @pre nuoveCopie >= 0
+     * @param[in] isbn L'ISBN del libro da modificare (chiave di ricerca).
+     * @param[in] nuovoTitolo Il nuovo titolo.
+     * @param[in] nuovoAutore Il nuovo autore.
+     * @param[in] nuovoAnnoPb La nuova data di pubblicazione.
+     * @param[in] nuoveCopie Il nuovo numero totale di copie.
+     * @return true se la modifica è avvenuta con successo, false se il libro non è stato trovato.
+     * @throws IllegalArgumentException Se nuoveCopie è negativo.
+     */
     
     public boolean modificaLibro(String isbn, String nuovoTitolo, String nuovoAutore, LocalDate nuovoAnnoPb, int nuoveCopie) 
     {
@@ -232,11 +261,12 @@ public boolean incrementaCopie(String isbn) {
     
     }
     
-    /*
-    * Fornisce una vista osservabile dell'inventario.
+    /**
+    * @brief Fornisce una vista osservabile dell'inventario.
     * Questo è il metodo che il Controller DEVE usare per popolare la TableView.
     * @return ObservableList<Libro> contenente tutti i libri dal TreeSet.
     */
+    
     public ObservableList<Libro> getCatalogoObservableList() {
    
     ObservableList<Libro> observableList = FXCollections.observableArrayList();
@@ -246,7 +276,11 @@ public boolean incrementaCopie(String isbn) {
 }
    
     
-    
+    /**
+     * @brief Salva l'intero inventario su file CSV.
+     * Scrive i dati nel formato: Titolo;Autore;ISBN;Anno pb;Num_Copie.
+     * Gestisce le eccezioni di I/O loggando l'errore.
+     */
     
     public void salvaCSV()
     { 
@@ -273,10 +307,11 @@ public boolean incrementaCopie(String isbn) {
     
     
     /**
-     * Carica i dati del catalogo dal file CSV specificato.
+     * @brief Carica i dati del catalogo dal file CSV specificato.
      * In caso di errore (file non trovato), il catalogo viene inizializzato vuoto.
-     * * Il file viene cercato nella working directory (solitamente la root del progetto).
+     * Il file viene cercato nella working directory (solitamente la root del progetto).
      */
+    
     public void caricaCSV() {
         
         // 1. Pulisce la struttura dati prima del caricamento
@@ -335,11 +370,12 @@ public boolean incrementaCopie(String isbn) {
         }
     }
     
-    /*
-    ** Restituisce una rappresentazione in formato stringa dell'intero catalogo.
-     * I libri vengono elencati in ordine alfabetico per titolo, grazie all'uso del Treeset.
-     * @return Una stringa che elenca tutti i libri nel catalogo o un messaggio se il catalogo è vuoto.
+    /**
+    * @brief Restituisce una rappresentazione in formato stringa dell'intero catalogo.
+    * I libri vengono elencati in ordine alfabetico per titolo, grazie all'uso del Treeset.
+    * @return Una stringa che elenca tutti i libri nel catalogo o un messaggio se il catalogo è vuoto.
     */
+    
     @Override
     public String toString() {
         if (inventarioLibri.isEmpty()) {

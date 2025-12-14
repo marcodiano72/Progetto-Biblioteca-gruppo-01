@@ -1,9 +1,9 @@
-
 /**
-*@file Interfaccia1Controller.java
-*@brief Controller FXML che gestisce l'interfaccia di login dell'applicazione.
-*
-*@version 1.0
+* @file Interfaccia1Controller.java
+* @brief Controller FXML che gestisce l'interfaccia di login dell'applicazione.
+* Gestisce l'autenticazione dell'utente e il passaggio alla schermata principale.
+* @author Gruppo01
+* @version 1.0
 */
 package it.unisa.diem.gruppo01.interfacce;
 
@@ -14,7 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.scene.Node; // Serve per ottenere lo Stage dall'evento
+import javafx.scene.Node; 
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,36 +28,33 @@ import javafx.scene.control.Label;
 
 
 /**
- * FXML Controller class
- * Controller FXML: Interfaccia1Controller (Login)
- * Controllore FXML per l'interfaccia di login (Interfaccia 1).
- * Gestisce l'autenticazione dell'utente confrontando le credenziali inserite
- * con quelle predefinite e, in caso di successo, carica l'interfaccia del Menu Principale.
- *
+ * @brief Controller FXML per l'interfaccia di login.
+ * Gestisce l'autenticazione dell'utente confrontando le credenziali inserite
+ * con quelle predefinite e carica l'interfaccia del Menu Principale.
+ * @invariant usernameField != null
+ * @invariant passwordFile != null
  */
 public class Interfaccia1Controller implements Initializable {
-
-    // Costanti per le credenziali corrette
-    //private static final String NOME_UTENTE_CORRETTO = "MARCO"; ///< Nome utente corretto per l'accesso
-   // private static final String PASSWORD_CORRETTA = "1234"; ///< Password corretta per l'accesso.
     
     // FXML Elements
     @FXML
-    private Button accessButton;
+    private Button accessButton; ///< Bottone per inviare le credenziali.
     @FXML
-    private TextField usernameField;
+    private TextField usernameField; ///< Campo di testo per l'username.
     @FXML
-    private PasswordField passwordFile;
+    private PasswordField passwordFile; ///< Campo nascosto per la password.
     @FXML
-    private Label errorMessageLabel; 
+    private Label errorMessageLabel; ///< Etichetta per messaggi di errore (es. login fallito).
 
-    /*
-    * Metodo chiamato per inizializzare un controller dopo che il suo elemento radice è stato completamente elaborato.
-     * Inizializza l'etichetta degli errori  errorMessageLabel con una stringa vuota.
-     *
-     * @param url L'ubicazione relativa o assoluta del file FXML.
-     * @param rb Le risorse utilizzate per localizzare l'oggetto radice.
-    */
+    /**
+     * @brief Inizializza il controller dopo il caricamento della vista.
+     * Imposta l'etichetta di errore vuota, inizializza il catalogo singleton
+     * e configura il pulsante "Accedi" come pulsante di default per abilitare l'invio con ENTER.
+     * @post errorMessageLabel.getText().isEmpty() == true
+     * @post accessButton.isDefaultButton() == true
+     * @param[in] url L'ubicazione relativa o assoluta del file FXML.
+     * @param[in] rb Le risorse utilizzate per localizzare l'oggetto radice.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         if (errorMessageLabel != null) {
@@ -65,22 +62,30 @@ public class Interfaccia1Controller implements Initializable {
         }
         
         // Inizializza il Catalogo all'avvio dell'app 
-        // 
         Catalogo.getIstanza();
+        
+        // CONFIGURAZIONE INVIO DA TASTIERA
+        // Imposta questo bottone come "Default Button".
+        // In JavaFX, premere ENTER in qualsiasi campo di testo della scena
+        // attiverà automaticamente l'evento di questo bottone.
+        if (accessButton != null) {
+            accessButton.setDefaultButton(true);
+        }
     }
 
     /**
-     * Gestisce l'evento di pressione del tasto "ACCEDI".
-     * Se le credenziali sono corrette (nome utente case-insensitive, password esatta),
-     * procede al caricamento e alla visualizzazione della scena del Menu Principale (Menu_Biblioteca.fxml).
-     * In caso di credenziali errate, visualizza un messaggio di errore e pulisce i campi.
-     * @param event L'evento di azione generato dal clic
+     * @brief Gestisce il tentativo di accesso.
+     * Verifica le credenziali hardcoded. Se corrette, carica la scena del menu.
+     * Altrimenti, mostra un messaggio di errore.
+     * Questo metodo viene invocato sia dal click sul bottone che dalla pressione di ENTER (grazie a setDefaultButton).
+     * @param[in] event L'evento di azione generato (click o Enter).
      */
    @FXML
     private void openMenu(ActionEvent event) {
         String usernameInserito = usernameField.getText();
         String passwordInserita = passwordFile.getText();
 
+        // Verifica credenziali
         if (usernameInserito.equals("MARCO") && passwordInserita.equals("9099")
                 || usernameInserito.equals("GIO") && passwordInserita.equals("9647") 
                 || usernameInserito.equals("NICK") && passwordInserita.equals("1075") 
@@ -90,19 +95,26 @@ public class Interfaccia1Controller implements Initializable {
             System.out.println("Accesso Eseguito con successo! Caricamento del Menu...");
             
             try {
-               
+                // Carica la nuova scena
                 Parent menuParent = FXMLLoader.load(getClass().getResource("/it/unisa/diem/gruppo01/interfacce/Menu_Biblioteca.fxml"));
-                
                 Scene menuScene = new Scene(menuParent);
                 
+                // Ottiene lo Stage corrente.
+                // Nota: Poiché l'evento potrebbe non provenire direttamente da un Node cliccato (es. Enter su TextField),
+                // è più sicuro ottenere lo stage da uno degli elementi noti della scena, come l'accessButton o lo usernameField.
+                Stage window;
+                if (event.getSource() instanceof Node) {
+                     window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                } else {
+                     // Fallback nel caso la source non sia un Node (raro in questo contesto ma possibile)
+                     window = (Stage) accessButton.getScene().getWindow();
+                }
                 
-                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
                 window.setScene(menuScene);
                 window.setTitle("Gestione Biblioteca - Menu Principale"); 
                 window.show();
                 
             } catch (IOException e) {
-                // Stampa l'errore completo per capire cosa non ha trovato (File Not Found o classe non trovata)
                 System.out.println("ERRORE CRITICO nel caricamento del Menu:");
                 e.printStackTrace();
                 
@@ -116,8 +128,11 @@ public class Interfaccia1Controller implements Initializable {
             if (errorMessageLabel != null) {
                 errorMessageLabel.setText("Nome utente o password non validi.");
             }
+            // Pulisce i campi per riprovare
             passwordFile.setText("");
             usernameField.setText("");
+            // Rimette il focus sul campo username per comodità
+            usernameField.requestFocus();
         }
     }
 }

@@ -1,7 +1,9 @@
 /**
 *@file Libro.java
-*@brief Questo file rappresenta un'entità libro all'interno di un sistema di gestione bibliotecaria.
-*
+*@brief Definizione della classe Libro per un sistema di gestione bibliotecaria.
+* Questo file contiene l'implementazione dell'entità Libro, includendo la gestione 
+* dei dati anagrafici e la logica per la gestione delle copie disponibili.
+* @author Gruppo01
 *@version 1.0
 */
 
@@ -15,10 +17,10 @@ package it.unisa.diem.gruppo01.classi;
 import java.time.LocalDate;
 
 /**
- * Classe Libro
- * La classe rappresenta un'entità libro all'interno
- * di un sistema di gestione bibliotecaria. Contiene i dettagli anagrafici del
- * libro e le informazioni sulla sua disponibilità (numero di copie).
+ * @brief Rappresenta un'entità libro in un sistema bibliotecario.
+ * La classe gestisce i dettagli anagrafici del libro e il numero di copie fisiche disponibili.
+ * @invariant numCopie >= 0 Il numero di copie non deve mai essere negativo.
+ * 
  *
  */
 public class Libro {
@@ -26,20 +28,21 @@ public class Libro {
     private String titolo; ///< Titolo del libro.
     private String autore; ///< Autore del libro.
     private LocalDate annoPb; ///< Anno di pubblicazione del libro.
-    private int numCopie; ///< Numero di copie del libro.
+    private int numCopie; ///< Numero di copie disponibili del libro.
     
     
     
     /**
-     * Costruttore della classe
-     * Inizializza i dati del libro.
-     * 
-     * @param isbn Il codice identificativo univoco del libro.
-     * @param titolo Il titolo del libro.
-     * @param autore L'autore del libro.
-     * @param annoPb L'anno di pubblicazione del libro.
-     * @param numCopie Il numero di copie del libro. 
-     * @throws IllegalArgumentException Se il numero di copie è negativo.
+     * @brief Costruttore della classe
+     * Inizializza un nuovo oggetto Libro con i dati forniti.
+     * @pre numCopie >= 0
+     * @post L'oggetto è creato con i valori passati e numCopie inizializzato.
+     * @param[in] isbn Il codice identificativo univoco del libro.
+     * @param[in] titolo Il titolo del libro.
+     * @param[in] autore L'autore del libro.
+     * @param[in] annoPb L'anno di pubblicazione.
+     * @param[in] numCopie Il numero di copie del libro.
+     * @throws IllegalArgumentException Se numCopie è negativo.
      */
     
     public Libro(String isbn, String titolo, String autore, LocalDate annoPb, int numCopie)
@@ -58,8 +61,8 @@ public class Libro {
     }
     
     /**
-     * Restituisce il codice Isbn del libro.
-     * @return Il codice Isbn del libro.
+     * @brief Restituisce il codice Isbn del libro.
+     * @return Il codice Isbn del libro come stringa.
      */
     public String getIsbn()
     {
@@ -67,13 +70,18 @@ public class Libro {
     }
     
     /**
-     * Restituisce il titolo del libro.
+     * @brief Restituisce il titolo del libro.
      * @return Il titolo del libro.
      */
     public String getTitolo()
     {
         return titolo;
     }
+    
+    /**
+     * @brief Imposta un nuovo titolo per il libro.
+     * @param[in] titolo Il nuovo titolo da impostare.
+     */
 
     public void setTitolo(String titolo) {
         this.titolo = titolo;
@@ -84,7 +92,7 @@ public class Libro {
     
     
     /**
-     * Restituisce l'autore del libro.
+     * @brief Restituisce l'autore del libro.
      * @return L'autore del libro.
      */
     public String getAutore()
@@ -92,18 +100,28 @@ public class Libro {
         return autore;
     }
     
+    /**
+     * @brief Imposta un nuovo autore per il libro.
+     * @param[in] autore Il nuovo autore da impostare.
+     */
+    
      public void setAutore(String autore) {
         this.autore = autore;
     }
     
     /**
-     * Restituisce l'anno di pubblicazione del libro.
-     * @return L'anno di pubblicazione del libro.
+     * @brief Restituisce la data di pubblicazione del libro.
+     * @return La data di pubblicazione del libro come oggetto LocalDate.
      */
     public LocalDate getAnnoPb()
     {
         return annoPb;
     }
+    
+    /**
+     * @brief Imposta la data di pubblicazione.
+     * @param[in] annoPb La nuova data di pubblicazione.
+     */
     
     public void setAnnoPb(LocalDate annoPb)
     {
@@ -111,8 +129,8 @@ public class Libro {
     }
     
     /**
-     * Restituisce il numero di copie del libro.
-     * @return Il numero di copie del libro.
+     * @brief Restituisce il numero di copie del libro.
+     * @return Il numero di copie del libro come intero.
      */
     public int getNumCopie()
     {
@@ -120,16 +138,17 @@ public class Libro {
     }
     
     /**
-     * Imposta il numero di copie del libro.
-     * @param numCopie Il nuovo numero di copie da impostare.
+     * @brief Imposta manualmente il numero di copie.
+     * @pre numCopie >= 0
+     * @param[in] numCopie Il nuovo numero di copie.
      */
     public void setNumCopia(int numCopie) {
         this.numCopie = numCopie;
     }
     
     /**
-     * Controlla se il libro è disponibile.
-     * @return true se il numero di copie è maggiore di zero, false altimenti.
+     * @brief Verifica la disponibilità del libro.
+     * @return true se c'è almeno una copia disponibile (numCopie > 0), false altrimenti.
      */
     public boolean isDisponibile()
     {
@@ -138,11 +157,12 @@ public class Libro {
     
    
     /**
-     * Incrementa il numero di copie del libro.
-     * Se il valore (quantita) da aggiungere è maggiore di zero:
-     * Incrementa il numero di copie, aggiungendo quantita,
-     * altrimenti stampa una stringa.
-     * @param quantita Il numero di copie da aggiungere (deve essere positivo).
+     * @brief Incrementa il numero di copie del libro.
+     * Aggiunge una quantità specificata al numero corrente di copie.
+     * @pre quantita > 0.
+     * @post numCopie(nuovo) = numCopie(vecchio valore) + quantita.
+     * @param[in] quantita Il numero di copie da aggiungere.
+     * @throws IllegalArgumentException Se la quantità non è positiva.
      */
     public void incrementaCopie(int quantita)
 {
@@ -156,15 +176,15 @@ public class Libro {
     }
 }
     
-    /**
-     * Restituisce true o false a seconda dell'esito dell'operazione
-     * (Verifica la disponibilità del libro).
-     * Se il numero di copie del libro è superiore a zero:
-     * Decrementa il numero di copie e restituisce true.
-     * Altrimenti non modifica il numero di copie e restituisce false.
-     
-     * @return true se il decremento è riuscito, false se non c'erano copie disponibili.
+   /**
+     * @brief Tenta di decrementare di uno il numero di copie (prestito).
+     * Se ci sono copie disponibili, ne sottrae una e restituisce true.
+     * Altrimenti lascia lo stato invariato e restituisce false.
+     * @post (return == true) AND (numCopie_new == numCopie_old - 1)
+     * @post (return == false) AND (numCopie_new == numCopie_old)
+     * @return true se il decremento è riuscito, false se non c'erano copie.
      */
+     
     
     public boolean decrementaCopie()
     {
@@ -175,13 +195,13 @@ public class Libro {
         return false; // Operazione fallita (libro non disponibile)
     }
     
-    /**
-     * Genera un codice hash basato univocamente sul codice isbn.
-     * Questo supporta la gestione dell'unicità basata sul codice Isbn.
-     * @return Il codice hash.
+   /**
+     * @brief Calcola l'hash code dell'oggetto.
+     * L'hash è calcolato esclusivamente basandosi sull'ISBN per garantire coerenza con equals.
+     * @return Un intero che rappresenta l'hash code.
+     * @see equals(Object obj)
      */
-    
-    //gestione unicità basata sull'ISBN
+   
     @Override
     public int hashCode()
     {
@@ -189,11 +209,11 @@ public class Libro {
         return code;
     }
     
-    /**
-     * Confronta questo oggetto {@code Libro} con un altro oggetto per verificarne l'uguaglianza.
-     * Due libri sono considerati uguali se hanno lo stesso codice Isbn.
-     * @param obj L'oggetto da confrontare con l'istanza corrente.
-     * @return true se l'oggetto è un libro con lo stesso Isbn, false altrimenti.
+   /**
+     * @brief Confronta questo libro con un altro oggetto.
+     * Due libri sono considerati uguali se e solo se hanno lo stesso codice ISBN.
+     * @param[in] obj L'oggetto con cui confrontare questa istanza.
+     * @return true se gli oggetti sono uguali (stesso ISBN), false altrimenti.
      */
     
     @Override
@@ -220,9 +240,9 @@ public class Libro {
     }
     
     /**
-     * Restituisce una rappresentazione in formato stringa dell'oggetto {@code Libro}.
+     * @brief Restituisce una rappresentazione in formato stringa dell'oggetto {@code Libro}.
      * Include Isbn,titolo,autore,anno di pubblicazione e numero di copie.
-     * @return Una stringa contenente i dettagli del libro.
+     * @return Una stringa contenente tutti i dettagli del libro.
      */
     
     

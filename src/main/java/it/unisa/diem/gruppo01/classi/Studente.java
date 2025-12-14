@@ -1,7 +1,10 @@
 /**
 *@file Studente.java
-*@brief Questo file Studente rappresenta un'entità studente all'interno di un sistema di gestione  di una biblioteca.
-*
+*@brief Implementazione dell'entità Studente per il sistema di gestione bibliotecaria.
+* Questo file contiene la classe Studente che gestisce i dati anagrafici,
+* lo stato dei prestiti e le sanzioni.
+* @author Gruppo01
+* 
 *@version 1.0
 */
 
@@ -20,33 +23,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Classe Studente
- * La classe Studente rappresenta un'entità studente
- * all'interno di un sistema di gestione  di una biblioteca.
- * Contiene informazioni anagrafiche, di contatto e relative allo stato dei prestiti.
+ * @brief Rappresenta un'entità studente nel sistema bibliotecario.
+ * La classe mantiene le informazioni personali dello studente, la lista 
+ * dei suoi prestiti attivi e il suo stato (sanzioni, ritardi, abilitazione).
+ * @invariant matricola != null La matricola identifica univocamente lo studente.
+ * 
  *
  */
 public class Studente {
     
     private String nome; ///< Nome dello studente.
     private String cognome; ///< Cognome dello studente.
-    private String matricola; ///< Numero di matricola, utilizzato per l'identificazione unica.
+    private String matricola; ///< Numero di matricola dello studente (identficativo univoco).
     private String email; ///< Indirizzo email dello studente.
     private String sanzione; ///< Descrizione della sanzione eventualmente applicata allo studente.
     private boolean ritardo; ///< Indica se lo studente è in ritardo con la restituzione di un prestito.
-    private List<Prestito> prestitiAttivi; ///< Lista dei prestiti attualmente attivi per lo studente.
-    private Prestito prestito;
+    private List<Prestito> prestitiAttivi; ///< Lista contenente i prestiti attivi dello studente.
+    private Prestito prestito;  ///< Variabile di supporto per verifiche sui prestiti.
     
     /**
-     * Costruttore della classe
-     * Inizializza i dati dello studente e la lista dei prestiti attivi.
-     *
-     * @param nome Il nome dello studente.
-     * @param cognome Il cognome dello studente.
-     * @param matricola Il numero di matricola dello studente.
-     * @param email L'indirizzo email dello studente.
-     * @param sanzione (Non usato, il valore viene sovrascritto a "Nessuna") La descrizione iniziale della sanzione.
-     * @param ritardo (Non usato, il valore viene sovrascritto a false) Lo stato iniziale di ritardo.
+     * @brief Costruttore della classe
+     * Inizializza un nuovo studente con i dati anagrafici forniti e una lista vuota di prestiti.
+     * La sanzione viene inizializzata di default a "Nessuna"
+     * 
+     * @param[in] cognome Il cognome dello studente.
+     * @param[in] nome Il nome dello studente.
+     * @param[in] matricola La matricola univoca.
+     * @param[in] email L'indirizzo email dello studente.
+     * @param[in] sanzione Parametro per la sanzione (Attualmente sovrascritto dal costruttore).
+     * @param[in] ritardo Lo stato iniziale del ritardo.
      */
     public Studente(String cognome, String nome, String matricola, String email, String sanzione, boolean ritardo){
         
@@ -62,55 +67,55 @@ public class Studente {
     
     
     /**
-     * Restituisce il nome dello studente.
-     * @return Il nome dello studente.
+     * @brief Restituisce il nome dello studente.
+     * @return Il nome dello studente come stringa.
      */
     public String getNome(){
         return nome;
     }
     
     /**
-     * Imposta il nome dello studente.
-     * @param nome Il nuovo nome da impostare.
+     * @brief Imposta il nome dello studente.
+     * @param[in] nome Il nuovo nome da impostare.
      */
     public void setNome(String nome){
         this.nome = nome;
     }
     
     /**
-     * Restituisce il cognome dello studente.
-     * @return Il cognome dello studente.
+     * @brief Restituisce il cognome dello studente.
+     * @return Il cognome dello studente come stringa.
      */
     public String getCognome(){
         return cognome;
     }
     
     /**
-     * Imposta il cognome dello studente.
-     * @param cognome Il nuovo cognome da impostare.
+     * @brief Imposta il cognome dello studente.
+     * @param[in] cognome Il nuovo cognome da impostare.
      */
     public void setCognome(String cognome){
         this.cognome = cognome;
     }
     
     /**
-     * Restituisce il numero di matricola dello studente.
-     * @return La matricola dello studente.
+     * @brief Restituisce la matricola dello studente.
+     * @return La matricola dello studente come stringa.
      */
     public String getMatricola(){
         return matricola;
     }
     
     /**
-     * Imposta il numero di matricola dello studente.
-     * @param matricola La nuova matricola da impostare.
+     * @brief Imposta la matricola dello studente.
+     * @param[in] matricola La nuova matricola da impostare.
      */
     public void setMatricola(String matricola){
         this.matricola = matricola;
     }
     
     /**
-     * Restituisce l'indirizzo email dello studente.
+     * @brief Restituisce l'indirizzo email dello studente.
      * @return L'indirizzo email dello studente.
      */
     public String getEmail(){
@@ -118,32 +123,32 @@ public class Studente {
     }
     
     /**
-     * Imposta l'indirizzo email dello studente.
-     * @param email Il nuovo indirizzo email da impostare.
+     * @brief Imposta l'indirizzo email dello studente.
+     * @param[in] email Il nuovo indirizzo email da impostare.
      */
     public void setEmail(String email){
         this.email = email;
     }
     
     /**
-     * Restituisce la lista dei prestiti attivi dello studente.
-     * @return La lista di oggetti attivi.
+     * @brief Restituisce la lista dei prestiti attivi dello studente.
+     * @return La lista di oggetti Prestito.
      */
       public List<Prestito> getPrestitiAttivi(){
         return prestitiAttivi;
     }
       
      /**
-      * Aggiunge un prestito alla lista dei prestiti attivi.
-     * @param p L'oggetto da aggiungere.
+      * @brief Aggiunge un nuovo prestito alla lista dei prestiti attivi dello studente.
+     * @param[in] p L'oggetto Prestito da aggiungere.
      */
       public void aggiungiPrestito(Prestito p){
         prestitiAttivi.add(p);
     }
     
      /**
-     * Restituisce il numero di prestiti attualmente attivi.
-     * @return Il numero di prestiti attivi.
+     * @brief Conta il numero di prestiti attualmente attivi.
+     * @return Il numero intero di prestiti attivi nella lista.
      */
     public int contaPrestitiAttivi(){
       
@@ -151,18 +156,24 @@ public class Studente {
     }
     
     /**
-     * Restituisce la descrizione della sanzione dello studente.
+     * @brief Restituisce lo stato della sanzione.
      * @return La stringa che descrive lo stato di sanzione.
      */
 public String getSanzione(){ return sanzione; }
     
     /**
-     * Imposta la sanzione.
-     * Cerca tra i prestiti se ce n'è uno che viola le regole.
+     * @brief Imposta lo stato della sanzione.
+     * @param[in] sanzione La descrizione della sanzione da applicare.
      */
     public void setSanzione(String sanzione){
         this.sanzione = sanzione;
     }
+    
+    /**
+     * @brief Verifica se lo studente è in stato di ritardo.
+     * Il ritardo è determinato se lo studente non è abilitato e ha meno di 3 prestiti.
+     * @return true se lo studente è in ritardo, false altrimenti.
+     */
     
     public boolean isRitardo(){
         if(!this.isAbilitato() && this.prestitiAttivi.size()<3)
@@ -171,8 +182,8 @@ public String getSanzione(){ return sanzione; }
     }
     
     /**
-     * Imposta il flag ritardo.
-     * Scansiona i prestiti attivi. Se ne trova uno con giorni > 0, scatta il flag.
+     * @brief Imposta manualmente il flag di ritardo.
+     * @param[in] ritardo Il valore booleano da impostare.
      */
     public void setRitardo(boolean ritardo){
         this.ritardo = ritardo; // Reset
@@ -180,9 +191,14 @@ public String getSanzione(){ return sanzione; }
     }
     
     /**
-     * Determina se lo studente è abilitato.
-     * Forza il ricalcolo dello stato prima di rispondere.
+     * @brief Verifica se lo studente è abilitato a richiedere nuovi prestiti.
+     * Uno studente NON è abilitato se:
+     * - Ha 3 o più prestiti attivi.
+     * - Ha una sanzione di "Categoria 3".
+     * - Ha una sanzione di "Categoria 2" legata a un prestito scaduto da meno di 30 giorni.
+     * @return true se lo studente può effettuare prestiti, false altrimenti.
      */
+    
     public boolean isAbilitato(){
         if(this.prestitiAttivi.size()>=3)
             return false;
@@ -196,15 +212,22 @@ public String getSanzione(){ return sanzione; }
             return true;
     }
     
+    /**
+     * @brief Rimuove un prestito dalla lista dei prestiti attivi.
+     * @post prestitiAttivi.size() == old(prestitiAttivi.size()) - 1 (se p era presente)
+     * @param[in] p Il prestito da rimuovere.
+     */
+    
     public void rimuoviPrestito(Prestito p){
         prestitiAttivi.remove(p);
     }
     
     /**
-     * Genera un codice hash basato unicamente sulla matricola.
-     * Questo supporta la gestione dell'unicità basata sulla matricola.
-     * @return Il codice hash.
-     */
+     * @brief Genera l'hash code basato sulla matricola.
+     * @return Il codice hash.
+     * @see equals(Object obj)
+     */
+    
     @Override
     public int hashCode()
     {
@@ -213,10 +236,10 @@ public String getSanzione(){ return sanzione; }
     }
     
     /**
-     * Confronta questo oggetto {@code Studente} con un altro oggetto per verificarne l'uguaglianza.
+     * @brief Confronta questo oggetto {@code Studente} con un altro oggetto per verificarne l'uguaglianza.
      * Due studenti sono considerati uguali se hanno la stessa matricola.
-     * @param obj L'oggetto da confrontare.
-     * @return true se gli oggetti sono uguali (stessa matricola), false altrimenti.
+     * @param[in] obj L'oggetto da confrontare.
+     * @return true se le matricole coincidono, false altrimenti.
      */
     
     @Override
@@ -243,7 +266,7 @@ public String getSanzione(){ return sanzione; }
     }
     
     /**
-    * Restituisce una rappresentazione in formato stringa dell'oggetto {@code Studente}.
+    * @brief Restituisce una rappresentazione in formato stringa dell'oggetto {@code Studente}.
     * Include nome, cognome, matricola, email, numero di prestiti attivi,
     * stato della sanzione e stato di abilitazione al prestito.
     * @return Una stringa contenente i dettagli dello studente.

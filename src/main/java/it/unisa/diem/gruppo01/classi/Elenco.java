@@ -1,14 +1,17 @@
 /**
-*@file Elenco.java
-*@brief Questo file gestisce l'elenco di tutti gli studenti registrati nel sistema.
-*
-*@version 1.0
+* @file Elenco.java
+* @brief Questo file gestisce l'elenco di tutti gli studenti registrati nel sistema.
+* Include le operazioni di gestione della collezione (aggiunta, rimozione, ricerca, modifica)
+* e la persistenza dei dati su file (CSV).
+* @author Gruppo01
+* @version 1.0
 */
 
 /*
  * Questo package contiene le classi relative alla gestione degli strumenti,
  * contesto: Gestione di una biblioteca.
  */
+
 package it.unisa.diem.gruppo01.classi;
 
 import java.io.BufferedOutputStream;
@@ -34,21 +37,21 @@ import java.time.format.DateTimeFormatter;
  
 
 /**
- * Classe Elenco
- * La classe gestisce l'elenco di tutti gli studenti registrati nel sistema.
+ * @brief Classe che gestisce il registro degli studenti.
  * Utilizza una collezione ordinata per mantenere gli studenti
  * organizzati in base al cognome in ordine alfabetico. 
  */
+
 public class Elenco {
 
-    private String NOME_FILE_CSV = "Lista_studenti.csv";
-    private TreeSet<Studente> elencoStudenti; ///< Insieme ordinato (TreeSet) degli studenti.
+    private String NOME_FILE_CSV = "Lista_studenti.csv"; ///< Nome del file CSV per il salvataggio.
+    private TreeSet<Studente> elencoStudenti; ///< Insieme ordinato (TreeSet) degli studenti (ordinamento per Cognome, poi Matricola).
 
    
     
     /**
-     * Costruttore della classe.
-     * Inizializza l'elenco degli studenti utilizzando un comparatore personalizzato.
+     * @brief Costruttore della classe.
+     * Inizializza l'elenco vuoto degli studenti utilizzando un comparatore personalizzato.
      */
     public Elenco() 
     {
@@ -56,8 +59,8 @@ public class Elenco {
     }
     
     /**
-     * Restituisce l'intera collezione degli studenti.
-     * @return Un TreeSet contenente gli oggetti Studente.
+     * @brief Restituisce l'intera collezione degli studenti.
+     * @return Il TreeSet contenente gli oggetti Studente.
      */
     public TreeSet<Studente> getElencoStudenti()
     {
@@ -65,12 +68,13 @@ public class Elenco {
     }
     
     /**
-     * Cerca uno studente all'interno dell'elenco tramite la matricola.
+     * @brief Cerca uno studente all'interno dell'elenco tramite la matricola.
      * Il metodo scorre la collezione.
-     * @param matricola La matricola univoca dello studente da cercare.
+     * @param[in] matricola La matricola univoca dello studente da cercare.
      * @return L'oggetto Studente se trovato, altrimenti null.
      */
-    // Metodo  per trovare uno studente per matricola 
+    
+  
     public Studente cercaStudenteperMatricola(String matricola) {
         for (Studente studente : elencoStudenti) {
             if (studente.getMatricola().equals(matricola)) {
@@ -81,21 +85,21 @@ public class Elenco {
     }
     
     /**
-     * Classe comparatore interna.
-     * Stabilisce la logica di ordinamento degli studenti all'interno del TreeSet.
-     * L'ordinamento naturale è per cognome (case-insensitive),
-     * quello secondario (in caso di anomalia) è per matricola.
+     * @brief Comparatore interno per la classe Studente.
+     * Stabilisce la logica di ordinamento degli studenti all'interno del TreeSet:
+     * 1. Per Cognome(case-insensitive).
+     * 2. Per Matricola (in caso di stesso cognom).
      */
-    
-     // Comparator per definire l'ordinamento per cognome dello Studente (alfabetico e insensibile al caso)
+   
     public class StudentComparator implements Comparator<Studente> {
         
         /**
-         * Effettua il confronto tra due studenti.
-         * @param s1 Il primo studente.
-         * @param s2 Is secondo studente.
+         * @brief Confronta due studenti
+         * @param[in] s1 Il primo studente.
+         * @param[in] s2 Is secondo studente.
          * @return Un intero negativo, zero o positivo se s1 è rispettivamente minore, uguale o maggiore di s2.
          */
+        
         @Override
         public int compare(Studente s1, Studente s2) {
             // Confronta i cognome
@@ -110,11 +114,12 @@ public class Elenco {
     }
 
     /**
-     * Aggiunge un nuovo studente all'elenco.
-     * Verifica se esiste un altro studente avente la stessa matricola.
-     * @param nuovoStudente L'oggetto da aggiungere.
-     * @return true se l'inserimento è riuscito, false altrimenti.
+     * @brief Aggiunge un nuovo studente all'elenco.
+     * Verifica se esiste un altro studente con la stessa matricola.
+     * @param[in] nuovoStudente L'oggetto Studente da aggiungere.
+     * @return true se l'inserimento è riuscito, false se la matricola è già presente.
      */
+    
     public boolean aggiungiStudente(Studente nuovoStudente) {
         
         Studente studenteEsistente = cercaStudenteperMatricola(nuovoStudente.getMatricola());
@@ -131,21 +136,21 @@ public class Elenco {
     
     
 /**
- * Modifica i dati anagrafici di uno studente già presente nell'elenco.
- * @param matricola La matricola dello studente.
- * @param nuovoNome Il nuovo nome da assegnare.
- * @param nuovoCognome Il nuovo cognome da assegnare.
- * @param nuovaEmail La nuova email da assegnare.
- * @return true se la modifica è andata a buon fine, false se lo studente non è stato trovato.
+ * @brief Modifica i dati anagrafici di uno studente già presente nell'elenco.
+ * @param[in] matricola La matricola dello studente.
+ * @param[in] nuovoNome Il nuovo nome da assegnare.
+ * @param[in] nuovoCognome Il nuovo cognome da assegnare.
+ * @param[in] nuovaEmail La nuova email da assegnare.
+ * @return true se la modifica è riuscita, false se la matricola non esiste.
  */
 
-    // Funzione per modificare i dati dello studente
+    
     public boolean modificaStudente(String matricola, String nuovoNome, String nuovoCognome, String nuovaEmail) {
-        // Cerca lo studente con la matricola fornita
+       
         Studente studente = cercaStudenteperMatricola(matricola);
         
             if (studente != null) {
-                //Rimuoviamo lo studente prima di modificarlo.
+              
                 elencoStudenti.remove(studente);
              
                  //Modifichiamo i dati
@@ -153,37 +158,44 @@ public class Elenco {
                 studente.setCognome(nuovoCognome);
                 studente.setEmail(nuovaEmail);
                 
-               //Reinseriamo lo studente (il TreeSet ricalcola la posizione corretta).
+              
                elencoStudenti.add(studente);
-                // Restituisce true se la modifica è stata effettuata
+                
                 return true;
             }
         
-        // Restituisce false se lo studente non è stato trovato
+    
         return false;
     }
     
     /**
-     * Rimuove uno studente dall'elenco.
-     * @param matricola La matricola dello studente da eliminare.
-     * @return true se la rimozione è andata a buon fine, false se lo studente non è stato trovato.
+     * @brief Rimuove uno studente dall'elenco.
+     * @param[in] matricola La matricola dello studente da eliminare.
+     * @return true se lo studente è stato trovato e rimosso, false altrimenti.
      */ 
     
 
-   // Funzione per cancellare uno studente
     public boolean eliminaStudente(String matricola) {
-        // Cerca lo studente con la matricola fornita
+       
         for (Studente studente : elencoStudenti) {
             if (studente.getMatricola().equals(matricola)) {
-                // Se trovato, rimuove lo studente dalla lista
+                
                 elencoStudenti.remove(studente);
-                // Restituisce true se la cancellazione è riuscita
+                
                 return true;
             }
         }
-        // Restituisce false se lo studente non è stato trovato
+      
         return false;
     }
+    
+    /**
+     * @brief Salva l'elenco degli studenti su file binario (DOS).
+     * Scrive sequenzialmente i dati primitivi degli studenti e i loro prestiti.
+     * @param[in] nomeFile Il percorso del file di destinazione.
+     * @throws FileNotFoundException Se il file non può essere creato.
+     * @throws IOException Se si verifica un errore di scrittura.
+     */
     
         public void salvaDOS(String nomeFile) throws FileNotFoundException, IOException {
         
@@ -226,7 +238,14 @@ public class Elenco {
         
     }
     
-        public void salvaCSV() {
+     /**
+     * @brief Salva l'elenco degli studenti e i relativi prestiti su file CSV.
+     * Il formato appiattisce la relazione: se uno studente ha prestiti, 
+     * vengono scritti i dettagli del prestito nella stessa riga.
+     * @post Viene generato il file "Lista_studenti.csv".
+     */ 
+        
+   public void salvaCSV() {
     final String SEPARATORE = ";";
     final String NOME_FILE_CSV = "Lista_studenti.csv"; 
 
@@ -291,8 +310,12 @@ public class Elenco {
 }
         
 /**
- * Carica gli studenti dal file CSV nel TreeSet, gestendo righe multiple (prestiti).
+ * @brief Carica gli studenti e i prestiti dal file CSV.
+ * Gestisce la logica "uno-a-molti" raggruppando le righe CSV tramite matricola (HashMap)
+ * prima di popolare il TreeSet finale.
+ * @post elencoStudenti viene popolato con i dati letti.
  */
+   
 public void caricaDati() {
     
     HashMap<String, Studente> studentiMappa = new HashMap<>(); 
@@ -393,7 +416,7 @@ public void caricaDati() {
     this.elencoStudenti.addAll(studentiMappa.values()); 
 }
     /**
-     * Restituisce una rappresentazione in formato stringa dell'intero elenco.
+     * @brief Restituisce una rappresentazione in formato stringa dell'intero elenco.
      * @return Una stringa con l'elenco degli studenti o un messaggio, se l'elenco è vuoto.
      * 
      */

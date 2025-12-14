@@ -1,7 +1,9 @@
 /**
-*@file Elenco.java
+*@file Prestito.java
 *@brief Questo file gestisce i dettagli di un singolo prestito di un libro.
-*
+*Contiene la logica per tracciare le date di inizio, scadenza e restituzione,
+*e per calcolare eventuali ritardi e le relative sanzioni.
+* @author Gruppo01
 *@version 1.0
 */
 
@@ -15,20 +17,18 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 /**
- * Classe Prestito
- * La classe gestisce i dettagli di un singolo prestito di un libro
- * a uno studente. Contiene informazioni sul libro, lo studente e le date temporali
- * necessarie per calcolare lo stato e le eventuali sanzioni.
- *
+ * @brief Classe che rapresenta un singolo prestito di un libro a uno studente.
+ * Mantiene le associazioni tra Libro e Studente e gestisce il ciclo di vita
+ * del prestito (inizio, scadenza, restituzione).
  */
 public class Prestito {
     
    
-    public static final int DURATA_PRESTITO = 50; /// Costante per la durata base del prestito (50 giorni come da specifica)
+    public static final int DURATA_PRESTITO = 50; ///< Costante per la durata base del prestito (50 giorni come da specifica)
     
-    public static final int LIMITE_PRESTITI = 3; /// Limite massimo di prestiti attivi prima che scattino le sanzioni in caso di ritardo (3).
+    public static final int LIMITE_PRESTITI = 3; ///< Limite massimo di prestiti attivi prima che scattino le sanzioni in caso di ritardo (3).
 
-    public static final String NESSUN_RITARDO = "Nessun ritardo riscontrato.";
+    public static final String NESSUN_RITARDO = "Nessun ritardo riscontrato."; ///< Messaggio per indicare l'assenza di ritardi.
     
     private Libro libro; ///< Il libro oggetto del prestito.
     private Studente studente; ///< Lo studente che ha richiesto il prestito.
@@ -38,12 +38,12 @@ public class Prestito {
     
     
     /**
-     * Costruttore per creare un nuovo oggetto.
-     * @param libro Il libro preso in prestito.
-     * @param studente Lo studente che prende in prestito il libro.
-     * @param dataInizio La data in cui il prestito è iniziato.
-     * @param dataScadenza La data in cui il prestito scade.
-     * @param dataRestituzione La data in cui è stato restituito.
+     * @brief Costruttore per creare un nuovo oggetto Prestito.
+     * @param[in] libro Il libro preso in prestito.
+     * @param[in] studente Lo studente che prende in prestito il libro.
+     * @param[in] dataInizio La data in cui il prestito è iniziato.
+     * @param[in] dataScadenza La data in cui il prestito scade.
+     * @param[in] dataRestituzione La data in cui è stato restituito.
      */
     public Prestito(Libro libro, Studente studente, LocalDate dataInizio, LocalDate dataScadenza, LocalDate dataRestituzione){
         
@@ -55,87 +55,88 @@ public class Prestito {
     }
     
     /**
-     * Restituisce l'oggetto associato a questo prestito.
-     * @return Il libro.
+     * @brief Restituisce il libro associato a questo prestito.
+     * @return L'oggetto libro.
      */
     public Libro getLibro(){
         return libro;
     }
     
     /**
-     * Restituisce l'oggetto associato a questo prestito.
-     * @return Il libro.
+     * @brief imposta il libro associato a questo prestito.
+     * @param[in] libro Il nuovo oggetto Libro.
      */
     public void setLibro(Libro libro){
         this.libro = libro;
     }
     
     /**
-     * Restituisce l'oggetto associato a questo prestito.
-     * @return Lo studente.
+     * @brief Restituisce lo studente che ha effettuato il prestito.
+     * @return L'oggetto Studente.
      */
     public Studente getStudente(){
         return studente;
     }
     
     /**
-     * Imposta l'oggetto associato a questo prestito.
-     * @param studente Il nuovo studente.
+     * @brief Imposta lo studente associato a questo prestito.
+     * @param[in] studente Il nuovo oggetto Studente.
      */
     public void setStudente(Studente studente){
         this.studente = studente;
     }
     
     /**
-     * Restituisce la data di inizio del prestito.
-     * @return La data di inizio.
+     * @brief Restituisce la data di inizio del prestito.
+     * @return La data di inizio come Localdate.
      */
     public LocalDate getDataInizio(){
         return dataInizio;
     }
     
     /**
-     * Imposta la data di inizio del prestito.
-     * @param dataInizio La nuova data di inizio.
+     * @brief Imposta la data di inizio del prestito.
+     * @param[in] dataInizio La nuova data di inizio.
      */
     public void setDataInizio(LocalDate dataInizio){
         this.dataInizio = dataInizio;
     }
     
     /**
-     * Restituisce la data di scadenza del prestito.
-     * @return La data di scadenza.
+     * @brief Restituisce la data di scadenza del prestito.
+     * @return La data di scadenza come LocalDate.
      */
     public LocalDate getDataScadenza(){
         return dataScadenza;
     }
     
     /**
-     * Imposta la data di scadenza del prestito.
-     * @param dataScadenza La nuova data di scadenza.
+     * @brief Imposta la data di scadenza del prestito.
+     * @param[in] dataScadenza La nuova data di scadenza.
      */
     public void setDataScadenza(LocalDate dataScadenza){
         this.dataScadenza = dataScadenza;
     }
     
     /**
-     * Restituisce la data effettiva di restituzione.
-     * @return La data di restituzione, o se il libro non è stato ancora restituito.
+     * @brief Restituisce la data effettiva di restituzione.
+     * @return La data di restituzione, o null se il libro non è stato ancora restituito.
      */
     public LocalDate getDataRestituzione(){
         return dataRestituzione;
     }
     
     /**
-     * Imposta la data effettiva di restituzione.
-     * @param dataRestituzione La nuova data di restituzione.
+     * @brief Imposta la data effettiva di restituzione.
+     * Questo metodo segna la conclusione del prestito.
+     * @param[in] dataRestituzione La data in cui il libro è stato restituito.
      */
     public void setDatarestituzione(LocalDate dataRestituzione){
         this.dataRestituzione = dataRestituzione;
     }
     
     /**
-     * Verifica se il prestito è ancora attivo.
+     * @brief Verifica se il prestito è ancora attivo.
      * Un prestito è attivo se dataRestituzione è null.
      * @return true se il prestito è attivo, false altrimenti.
      */
@@ -143,10 +144,12 @@ public boolean isPrestitoAttivo(){
         return this.dataRestituzione == null;
     }
     
-/**
-     * Calcola i giorni di ritardo.
-     * CORREZIONE FONDAMENTALE: Se il libro non è stato restituito, confronta con OGGI.
-     */
+    /**
+    * @brief Calcola i giorni di ritardo rispetto alla scadenza.
+    *  Se il libro è stato restituito, calcola la differenza tra la data di restituzione e la scadenza.
+    * Se il prestito è ancora attivo, confronta la scadenza con la data odierna.
+    *  @return Il numero di giorni di ritardo (intero positivo). Restituisce 0 se non c'è ritardo.
+    */
     public int calcolaGiorniRitardo(){
         // Se dataRestituzione è null (libro ancora in mano allo studente), usiamo OGGI
         LocalDate dataFine = (this.dataRestituzione != null) ? this.dataRestituzione : LocalDate.now();
@@ -157,6 +160,15 @@ public boolean isPrestitoAttivo(){
         return giorni > 0 ? (int) giorni : 0;
     }
         
+    /**
+     * @brief Determina la categoria della sanzione basata sui giorni di ritardo.
+     * Le categorie sono:
+     * - Nessun ritardo.
+     * - Categoria 1 (1-10 gg): Blocco lieve.
+     * - Categoria 2 (11-20 gg): Blocco 30 giorni.
+     * - Categoria 3 (>20 gg): Blocco permanente.
+     *  @return Una stringa descrittiva della sanzione applicabile.
+     */
     public String gestioneSanzioni() {
         int giorniRitardo = this.calcolaGiorniRitardo();
 
@@ -176,7 +188,7 @@ public boolean isPrestitoAttivo(){
     
     
     /**
-     * Restituisce una appresentazione in formato stringa dell'oggetto.
+     * @brief Restituisce una appresentazione in formato stringa dell'oggetto.
      * Include lo stato del prestito, le date temporali, l'eventuale ritardo e l'esito della sanzione applicabile.
      * @return Una stringa contenente i dettagli completi del prestito.
      */

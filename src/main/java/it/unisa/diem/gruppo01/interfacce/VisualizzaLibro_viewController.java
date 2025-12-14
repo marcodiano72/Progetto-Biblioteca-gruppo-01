@@ -1,8 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @file VisualizzaLibro_viewController.java
+ * @brief Controller per la visualizzazione dei dettagli di un libro.
+ * Gestisce l'interfaccia che mostra i dati (titolo, autore, Isbn, anno,numcopie)
+ * e la disponibilità di un libro specifico selezionato da catalogo.
+ * @author Gruppo01
+ * @version 1.0
  */
+
+
 package it.unisa.diem.gruppo01.interfacce;
 
 import it.unisa.diem.gruppo01.classi.Libro;
@@ -23,25 +28,30 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 /**
- * FXML Controller class
- *
- * @author Utente
+ * @brief Classe controller per la finestra di visualizzazione dettagli libro.
+ * Riceve un oggetto Libro dal controller principale (GestioneLibriController)
+ * e popola le label con le informazioni corrispondenti.
  */
+
 public class VisualizzaLibro_viewController implements Initializable {
 
     @FXML
-    private Label titolo;
+    private Label titolo; ///< Label per visualizzare il titolo del libro.
     @FXML
-    private Label autore;
+    private Label autore; ///< Label per visualizzare l'autore del libro.
     @FXML
-    private Label isbn;
+    private Label isbn;   ///< Label per visualizzare l'ISBN del libro.
     @FXML
-    private Label anno;
+    private Label anno;   ///< Label per visualizzare l'anno di pubblicazione del libro. 
     @FXML
-    private Label copie;
+    private Label copie;  ///< Label per visualizzare il numero di copie disponibili.
 
-    /**
-     * Initializes the controller class.
+   /**
+     * @brief Inizializza il controller.
+     * Metodo chiamato in automatico dopo il caricamento del file FXML.
+     * Imposta le label a uno stato di default (trattino) prima del caricamento dei dati.
+     * @param url La posizione usata come base per i percorsi relativi dell’oggetto radice, o null se sconosciuta.
+     * @param rb Le risorse utilizzate per localizzare l'oggetto radice.
      */
         @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -51,13 +61,16 @@ public class VisualizzaLibro_viewController implements Initializable {
     }    
 
     /**
-     * Metodo fondamentale: riceve lo studente selezionato e popola la vista.
-     * @param s Lo studente da visualizzare.
+     * @brief Imposta i dati del libro nell'interfaccia.
+     * Questo metodo deve essere chiamato dal controller chiamante per passare
+     * l'oggetto Libro selezionato. Aggiorna le label della vista con i dettagli del libro.
+     * @param[in] l L'oggetto Libro da visualizzare. Se null, il metodo interrompe l'esecuzione.
      */
+    
     public void setDatiLibro(Libro l) {
         if (l == null) return;
 
-        // 1. Popola i dati anagrafici
+        // Popola i dati anagrafici
         titolo.setText(l.getTitolo());
         autore.setText(l.getAutore());
         isbn.setText(l.getIsbn());
@@ -66,18 +79,30 @@ public class VisualizzaLibro_viewController implements Initializable {
 
     }
 
+    /**
+     * @brief Resetta le label dell'interfaccia.
+     * Imposta il testo di tutti i campi a un trattino "-" per indicare
+     * l'assenza di dati o lo stato iniziale.
+     */
+    
     private void resetLabels() {
         titolo.setText("-"); autore.setText("-"); isbn.setText("-");
         anno.setText("-"); copie.setText("-"); 
     }
 
+    /**
+     * @brief Gestisce la chiusura della finestra.
+     * Recupera lo Stage corrente e lo chiude,
+     * riportando l'utente alla schermata precedente.
+     * @param[in] event L'evento generato dal click sul pulsante di chiusura.
+     */
 
     @FXML
     private void chiudiFinestra(ActionEvent event) {
-    // 1. Ottieni lo Stage (la finestra) corrente partendo dal pulsante che ha scatenato l'evento
+    
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     
-    // 2. Chiudi la finestra
+    //  Chiudi la finestra
     stage.close();
 }
     

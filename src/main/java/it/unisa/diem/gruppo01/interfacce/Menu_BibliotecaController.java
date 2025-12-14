@@ -4,7 +4,7 @@
  * Gestisce la navigazione verso le diverse sezioni di gestione (Libri, Studenti, Prestiti)
  * e inizializza i modelli dati principali (Catalogo e Elenco) per l'intera applicazione.
  *
- *@author gruppo01
+ *@author Gruppo01
  *@version 1.0
 */
 

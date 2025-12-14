@@ -3,7 +3,7 @@
  *@brief Controller FXML per la schermata di gestione degli studenti.
  * Gestisce l'interfaccia utente per l'aggiunta, la modifica, la ricerca e l'eliminazione
  * degli studenti nel sistema bibliotecario, interagendo con l'oggetto  elenco
-*@author gruppo01
+*@author Gruppo01
 *@version 1.0
 */
 package it.unisa.diem.gruppo01.interfacce;

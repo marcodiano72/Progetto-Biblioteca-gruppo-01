@@ -1,11 +1,10 @@
-/*
+/**
 *@file Interfaccia_nuovoPrestitoController.java
- *@brief Controller FXML per la gestione dei prestiti e delle restituzioni.
+ *@brief Controller per la gestione dei prestiti e delle restituzioni.
  * Gestisce l'interfaccia utente per registrare un nuovo prestito (dopo aver
  * verificato l'abilitazione dello studente e la disponibilità del libro)
  * e per registrare una restituzione (applicando eventuali sanzioni).
- *
- *@author gruppo01
+ *@author Gruppo01
  *@version 1.0
 */
 package it.unisa.diem.gruppo01.interfacce;
@@ -48,52 +47,55 @@ import javafx.stage.Stage;
 public class Interfaccia_nuovoPrestitoController implements Initializable {
 
     @FXML
-    private TextField inserisciM;
+    private TextField inserisciM;   ///< Campo input matricola per nuovo prestito.
     @FXML
-    private TextField inserisciN;
+    private TextField inserisciN;   ///< Campo visualizzazione Nome studente.
     @FXML
-    private TextField inserisciC;
+    private TextField inserisciC;   ///< Campo visualizzazione Cognome studente.
     @FXML
-    private TextField inserisciE;
+    private TextField inserisciE;   ///< Campo visualizzazione Email studente.
+    @FXML 
+    private CheckBox spuntaU;    ///< CheckBox (disabilitata) che indica se lo studente è abilitato
     @FXML
-    private CheckBox spuntaU;
+    private TextField inserisciT;  ///< Campo input titolo Libro
     @FXML
-    private TextField inserisciT;
+    private TextField inserisciA;  ///< Campo input autore Libro
     @FXML
-    private TextField inserisciA;
+    private CheckBox spuntaL;    ///< CheckBox (disabilitata) che indica se il libro è disponibile.
     @FXML
-    private CheckBox spuntaL;
+    private Button salvaP;   ///< Pulsante per confermare il nuovo prestito.
     @FXML
-    private Button salvaP;
+    private TextField inserisciMa;   ///< Campo input matricola per restituzioni.
+    @FXML 
+    private TextField inserisciISBN;  ///< Campo input ISBN per restituzioni.
     @FXML
-    private TextField inserisciMa;
+    private Button salvaRes;    ///< Pulsante per confermare la restituzione.
     @FXML
-    private TextField inserisciISBN;
+    private Button exitApp;     ///< Pulsante per chiudere l'applicazione.
     @FXML
-    private Button salvaRes;
+    private Button menuPButton;   ///< Pulsante per tornare al menù principale.
     @FXML
-    private Button exitApp;
-    @FXML
-    private Button menuPButton;
-    @FXML
-    private ComboBox<String> statoLibroBox;
+    private ComboBox<String> statoLibroBox;   ///< Menù a tendina per indicare lo stato del libro restituito.
     
     
     
-    private Elenco elencoStudenti;
-    private Catalogo catalogoLibri;
+    private Elenco elencoStudenti;   ///< Riferimento all'elenco studenti.
+    private Catalogo catalogoLibri;  ///< Riferimento al catalogo libri.
     
     
     //variabile per tenere traccia dello studente corrente
-    private Studente studenteCorrente;
+    private Studente studenteCorrente;   ///< Lo studente attualmente identificato per un nuovo prestito.
     
     //variabile per memorizzare il liro trovato
-    private Libro libroCorrente = null;
+    private Libro libroCorrente = null;   ///< Il libro attualmente identificato per un nuovo prestito.
  
     
     
     /**
-     * Metodo per passare i dati al controller
+     * @brief Imposta le dipendenze del controller.
+     * Permette il passaggio delle istanze condivise di Elenco e di Catalogo dal Menù Principale.
+     * @param[in] elencoStudenti L'istanza dell'elenco degli studenti.
+     * @param[in] catalogoLibri L'istanza del catalogo dei libri. 
      */
     
     public void setDati(Elenco elencoStudenti, Catalogo catalogoLibri){
@@ -103,9 +105,12 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
     }
     
     
-    /**
-     * Initializes the controller class.
-     */
+   /**
+    * @brief Inizializza il controller e lo stato della GUI.
+    * Configura i listener per i campi di testo e inizializza la ComboBox per lo stato del libro.
+    * @param[in] url La posizione usata come base per i percorsi relativi dell’oggetto radice
+    * @param[in] rb Le risorse utilizzate per localizzare l'oggetto radice.
+    */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -131,6 +136,11 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
        
     }   
     
+    /**
+     * @brief Resetta lo stato di selezione del libro.
+     * Viene chiamato quando l'utente modifica i campi di ricerca libro.
+     */
+    
     private void resetLibro(){
         spuntaL.setSelected(false);
         libroCorrente = null;
@@ -138,9 +148,12 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
     }
 
     /**
-     * Gestisce l'inserimento della matricola per la ricerca dello studente
-     * @param event 
+     * @brief Gestisce la ricerca dello studente tramite matricola.
+     * Verifica se lo studente esiste e controlla i requisiti per il prestito (abilitazione e ritardi).
+     * Se idoneo, sblocca i campi per la selezione del libro.      
+     * @param[in] event L'evento generato dall'interazione utente.
      */
+    
    @FXML
     private void inserisciMatricola(ActionEvent event) {
         String matricola = inserisciM.getText();
@@ -195,7 +208,12 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
         }
     }
     
-  
+  /**
+   * @brief Ricerca automaticamente un libro nel catalogo in base a Titolo e Autore.
+   * Controlla se il libro esiste e se ci sono copie disponibili.
+   * @param[in] event L'evento generato dai campi di testo Titolo e Autore.
+   */
+    
    @FXML
     private void ricercaAutomaticaLibro(ActionEvent event) {
         // 1. Prendo i testi e rimuovo spazi inutili
@@ -248,6 +266,17 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
         }
     }
 
+    
+    /**
+     * @brief Salva il nuovo prestito.
+     * Esegue le seguenti operazioni:
+     * 1. Decrementa le copie disponibili del libro.
+     * 2. Crea un nuovo oggetto Prestito.
+     * 3. Associa il prestito allo Studente.
+     * 4. Salva le modifiche sul file CSV (Studenti e libri).
+     * @param[in] event L'evento di click sul pulsante Salva. 
+     */
+    
     @FXML
     private void salvaPrestito(ActionEvent event) {
         
@@ -297,14 +326,38 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
         }
     }
 
+    /**
+     * @brief Metodo (vuoto) per l'inserimento della matricola.
+     * Attualmente non implementato. 
+     * Non è utilizzato.
+     * @param[in] event L'evento scatenante.
+     */
+    
+   
     @FXML
     private void inserisceMatricola(ActionEvent event) {
     }
 
+    
+     /**
+     * @brief Metodo (vuoto) per l'inserimento dell'ISBN.
+     * Attualmente non implementato.
+     * Non è utilizzato.
+     * @param[in] event L'evento scatenante.
+     */
+    
     @FXML
     private void inserisceISBN(ActionEvent event) {
     }
 
+    
+    /**
+     * @brief Gestisce la restituzione di un libro.
+     * Identifica il prestito tramite matricola e ISBN, calcola eventuali sanzioni,
+     * chiude il prestito impostando la data di restituzione e incrementa le copie disponibili. 
+     * @param[in] event L'evento di click sul pulsante Salva Restituzioe.
+     */
+    
     @FXML
     private void salvaRestituzione(ActionEvent event) {
        
@@ -384,7 +437,11 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
            mostraAlert(AlertType.ERROR, "Errore", "Si è verificato un problema durante la restituzione.");
        }     
     }
-    
+   
+    /**
+     * @brief Gestisce la chiusura della finestra corrente.
+     * @param[in] event L'evento di click sul pulsante di uscita.
+     */
      @FXML
     private void exitPFile(ActionEvent event) {
         
@@ -395,7 +452,11 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
         stageExit.close();
     }
     
-    //Metodo per attivare/disattivare i campi del libro
+  /**
+   * @brief Abilita o disabilita i campi di testo per la ricerca del libro.
+   * Utilizzato per bloccare l'interfaccia finché non viene validato uno studente.
+   * @param[in] stato true per abilitare i campi, false per disabilitarli. 
+   */
     
    public void gestisciCampiLibro(boolean stato){
         inserisciT.setDisable(!stato);
@@ -412,6 +473,13 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
         }
     }
     
+   /**
+    * @brief Mostra un alert all'utente.
+    * @param[in] type Il tipo di alert.
+    * @param[in] titolo Il titolo della finestra.
+    * @param[in] contenuto Il messaggio da visualizzare.
+    */
+   
     public void mostraAlert(AlertType type, String titolo, String contenuto ){
         
         Alert alert = new Alert(type);
@@ -423,6 +491,10 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
         
     }
     
+    /**
+     * @brief Resetta i campi anagrafici e blocca la sezione libri.
+     */
+    
     public void pulisciCampiAnagrafici(){
         inserisciN.clear();
         inserisciC.clear();
@@ -432,12 +504,22 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
         gestisciCampiLibro(false);
     }
     
+    /**
+     * @brief Pulisce i campi della sezione restituzioni.
+     */
+    
     public void pulisciCampiRestituzione(){
         inserisciMa.clear();
         inserisciISBN.clear();
         statoLibroBox.setValue(null);
         
     }
+    
+    /**
+     * @brief Gestisce il ritorno al Menu Principale.
+     * Carica il file FXML del menu, imposta la nuova scena e chiude quella corrente.
+     * @param[in] event L'evento di click sul pulsante.
+     */
     
      @FXML
     private void menuPReturn(ActionEvent event) {

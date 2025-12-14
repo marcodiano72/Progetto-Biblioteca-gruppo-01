@@ -3,7 +3,7 @@
 *@brief Controller FXML per la schermata di gestione dei libri nel sistema bibliotecario.
 *Gestisce le interazioni utente per aggiungere, modificare, cercare, eliminare e salvare
 *i dati dell'inventario.
-*@author gruppo01
+*@author Gruppo01
 *@version 1.0
 */
 

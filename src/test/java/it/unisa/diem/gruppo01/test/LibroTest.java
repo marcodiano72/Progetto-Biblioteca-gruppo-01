@@ -10,8 +10,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Classe di test per la classe Libro (mirata al 100% di copertura).
+ * @file LibroTest.java
+ * @brief Test unitari per la classe libro.
+ * @author Gruppo01
+ * @version 1.0
  */
+
 public class LibroTest {
     
     // Oggetto base per i test
@@ -22,6 +26,13 @@ public class LibroTest {
     private final LocalDate DATA_BASE = LocalDate.of(2020, 10, 15);
     private final int COPIE_BASE = 5;
     
+    
+    /**
+     * @brief Configurazione iniziale eseguita prima di ogni test.
+     * Inizializza un oggetto Libro con valori noti per garantire 
+     * l'indipendenza dei test l'uno dall'altro.
+     */
+    
     @BeforeEach
     public void setUp() {
         // Inizializza un nuovo oggetto Libro prima di ogni test
@@ -30,7 +41,9 @@ public class LibroTest {
     
     // I metodi @BeforeAll, @AfterAll, e @AfterEach possono rimanere vuoti per semplicità in questo caso.
     
-    // --- Test del Costruttore ---
+  /**
+   * @brief Verifica che il costruttore crei correttamente l'oggetto con parametri validi.
+   */
     
     @Test
     public void testCostruttore_ValoriValidi() {
@@ -39,6 +52,11 @@ public class LibroTest {
         assertEquals(ISBN_BASE, libroDiTest.getIsbn(), "ISBN non corretto.");
         assertEquals(COPIE_BASE, libroDiTest.getNumCopie(), "Numero copie non corretto.");
     }
+    
+    /**
+     * @brief Verifica che il costruttore lanci un'eccezione se il numero di copie è negativo.
+     * 
+     */
 
     @Test
     public void testCostruttore_CopieNegative_Eccezione() {
@@ -50,7 +68,9 @@ public class LibroTest {
     }
 
 
-    // --- Test dei Getter e Setter ---
+  /**
+   * @brief Verifica il corretto funzionamento dei metodi getter e setter.
+   */
 
     @Test
     public void testGetIsbn() {
@@ -114,7 +134,9 @@ public class LibroTest {
         assertEquals(nuoveCopie, libroDiTest.getNumCopie());
     }
 
-    // --- Test della Logica di Disponibilità ---
+    /**
+     * @brief Verifica isDisponibile() quando il numero di copie è > 0.
+     */
     
     @Test
     public void testIsDisponibile_True() {
@@ -122,6 +144,9 @@ public class LibroTest {
         assertTrue(libroDiTest.isDisponibile(), "Dovrebbe essere disponibile con 5 copie.");
     }
     
+    /**
+     * @brief Verifica isDisponibile() quando le copie sono esaurite (=0).
+     */
     @Test
     public void testIsDisponibile_False() {
         System.out.println("Test isDisponibile: Copie = 0.");
@@ -129,6 +154,10 @@ public class LibroTest {
         assertFalse(libroDiTest.isDisponibile(), "Non dovrebbe essere disponibile con 0 copie.");
     }
 
+    /**
+     * @brief Verifica il corretto incremento delle copie.
+     */
+    
     @Test
     public void testIncrementaCopie_Successo() {
         System.out.println("Test incrementaCopie: Quantità positiva.");
@@ -136,6 +165,11 @@ public class LibroTest {
         libroDiTest.incrementaCopie(quantita);
         assertEquals(COPIE_BASE + quantita, libroDiTest.getNumCopie(), "Le copie dovrebbero essere incrementate.");
     }
+    
+    /**
+     * @brief Verifica che il metodo incrementaCopie lanci un'eccezione 
+     * se la quantità è 0.
+     */
     
     @Test
     public void testIncrementaCopie_Zero_Eccezione() {
@@ -145,6 +179,11 @@ public class LibroTest {
                      "Deve lanciare IllegalArgumentException per quantità zero.");
     }
     
+    /**
+     * @brief verifica che il metodo incrementaCopie lanci un'eccezione 
+     * se la quantità è negativa.
+     */
+    
     @Test
     public void testIncrementaCopie_Negativa_Eccezione() {
         System.out.println("Test incrementaCopie: Quantità negativa (IllegalArgumentException).");
@@ -153,6 +192,11 @@ public class LibroTest {
                      "Deve lanciare IllegalArgumentException per quantità negativa.");
     }
 
+    
+    /**
+     * @brief Verifica il metodo decrementaCopie() quando il libro è disponibile.
+     */
+    
     @Test
     public void testDecrementaCopie_Successo() {
         System.out.println("Test decrementaCopie: Copie disponibili.");
@@ -161,6 +205,10 @@ public class LibroTest {
         assertEquals(copiePrima - 1, libroDiTest.getNumCopie(), "Le copie devono essere decrementate di 1.");
     }
 
+    /**
+     * @brief Verifica il metodo decrementaCopie() quando le copie sono a 0.
+     */
+    
     @Test
     public void testDecrementaCopie_Fallimento() {
         System.out.println("Test decrementaCopie: Copie non disponibili.");
@@ -169,7 +217,9 @@ public class LibroTest {
         assertEquals(0, libroDiTest.getNumCopie(), "Le copie devono rimanere 0.");
     }
 
-    // --- Test di Hashing e Uguaglianza ---
+    /**
+     * @brief Verifica che due oggetti diversi con lo stesso ISBN abbiano lo stesso HashCode.
+     */
 
     @Test
     public void testHashCode_Uguali() {
@@ -178,6 +228,10 @@ public class LibroTest {
         
         assertEquals(libroDiTest.hashCode(), altroLibro.hashCode(), "L'hashCode deve essere uguale se l'ISBN è uguale.");
     }
+    
+    /**
+     * @brief Verifica che due oggetti con ISBN diversi abbiano HashCode diversi.
+     */
 
     @Test
     public void testHashCode_Diversi() {
@@ -186,6 +240,10 @@ public class LibroTest {
         
         assertNotEquals(libroDiTest.hashCode(), altroLibro.hashCode(), "L'hashCode deve essere diverso se l'ISBN è diverso.");
     }
+    
+   /**
+    * @brief Verifica hashCode() nel caso di campi nulli o non standard.
+    */
     
     @Test
     public void testHashCode_ISBNNull() {
@@ -201,12 +259,20 @@ public class LibroTest {
         // Eseguiamo il test con un oggetto creato apposta (se possibile, altrimenti affidiamoci alla copertura)
     }
 
+    /**
+     * @brief Verifica della proprietà riflessiva di equals().
+     */
+    
     @Test
     public void testEquals_True_StessoOggetto() {
         System.out.println("Test equals: Stesso oggetto.");
         assertTrue(libroDiTest.equals(libroDiTest), "Deve essere true per lo stesso oggetto.");
     }
 
+    /**
+     * @brief Verifica che se due oggetti hanno lo stesso ISBN allora sono uguali.
+     */
+    
     @Test
     public void testEquals_True_StessoISBN() {
         System.out.println("Test equals: Stesso ISBN, Dati Diversi.");
@@ -215,6 +281,10 @@ public class LibroTest {
         
         assertTrue(libroDiTest.equals(altroLibro), "Deve essere true se l'ISBN è lo stesso.");
     }
+    
+    /**
+     * @brief Test di disuguaglianza con ISBN diversi.
+     */
 
     @Test
     public void testEquals_False_ISBN_Diverso() {
@@ -224,11 +294,19 @@ public class LibroTest {
         assertFalse(libroDiTest.equals(altroLibro), "Deve essere false se l'ISBN è diverso.");
     }
     
+    /**
+     * @brief Test del metodo equals() con null.
+     */
+    
     @Test
     public void testEquals_False_OggettoNull() {
         System.out.println("Test equals: Oggetto null (copertura del blocco if(obj == null)).");
         assertFalse(libroDiTest.equals(null), "Deve essere false se l'oggetto è null.");
     }
+    
+    /**
+     * @brief Test del metodo equals() con tipi diversi.
+     */
     
     @Test
     public void testEquals_False_ClasseDiversa() {
@@ -236,7 +314,9 @@ public class LibroTest {
         assertFalse(libroDiTest.equals(new Object()), "Deve essere false se la classe è diversa.");
     }
 
-    // --- Test di Stampa ---
+    /**
+     * @brief Verifica che il metodo toString() restituisce il formato atteso.
+     */
 
     @Test
     public void testToString() {

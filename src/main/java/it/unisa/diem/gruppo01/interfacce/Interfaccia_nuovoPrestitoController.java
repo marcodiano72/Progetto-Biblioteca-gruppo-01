@@ -326,29 +326,6 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
         }
     }
 
-    /**
-     * @brief Metodo (vuoto) per l'inserimento della matricola.
-     * Attualmente non implementato. 
-     * Non è utilizzato.
-     * @param[in] event L'evento scatenante.
-     */
-    
-   
-    @FXML
-    private void inserisceMatricola(ActionEvent event) {
-    }
-
-    
-     /**
-     * @brief Metodo (vuoto) per l'inserimento dell'ISBN.
-     * Attualmente non implementato.
-     * Non è utilizzato.
-     * @param[in] event L'evento scatenante.
-     */
-    
-    @FXML
-    private void inserisceISBN(ActionEvent event) {
-    }
 
     
     /**

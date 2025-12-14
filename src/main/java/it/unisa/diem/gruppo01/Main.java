@@ -25,7 +25,7 @@ public class Main extends Application {
 
     
     /*
-     * Il metodo start è il punto di inizio principale per tutte le applicazioni JavaFX.
+     * @brief Il metodo start è il punto di inizio principale per tutte le applicazioni JavaFX.
      * Viene chiamato automaticamente dopo che l'applicazione è stata lanciata.
      * @param primaryStage Lo Stage (la finestra principale) fornito dal sistema.
      * @throws IOException Se il file FXML specificato non può essere caricato.
@@ -45,7 +45,7 @@ public class Main extends Application {
     }
 
     
-    /*Metodo per il salvataggio automatico alla chiusura.
+    /*@brief Metodo per il salvataggio automatico alla chiusura.
     *Viene invocato in metodo sul contenitore dei libri, per dalvare lo 
     *stato corrente dell'inverntario sul file csv, prima che 
     *l'applicazione chiuda
@@ -59,7 +59,7 @@ public class Main extends Application {
     }
     
     /*
-     * Il metodo main standard di Java.
+     * @brief Il metodo main standard di Java.
      * L'unica sua funzione è chiamare il metodo
      * che avvia JavaFX e chiama il metodo start()}.
      *

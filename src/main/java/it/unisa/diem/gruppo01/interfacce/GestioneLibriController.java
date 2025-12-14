@@ -1,7 +1,9 @@
 /**
 *@file GestioneLibriController.java
-*@brief file per gestire le interazioni utente al fine di aggiungere, modificare, cercare, eliminare e salvare
-*
+*@brief Controller FXML per la schermata di gestione dei libri nel sistema bibliotecario.
+*Gestisce le interazioni utente per aggiungere, modificare, cercare, eliminare e salvare
+*i dati dell'inventario.
+*@author gruppo01
 *@version 1.0
 */
 
@@ -42,18 +44,20 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * Gestisce le interazioni utente per aggiungere, modificare, cercare, eliminare e salvare
  * l'inventario dei libri.
  *
- * @author Utente
  */
 public class GestioneLibriController implements Initializable {
 
+    // CAMPI FXML
     @FXML
-    private TableView<Libro> tableViewLibri;
+    private TableView<Libro> tableViewLibri; ///<Tabella per la visualizzazione dell'inventario dei libri.
     @FXML
-    private TableColumn<Libro, String> colonnaTitolo;  
+    private TableColumn<Libro, String> colonnaTitolo; ///< Colonna per visualizzare il titolo del libro
     @FXML
-    private TableColumn<Libro, String> colonnaAutore;
+    private TableColumn<Libro, String> colonnaAutore;///<Colonna per visualizzare l'autore del libro.
     @FXML
-    private TableColumn<Libro, String> colonnaIsbn;
+    private TableColumn<Libro, String> colonnaIsbn;///<Colonna per visualizzare l'ISBN del libro.
+   
+    // Campi di input per Aggiunta/Modifica
     @FXML
     private TextField tfTitolo;
     @FXML
@@ -62,18 +66,24 @@ public class GestioneLibriController implements Initializable {
     private TextField tfIsbn;
     @FXML
     private TextField tfAnno;
+    
+    // Pulsanti di Azione
     @FXML
     private Button addLButton;
     @FXML
     private ImageView addButton;
     @FXML
     private Button modLButton;
+    
+    // Campi di input per Ricerca
     @FXML
     private TextField tfTitoloRicerca;
     @FXML
     private TextField tfAutoreRicerca;
     @FXML
     private TextField tfIsbnRicerca;
+    
+
     @FXML
     private Button searchLButton;
     @FXML
@@ -81,29 +91,39 @@ public class GestioneLibriController implements Initializable {
     @FXML
     private Button exitLButton;
     @FXML
-    private Button saveLButton;
+    private Button saveLButton; ///< Pulsante per salvare l'inventario su file (CSV).
     @FXML
-    private Button menuButton;
+    private Button menuButton; ///< Pulsante per tornare al menu principale.
    @FXML
-    private Label lblMessaggioricerca;
+    private Label lblMessaggioricerca; ///< Etichetta per visualizzare messaggi di stato o di errore relativi alla ricerca.
    
 
-    // Dichiariamo un'istanza del Catalogo.
-    private Catalogo catalogo ;
     
-    // Lista che punterà ai dati del Catalogo per la TableView
-    private ObservableList<Libro> datiTabella;
+    private Catalogo catalogo ; ///< Istanza del Catalogo, il modello dati che contiene tutti i libri.
+    
+    private ObservableList<Libro> datiTabella; ///< Lista che punterà ai dati del Catalogo per la TableView
   
+    
+    /*
+     * Metodo per inserire l'istanza del Catalogo nel controller.
+     * È cruciale per l'interazione con il modello di dati. Inizializza anche l'ObservableList
+     * e la collega alla TableView.
+     * @param catalogo L'istanza del Catalogo da utilizzare
+    */
     public void setCatalogo(Catalogo catalogo) {
         this.catalogo = catalogo;
         // Carica la TableView solo DOPO aver ricevuto l'istanza corretta
         this.datiTabella = FXCollections.observableArrayList(catalogo.getInventarioLibri()); 
         tableViewLibri.setItems(datiTabella); ///< Collegamento Lista -> Tabella (usa la lista del Controller)
         
-        System.out.println("Catalogo iniettato in GestioneLibriController. Dati caricati nella tabella.");
+        System.out.println("Catalogo inserito in GestioneLibriController. Dati caricati nella tabella.");
     }
    
-     
+    
+    /*
+    * Aggiorna l' ObservableList  e di conseguenza la TableView
+    * con i dati  presenti nel Catalogo.
+    */
     private void aggiornaInterfaccia(){
         datiTabella.clear();
         datiTabella.addAll(catalogo.getInventarioLibri());
@@ -112,21 +132,19 @@ public class GestioneLibriController implements Initializable {
     
     /*
     * Metodo chiamato per inizializzare un controller dopo che il suo elemento radice è stato completamente elaborato.
-     * Viene utilizzato per setup iniziali, come l'impostazione dei listener o il caricamento dei dati di default.
-     *
+     * Configura il binding delle colonne della tabella con gli attributi dell'oggetto Libro
+     * e imposta il gestore eventi per il doppio clic sulla tabella.
      * @param url L'ubicazione relativa o assoluta del file FXML.
      * @param rb Le risorse utilizzate per localizzare l'oggetto radice.
     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Collegamento Colonne -> attributi classe libro
-        //(new PropertyValueFactory(")) questo metodo per ogni libro passato cerca l'attributo che si specifica 
-        //all'interno delle parentesi, o meglio cerca il metodo getAttributo(), prende qel valore e lo inserisce nella casella.
+        
+       // Configurazione del PropertyValueFactory (binding colonna -> attributo Libro)
         colonnaTitolo.setCellValueFactory(new PropertyValueFactory("titolo"));
         colonnaAutore.setCellValueFactory(new PropertyValueFactory("autore"));
         colonnaIsbn.setCellValueFactory(new PropertyValueFactory("isbn"));
-        
-                //Aggiungiamo un gestore di eventi del mouse alla tabella
+         
         
         tableViewLibri.setOnMouseClicked(event ->{
             //Controlla se è un doppio click (lick count == 2) e se è una riga selezionata
@@ -140,6 +158,11 @@ public class GestioneLibriController implements Initializable {
     }
     
     
+    /*
+    * Carica la vista dettagliata di un libro selezionato in una nuova finestra.
+    * Trasferisce i dati del libro selezionato al controller VisualizzaLibro_viewController.
+    *
+    */
     private void apriDettagliLibro(Libro l){
         
         try{
@@ -192,14 +215,13 @@ public class GestioneLibriController implements Initializable {
         //Controllo campi vuoti (in caso di mancata compilazione mostra avviso)
         if(titolo.isEmpty() || autore.isEmpty() || isbn.isEmpty() || annoP.isEmpty()){
             
-            //Alert è una finestra pre-programmata da Java che serve per mostrare messaggi
-            //Questa riga costruisce la finestra
             
-            Alert alert = new Alert(Alert.AlertType.WARNING);   //AlertType.Warning mostra un'icona triangolo gialla (Avviso)
-            alert.setTitle("Dati mancanti");  //Titolo che compare nella parte alta della finestra
-            alert.setHeaderText(null); //L'alert è diviso in due parti l'Header e il testo normale. In questo caso non cè Header
-            alert.setContentText("Attenzione: devi compilare tutti i campi"); //testo normale
-            alert.showAndWait(); //show() mostra la finestra e ...AndWait() signific che il codice si interrompe
+            
+            Alert alert = new Alert(Alert.AlertType.WARNING);   ///< AlertType.Warning mostra un'icona triangolo gialla (Avviso)
+            alert.setTitle("Dati mancanti");  ///< Titolo che compare nella parte alta della finestra
+            alert.setHeaderText(null); 
+            alert.setContentText("Attenzione: devi compilare tutti i campi"); 
+            alert.showAndWait(); ///< show() mostra la finestra e ...AndWait() significa che il codice si interrompe una volta mostrata
             return;
         }
         
@@ -207,7 +229,7 @@ public class GestioneLibriController implements Initializable {
     int anno = Integer.parseInt(annoP);
     LocalDate annoPubblicazione = LocalDate.of(anno, 1, 1);
 
-    // Controllo: stesso titolo, autore, isbn e anno
+    // Controllo per libro identico (incrementare copie anziché aggiungere un nuovo elemento)
     boolean libroIdenticoTrovato = false;
     for (Libro libroEsistente : catalogo.getInventarioLibri()) {
         if (libroEsistente.getTitolo().equalsIgnoreCase(titolo) &&
@@ -225,7 +247,7 @@ public class GestioneLibriController implements Initializable {
     alert.setHeaderText(null);
 
     if (!libroIdenticoTrovato) {
-        // aggiunta normale
+        // aggiunta di un nuovo elemento
         Libro nuovoLibro = new Libro(isbn, titolo, autore, annoPubblicazione, 1);
         catalogo.aggiungiLibro(nuovoLibro);
         alert.setContentText("Libro aggiunto al catalogo con successo");
@@ -235,7 +257,7 @@ public class GestioneLibriController implements Initializable {
 
     alert.showAndWait();
 
-    // aggiorna tabella
+    // aggiorna tabella e pulisce i campi
     datiTabella.clear();
     datiTabella.addAll(catalogo.getInventarioLibri());
 
@@ -264,11 +286,14 @@ public class GestioneLibriController implements Initializable {
         tfAnno.clear();
     }
 
+    
     /*
     * Gestisce l'evento di clic sul pulsante Modifica Libro.
-     *  Funzionalità: Cerca un libro tramite un identificatore (es. ISBN) e aggiorna
+     *  Funzionalità: Cerca un libro tramite un identificatore e aggiorna
      * i suoi dettagli (es. titolo, autore o numero di copie) con i valori presenti nei campi di testo.
-     *
+     * Richiede che un libro sia selezionato.
+     * Non consente la modifica dell'ISBN.
+     * Se un campo è lasciato vuoto, mantiene il valore esistente del libro.
      * @param event L'evento di azione generato dal clic.
     */
   @FXML
@@ -284,14 +309,14 @@ private void modLibri(ActionEvent event) {
         return;
     }
 
-    // ISBN chiave (non lo modifichi nel catalogo)
+    // L'ISBN è la chiave nel Catalogo e non può essere modificato
     String isbnDaModificare = libroSelezionato.getIsbn();
 
-    // 2. Recupera i dati dai campi di input
+    // Recupera i dati dai campi di input
     String nuovoTitolo = tfTitolo.getText();
     String nuovoAutore = tfAutore.getText();
 
-//CONTROLLO ISBN NON MODIFICABILE ***
+// Controllo esplicito per l'ISBN (non deve cambiare)
 String nuovoIsbn = tfIsbn.getText().trim();
 if (!nuovoIsbn.isEmpty() && !nuovoIsbn.equals(libroSelezionato.getIsbn())) {
     Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -303,7 +328,7 @@ if (!nuovoIsbn.isEmpty() && !nuovoIsbn.equals(libroSelezionato.getIsbn())) {
 }
     String nuovoAnnoPb = tfAnno.getText();
 
-    // 3. Se un campo è vuoto o solo spazi, mantieni il valore esistente
+    //Se un campo è vuoto o solo spazi, mantieni il valore esistente
     if (nuovoTitolo == null || nuovoTitolo.isEmpty()) {
         nuovoTitolo = libroSelezionato.getTitolo();
     }
@@ -334,7 +359,7 @@ if (!nuovoIsbn.isEmpty() && !nuovoIsbn.equals(libroSelezionato.getIsbn())) {
     // numero copie invariato
     int copieEsistenti = libroSelezionato.getNumCopie();
 
-    // 4. Chiamata al catalogo
+    // Chiamata al catalogo per modificare i dati
     boolean successo = catalogo.modificaLibro(
             isbnDaModificare,
             nuovoTitolo,
@@ -344,7 +369,7 @@ if (!nuovoIsbn.isEmpty() && !nuovoIsbn.equals(libroSelezionato.getIsbn())) {
     );
 
     if (successo) {
-        // 5. Aggiorna la TableView
+        //Aggiorna la TableView
         datiTabella.clear();
         datiTabella.addAll(catalogo.getInventarioLibri());
         tableViewLibri.refresh();
@@ -364,6 +389,10 @@ if (!nuovoIsbn.isEmpty() && !nuovoIsbn.equals(libroSelezionato.getIsbn())) {
 }
     
     /*
+    * Gestisce l'evento di clic sul pulsante Cerca Libro (searchLButton).
+    * Filtra l'inventario dei libri visualizzati nella TableView in base
+    * ai criteri inseriti nei campi di ricerca (Titolo, Autore, ISBN).
+    * @param event L'evento di azione generato dal clic.
     
     */
 
@@ -387,10 +416,10 @@ if (!nuovoIsbn.isEmpty() && !nuovoIsbn.equals(libroSelezionato.getIsbn())) {
             ObservableList<Libro> risultatiRicerca = FXCollections.observableArrayList();
             
             
-            //Scorriamo la lista originale (listaLibri) per trovare il libri desiderato.
+            //Scorro la lista originale (listaLibri) per trovare il libri desiderato.
             
             for(Libro libro: datiTabella){
-                //Controlliamo se il campo di ricerca è vuoto oppure se il libro ha quel Titolo,Autore e Isbn
+                //Controll0 se il campo di ricerca è vuoto oppure se il libro ha quel Titolo,Autore e Isbn
                 
                 boolean titoloTrovato = titoloCercato.isEmpty() || libro.getTitolo().toLowerCase().contains(titoloCercato);
                 boolean autoreTrovato = autoreCercato.isEmpty() || libro.getAutore().toLowerCase().contains(autoreCercato);
@@ -402,7 +431,7 @@ if (!nuovoIsbn.isEmpty() && !nuovoIsbn.equals(libroSelezionato.getIsbn())) {
             }
             }
             
-            //A questo punto mostriamo nella tabella i risultati trovati
+            //Aggiorna la TableView con i risultati
             tableViewLibri.setItems(risultatiRicerca);
            
             //Gestione MESSAGGIO
@@ -421,17 +450,17 @@ if (!nuovoIsbn.isEmpty() && !nuovoIsbn.equals(libroSelezionato.getIsbn())) {
     
     */
 
-    @FXML
+   
    /**
      * Gestisce l'eliminazione di un libro selezionato dalla TableView.
      * Chiede conferma all'utente prima di procedere.
-     * * @param event L'evento di azione (es. click sul pulsante Elimina).
+     * @param event L'evento di azione (es. click sul pulsante Elimina).
      */
-   
+    @FXML
     private void deleteLibri(ActionEvent event) {
         
        
-        // TEST INIZIALIZZAZIONE CATALOGO: Se vedi l'alert, il Catalogo non è stato iniettato.
+        // TEST INIZIALIZZAZIONE CATALOGO: Se appare l'alert, il Catalogo non è stato caricato.
         if (catalogo == null) {
              Alert alertDebug = new Alert(Alert.AlertType.ERROR);
              alertDebug.setTitle("Errore Interno");
@@ -465,7 +494,7 @@ if (!nuovoIsbn.isEmpty() && !nuovoIsbn.equals(libroSelezionato.getIsbn())) {
          Optional<ButtonType> result = conferma.showAndWait();
 
         
-        // 4. Esegue l'eliminazione solo se l'utente ha premuto OK
+        //  Esegue l'eliminazione solo se l'utente ha premuto OK
         if (result.isPresent() && result.get() == ButtonType.OK) 
         {
             // Esegue l'azione sul modello (Catalogo)
@@ -482,28 +511,34 @@ if (!nuovoIsbn.isEmpty() && !nuovoIsbn.equals(libroSelezionato.getIsbn())) {
                 errore.showAndWait();
             }
         }
-        // Se l'utente preme ANNULLA, il codice termina qui.
+        
     }
     
  
     
     /*
+    * Gestisce l'evento di clic sul pulsante Esci (exitLButton).
+     * Chiude la finestra corrente.
+     * @param event L'evento di azione generato dal clic.
     
     */
-
     @FXML
     private void exitL(ActionEvent event) {
+        
         Node exit = (Node) event.getSource();
-        
         Stage stageExit = (Stage) exit.getScene().getWindow();
-        
         stageExit.close();
     }
     
-    /*
     
-    */
-
+    /*
+    * Gestisce l'evento di clic sul pulsante Salva (saveLButton).
+     * Invocando catalogo.salvaCSV(), persiste lo stato attuale del Catalogo
+     * su un file in formato CSV.
+     *
+     * @param event L'evento di azione generato dal clic.
+     * @throws IOException Se si verifica un errore durante la scrittura del file.
+     */
     @FXML
     private void saveLFile(ActionEvent event) throws IOException {
         //Salvataggio con CSV: salva manualmente in file csv
@@ -512,6 +547,13 @@ if (!nuovoIsbn.isEmpty() && !nuovoIsbn.equals(libroSelezionato.getIsbn())) {
     }
     
     
+    /*
+     * Gestisce l'evento di clic sul pulsante Menu' (menuButton).
+     * Carica la vista del Menu Principale e trasferisce l'istanza del Catalogo
+     * al nuovo controller (Menu_BibliotecaController) prima di mostrare la scena.
+     *
+     * @param event L'evento di azione generato dal clic.
+    */
     @FXML
     private void menuReturn(ActionEvent event) {
           

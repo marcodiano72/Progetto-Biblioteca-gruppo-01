@@ -3,7 +3,7 @@
 *@brief Questo file gestisce i dettagli di un singolo prestito di un libro.
 *Contiene la logica per tracciare le date di inizio, scadenza e restituzione,
 *e per calcolare eventuali ritardi e le relative sanzioni.
-* @author Gruppo01
+*@author Gruppo01
 *@version 1.0
 */
 

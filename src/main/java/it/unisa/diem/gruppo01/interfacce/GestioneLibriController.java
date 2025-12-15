@@ -101,7 +101,7 @@ public class GestioneLibriController implements Initializable {
     
     private Catalogo catalogo ; ///< Istanza del Catalogo, il modello dati che contiene tutti i libri.
     
-    private ObservableList<Libro> datiTabella = FXCollections.observableArrayList();; ///< Lista che punterà ai dati del Catalogo per la TableView
+    private ObservableList<Libro> datiTabella = FXCollections.observableArrayList(); ///< Lista che punterà ai dati del Catalogo per la TableView
   
     
     /*
@@ -110,7 +110,7 @@ public class GestioneLibriController implements Initializable {
      * e la collega alla TableView.
      * @param catalogo L'istanza del Catalogo da utilizzare
     */
-  /*  public void setCatalogo(Catalogo catalogo) {
+   public void setCatalogo(Catalogo catalogo) {
         this.catalogo = catalogo;
         // Carica la TableView solo DOPO aver ricevuto l'istanza corretta
         this.datiTabella = FXCollections.observableArrayList(catalogo.getInventarioLibri()); 
@@ -118,7 +118,7 @@ public class GestioneLibriController implements Initializable {
         
         System.out.println("Catalogo inserito in GestioneLibriController. Dati caricati nella tabella.");
     }
-   */
+   
     
     /*
     * @brief Metodo che aggiorna l' ObservableList  e di conseguenza la TableView
@@ -139,18 +139,18 @@ public class GestioneLibriController implements Initializable {
     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-     catalogo = new Catalogo();
+     //catalogo = new Catalogo();
        // Configurazione del PropertyValueFactory (binding colonna -> attributo Libro)
         colonnaTitolo.setCellValueFactory(new PropertyValueFactory("titolo"));
         colonnaAutore.setCellValueFactory(new PropertyValueFactory("autore"));
         colonnaIsbn.setCellValueFactory(new PropertyValueFactory("isbn"));
          
          // CARICA I DATI DAL FILE CSV
-        catalogo.caricaCSV();
+       // catalogo.caricaCSV();
     
         // AGGIORNA LA VIEW con i dati caricati
-        datiTabella.addAll(catalogo.getInventarioLibri());
-        tableViewLibri.setItems(datiTabella);
+      //  datiTabella.addAll(catalogo.getInventarioLibri());
+      //  tableViewLibri.setItems(datiTabella);
         
         tableViewLibri.setOnMouseClicked(event ->{
             //Controlla se è un doppio click (lick count == 2) e se è una riga selezionata

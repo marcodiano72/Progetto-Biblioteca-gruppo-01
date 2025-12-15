@@ -135,7 +135,7 @@ public class Menu_BibliotecaController implements Initializable {
             Parent libriParent = loader.load();
 
             GestioneLibriController libriController = loader.getController();
-            
+            libriController.setCatalogo(this.catalogo);
             Scene libriScene = new Scene(libriParent);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(libriScene);

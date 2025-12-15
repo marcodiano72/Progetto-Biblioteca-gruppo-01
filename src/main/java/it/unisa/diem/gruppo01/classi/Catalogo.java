@@ -296,7 +296,7 @@ public class Catalogo {
             pw.append(l.getTitolo()).append(";");
             pw.append(l.getAutore()).append(";");
             pw.append(l.getIsbn()).append(";");
-            pw.append(l.getAnnoPb().toString()).append(";");
+            pw.append(String.valueOf(l.getAnnoPb().getYear())).append(";");
             pw.println(l.getNumCopie()); 
             
         }

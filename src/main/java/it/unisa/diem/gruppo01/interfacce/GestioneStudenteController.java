@@ -1,5 +1,5 @@
 /**
-*@file GestioneLibriStudente.java
+*@file GestioneStudenteController.java
  *@brief Controller FXML per la schermata di gestione degli studenti.
  * Gestisce l'interfaccia utente per l'aggiunta, la modifica, la ricerca e l'eliminazione
  * degli studenti nel sistema bibliotecario, interagendo con l'oggetto  elenco

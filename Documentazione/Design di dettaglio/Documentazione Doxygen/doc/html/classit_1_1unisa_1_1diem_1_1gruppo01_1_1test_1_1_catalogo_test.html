@@ -91,208 +91,78 @@ $(function(){initNavTree('classit_1_1unisa_1_1diem_1_1gruppo01_1_1test_1_1_catal
   <div class="headertitle"><div class="title">Riferimenti per la classe it.unisa.diem.gruppo01.test.CatalogoTest</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Classe di test per la classe <a class="el" href="classit_1_1unisa_1_1diem_1_1gruppo01_1_1classi_1_1_catalogo.html" title="Classe Singleton che gestisce l&#39;inventario dei libri della biblioteca. Utilizza un TreeSet con un com...">Catalogo</a>.  
- <a href="#details">Continua...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Membri pubblici</h2></td></tr>
+<tr class="memitem:a166e17802c7e929a1dec1e8ea91a5423" id="r_a166e17802c7e929a1dec1e8ea91a5423"><td class="memItemLeft" align="right" valign="top"><a id="a166e17802c7e929a1dec1e8ea91a5423" name="a166e17802c7e929a1dec1e8ea91a5423"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>CatalogoTest</b> ()</td></tr>
+<tr class="memdesc:a166e17802c7e929a1dec1e8ea91a5423"><td class="mdescLeft">&#160;</td><td class="mdescRight">Costruttore di default. <br /></td></tr>
 <tr class="memitem:a151c4acee09cd145d24e56a7cc4b3a47" id="r_a151c4acee09cd145d24e56a7cc4b3a47"><td class="memItemLeft" align="right" valign="top"><a id="a151c4acee09cd145d24e56a7cc4b3a47" name="a151c4acee09cd145d24e56a7cc4b3a47"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setUp</b> ()</td></tr>
-<tr class="memdesc:a151c4acee09cd145d24e56a7cc4b3a47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metodo che pulisce l'ambiente prima di ogni test: resetta il Singleton ed elimina il file CSV. <br /></td></tr>
+<tr class="memdesc:a151c4acee09cd145d24e56a7cc4b3a47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configurazione eseguita prima di ogni metodo di test. Inizializza i dati di prova e ottiene l'istanza Singleton di <a class="el" href="classit_1_1unisa_1_1diem_1_1gruppo01_1_1classi_1_1_catalogo.html" title="Classe Singleton che gestisce l&#39;inventario dei libri della biblioteca. Utilizza un TreeSet con un com...">Catalogo</a>. <br /></td></tr>
 <tr class="memitem:a1867146d3611a51e93b01797ee685d1b" id="r_a1867146d3611a51e93b01797ee685d1b"><td class="memItemLeft" align="right" valign="top"><a id="a1867146d3611a51e93b01797ee685d1b" name="a1867146d3611a51e93b01797ee685d1b"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>tearDown</b> ()</td></tr>
-<tr class="memdesc:a1867146d3611a51e93b01797ee685d1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metodo che pulisce l'ambiente dopo ogni test: resetta il Singleton ed elimina il file CSV. <br /></td></tr>
-<tr class="memitem:a564b876bcaffb272e37c8a16b4b6b9aa" id="r_a564b876bcaffb272e37c8a16b4b6b9aa"><td class="memItemLeft" align="right" valign="top"><a id="a564b876bcaffb272e37c8a16b4b6b9aa" name="a564b876bcaffb272e37c8a16b4b6b9aa"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>testGetIstanza_Singleton</b> ()</td></tr>
-<tr class="memdesc:a564b876bcaffb272e37c8a16b4b6b9aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metodo che effettua il test del metodo getIstanza(),. <br /></td></tr>
-<tr class="memitem:a2869e968e18738c51a1562a1f652a8b6" id="r_a2869e968e18738c51a1562a1f652a8b6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2869e968e18738c51a1562a1f652a8b6">testGetInventarioLibri_StrutturaDatiEOrdinamentoTitolo</a> ()</td></tr>
-<tr class="memitem:a92c32aa35f8be7bb082c0753f631542c" id="r_a92c32aa35f8be7bb082c0753f631542c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a92c32aa35f8be7bb082c0753f631542c">testLibroComparator_TitoliIdentici_OrdinamentoISBN</a> ()</td></tr>
-<tr class="memitem:a6ce63e9f21cc402de5f4c63c5b0c186b" id="r_a6ce63e9f21cc402de5f4c63c5b0c186b"><td class="memItemLeft" align="right" valign="top"><a id="a6ce63e9f21cc402de5f4c63c5b0c186b" name="a6ce63e9f21cc402de5f4c63c5b0c186b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>testAggiungiLibro_IncrementaCopie</b> ()</td></tr>
-<tr class="memdesc:a6ce63e9f21cc402de5f4c63c5b0c186b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metodo che fa il test di aggiungiLibro(), verificando il caso in cui il libro esista già (stesso ISBN), e debbano essere incrementate le copie. <br /></td></tr>
-<tr class="memitem:aae6cc5882ebe926e155a39606bac973a" id="r_aae6cc5882ebe926e155a39606bac973a"><td class="memItemLeft" align="right" valign="top"><a id="aae6cc5882ebe926e155a39606bac973a" name="aae6cc5882ebe926e155a39606bac973a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>testEliminaLibro_Esistente</b> ()</td></tr>
-<tr class="memdesc:aae6cc5882ebe926e155a39606bac973a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metodo che fa il test del metodo eliminaLibro(), verificando la rimozione di un elemento esistente. <br /></td></tr>
-<tr class="memitem:abe08059ffdb2748f2308957f91279f76" id="r_abe08059ffdb2748f2308957f91279f76"><td class="memItemLeft" align="right" valign="top"><a id="abe08059ffdb2748f2308957f91279f76" name="abe08059ffdb2748f2308957f91279f76"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>testEliminaLibro_NonEsistente</b> ()</td></tr>
-<tr class="memdesc:abe08059ffdb2748f2308957f91279f76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metodo che fa il test del metodo eliminaLibro(), verificando il caso in cui il libro non esista. <br /></td></tr>
-<tr class="memitem:aaead85993e0ae5944ff5042399645f30" id="r_aaead85993e0ae5944ff5042399645f30"><td class="memItemLeft" align="right" valign="top"><a id="aaead85993e0ae5944ff5042399645f30" name="aaead85993e0ae5944ff5042399645f30"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>testModificaLibro_SoloCopie_NoRiordinamento_CoperturaIF</b> ()</td></tr>
-<tr class="memdesc:aaead85993e0ae5944ff5042399645f30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metodo di test su modifica libro. Copre il caso in cui non c'è bisogno di rimuovere/riaggiungere. <br /></td></tr>
-<tr class="memitem:a3738ef2c82c0cf96989c66f5afbe217a" id="r_a3738ef2c82c0cf96989c66f5afbe217a"><td class="memItemLeft" align="right" valign="top"><a id="a3738ef2c82c0cf96989c66f5afbe217a" name="a3738ef2c82c0cf96989c66f5afbe217a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>testModificaLibro_TitoloCambiato_Riordinamento</b> ()</td></tr>
-<tr class="memdesc:a3738ef2c82c0cf96989c66f5afbe217a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metodo che fa il test di modificaLibro(): caso in cui viene modificato il titolo. Il TreeSet deve riordinare l'elemento. <br /></td></tr>
-<tr class="memitem:a8a776a85598b801e97a6e34b1bf87ee0" id="r_a8a776a85598b801e97a6e34b1bf87ee0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8a776a85598b801e97a6e34b1bf87ee0">testModificaLibro_AutoreCambiato_Riaggiunta</a> ()</td></tr>
-<tr class="memitem:a508589f8400f18aa73ce499a8b795b05" id="r_a508589f8400f18aa73ce499a8b795b05"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a508589f8400f18aa73ce499a8b795b05">testModificaLibro_CopieNegative_Eccezione</a> ()</td></tr>
-<tr class="memitem:a4cc6e79d0baba347e3bd4e9ee05e5e04" id="r_a4cc6e79d0baba347e3bd4e9ee05e5e04"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4cc6e79d0baba347e3bd4e9ee05e5e04">testGetCatalogoObservableList</a> ()</td></tr>
-<tr class="memitem:a7537317f84754ba0e28409b093300416" id="r_a7537317f84754ba0e28409b093300416"><td class="memItemLeft" align="right" valign="top"><a id="a7537317f84754ba0e28409b093300416" name="a7537317f84754ba0e28409b093300416"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>testSalvaECaricaCSV_Successo</b> ()</td></tr>
-<tr class="memdesc:a7537317f84754ba0e28409b093300416"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metodo che fa il test di salvaCSV() e caricaCSV() per verificare la corretta persistenza e ripristino dei dati. <br /></td></tr>
-<tr class="memitem:a48a764cf7cad277da3d4410cd13321a6" id="r_a48a764cf7cad277da3d4410cd13321a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a48a764cf7cad277da3d4410cd13321a6">testCaricaCSV_RigheMalformate</a> ()</td></tr>
-<tr class="memitem:ad8bf4ca8ae13696aefe8fd29be9fad95" id="r_ad8bf4ca8ae13696aefe8fd29be9fad95"><td class="memItemLeft" align="right" valign="top"><a id="ad8bf4ca8ae13696aefe8fd29be9fad95" name="ad8bf4ca8ae13696aefe8fd29be9fad95"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>testSalvaDati_IstanzaPresente</b> ()</td></tr>
-<tr class="memdesc:ad8bf4ca8ae13696aefe8fd29be9fad95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metodo che testa salvaDati() (chiamabile anche se l'istanza è stata solo creata). <br /></td></tr>
-<tr class="memitem:a5d57651ea08efd9220394a494dce3c45" id="r_a5d57651ea08efd9220394a494dce3c45"><td class="memItemLeft" align="right" valign="top"><a id="a5d57651ea08efd9220394a494dce3c45" name="a5d57651ea08efd9220394a494dce3c45"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>testSalvaDati_IstanzaNull</b> ()</td></tr>
-<tr class="memdesc:a5d57651ea08efd9220394a494dce3c45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metodo che testa salvaDati() quando l'istanza non è mai stata creata. <br /></td></tr>
-<tr class="memitem:ae5508297c82df5f24709a75ed5452e83" id="r_ae5508297c82df5f24709a75ed5452e83"><td class="memItemLeft" align="right" valign="top"><a id="ae5508297c82df5f24709a75ed5452e83" name="ae5508297c82df5f24709a75ed5452e83"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>testToString_CatalogoVuoto</b> ()</td></tr>
-<tr class="memdesc:ae5508297c82df5f24709a75ed5452e83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metodo che testa la toString() per un catalogo vuoto. <br /></td></tr>
-<tr class="memitem:aa7a084e9fdd918c39924d90ee75007e0" id="r_aa7a084e9fdd918c39924d90ee75007e0"><td class="memItemLeft" align="right" valign="top"><a id="aa7a084e9fdd918c39924d90ee75007e0" name="aa7a084e9fdd918c39924d90ee75007e0"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>testToString_CatalogoPieno</b> ()</td></tr>
-<tr class="memdesc:aa7a084e9fdd918c39924d90ee75007e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metodo che testa la toString() per un catalogo con elementi. <br /></td></tr>
+<tr class="memdesc:a1867146d3611a51e93b01797ee685d1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pulizia eseguita dopo ogni metodo di test. Non utilizzato in questo caso. <br /></td></tr>
+<tr class="memitem:a295ca1af145107a154bc2bc9bac699f1" id="r_a295ca1af145107a154bc2bc9bac699f1"><td class="memItemLeft" align="right" valign="top"><a id="a295ca1af145107a154bc2bc9bac699f1" name="a295ca1af145107a154bc2bc9bac699f1"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>testGetInventarioLibri</b> ()</td></tr>
+<tr class="memdesc:a295ca1af145107a154bc2bc9bac699f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test del metodo getInventarioLibri(), della classe <a class="el" href="classit_1_1unisa_1_1diem_1_1gruppo01_1_1classi_1_1_catalogo.html" title="Classe Singleton che gestisce l&#39;inventario dei libri della biblioteca. Utilizza un TreeSet con un com...">Catalogo</a>. Verifica che il TreeSet restituito sia non nullo e inizialmente vuoto dopo <a class="el" href="#a151c4acee09cd145d24e56a7cc4b3a47" title="Configurazione eseguita prima di ogni metodo di test. Inizializza i dati di prova e ottiene l&#39;istanza...">setUp()</a>. <br /></td></tr>
+<tr class="memitem:a15a3e6ac6dffd493dfb6fe80cc89d8f7" id="r_a15a3e6ac6dffd493dfb6fe80cc89d8f7"><td class="memItemLeft" align="right" valign="top"><a id="a15a3e6ac6dffd493dfb6fe80cc89d8f7" name="a15a3e6ac6dffd493dfb6fe80cc89d8f7"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>testGetIstanza</b> ()</td></tr>
+<tr class="memdesc:a15a3e6ac6dffd493dfb6fe80cc89d8f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test del metodo getIstanza(), della classe <a class="el" href="classit_1_1unisa_1_1diem_1_1gruppo01_1_1classi_1_1_catalogo.html" title="Classe Singleton che gestisce l&#39;inventario dei libri della biblioteca. Utilizza un TreeSet con un com...">Catalogo</a> (Singleton pattern). Verifica che due chiamate al metodo restituiscano la stessa istanza. <br /></td></tr>
+<tr class="memitem:aa5c5492fb16390834847f50eb7a1d5bd" id="r_aa5c5492fb16390834847f50eb7a1d5bd"><td class="memItemLeft" align="right" valign="top"><a id="aa5c5492fb16390834847f50eb7a1d5bd" name="aa5c5492fb16390834847f50eb7a1d5bd"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>testSalvaDati</b> ()</td></tr>
+<tr class="memdesc:aa5c5492fb16390834847f50eb7a1d5bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test del metodo salvaDati(), della classe <a class="el" href="classit_1_1unisa_1_1diem_1_1gruppo01_1_1classi_1_1_catalogo.html" title="Classe Singleton che gestisce l&#39;inventario dei libri della biblioteca. Utilizza un TreeSet con un com...">Catalogo</a>. Verifica che i dati in memoria vengano scritti correttamente sul file CSV. Nota: Testa l'effettiva creazione del file e il contenuto tramite caricaCSV(). <br /></td></tr>
+<tr class="memitem:a9e8b8fa7489ce3b79d7a7decf2d26556" id="r_a9e8b8fa7489ce3b79d7a7decf2d26556"><td class="memItemLeft" align="right" valign="top"><a id="a9e8b8fa7489ce3b79d7a7decf2d26556" name="a9e8b8fa7489ce3b79d7a7decf2d26556"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>testAggiungiLibro</b> ()</td></tr>
+<tr class="memdesc:a9e8b8fa7489ce3b79d7a7decf2d26556"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test del metodo aggiungiLibro(), della classe <a class="el" href="classit_1_1unisa_1_1diem_1_1gruppo01_1_1classi_1_1_catalogo.html" title="Classe Singleton che gestisce l&#39;inventario dei libri della biblioteca. Utilizza un TreeSet con un com...">Catalogo</a>. Verifica l'aggiunta di un nuovo libro e l'incremento delle copie per un libro esistente. <br /></td></tr>
+<tr class="memitem:ae53ebe4db84e1047b77942038bf43593" id="r_ae53ebe4db84e1047b77942038bf43593"><td class="memItemLeft" align="right" valign="top"><a id="ae53ebe4db84e1047b77942038bf43593" name="ae53ebe4db84e1047b77942038bf43593"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>testIncrementaCopie</b> ()</td></tr>
+<tr class="memdesc:ae53ebe4db84e1047b77942038bf43593"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test del metodo incrementaCopie(), della classe <a class="el" href="classit_1_1unisa_1_1diem_1_1gruppo01_1_1classi_1_1_catalogo.html" title="Classe Singleton che gestisce l&#39;inventario dei libri della biblioteca. Utilizza un TreeSet con un com...">Catalogo</a>. Verifica l'incremento delle copie di un libro dato l'ISBN e la gestione del caso di libro non trovato. <br /></td></tr>
+<tr class="memitem:a71db96cf8183bc70f857585e1bd3108b" id="r_a71db96cf8183bc70f857585e1bd3108b"><td class="memItemLeft" align="right" valign="top"><a id="a71db96cf8183bc70f857585e1bd3108b" name="a71db96cf8183bc70f857585e1bd3108b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>testEliminaLibro</b> ()</td></tr>
+<tr class="memdesc:a71db96cf8183bc70f857585e1bd3108b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test del metodo eliminaLibro(), della classe <a class="el" href="classit_1_1unisa_1_1diem_1_1gruppo01_1_1classi_1_1_catalogo.html" title="Classe Singleton che gestisce l&#39;inventario dei libri della biblioteca. Utilizza un TreeSet con un com...">Catalogo</a>. Verifica la corretta eliminazione di un libro e la gestione del caso in cui non venga trovato. <br /></td></tr>
+<tr class="memitem:a357c085d7a20dcf4134e0200b0f10ef1" id="r_a357c085d7a20dcf4134e0200b0f10ef1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a357c085d7a20dcf4134e0200b0f10ef1">testModificaLibro</a> ()</td></tr>
+<tr class="memdesc:a357c085d7a20dcf4134e0200b0f10ef1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test del metodo modificaLibro(), della classe <a class="el" href="classit_1_1unisa_1_1diem_1_1gruppo01_1_1classi_1_1_catalogo.html" title="Classe Singleton che gestisce l&#39;inventario dei libri della biblioteca. Utilizza un TreeSet con un com...">Catalogo</a>. Verifica la modifica dei dettagli di un libro e la gestione del riordinamento nel TreeSet.  <br /></td></tr>
+<tr class="memitem:a4cc6e79d0baba347e3bd4e9ee05e5e04" id="r_a4cc6e79d0baba347e3bd4e9ee05e5e04"><td class="memItemLeft" align="right" valign="top"><a id="a4cc6e79d0baba347e3bd4e9ee05e5e04" name="a4cc6e79d0baba347e3bd4e9ee05e5e04"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>testGetCatalogoObservableList</b> ()</td></tr>
+<tr class="memdesc:a4cc6e79d0baba347e3bd4e9ee05e5e04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test del metodo getCatalogoObservableList(), della classe <a class="el" href="classit_1_1unisa_1_1diem_1_1gruppo01_1_1classi_1_1_catalogo.html" title="Classe Singleton che gestisce l&#39;inventario dei libri della biblioteca. Utilizza un TreeSet con un com...">Catalogo</a>. Verifica che la lista osservabile restituita contenga tutti gli elementi del TreeSet. <br /></td></tr>
+<tr class="memitem:a2bc640245c2eefbfc87c645d682ce849" id="r_a2bc640245c2eefbfc87c645d682ce849"><td class="memItemLeft" align="right" valign="top"><a id="a2bc640245c2eefbfc87c645d682ce849" name="a2bc640245c2eefbfc87c645d682ce849"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>testSalvaCSV</b> ()</td></tr>
+<tr class="memdesc:a2bc640245c2eefbfc87c645d682ce849"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test del metodo salvaCSV(), della classe <a class="el" href="classit_1_1unisa_1_1diem_1_1gruppo01_1_1classi_1_1_catalogo.html" title="Classe Singleton che gestisce l&#39;inventario dei libri della biblioteca. Utilizza un TreeSet con un com...">Catalogo</a>. Verifica l'effettiva creazione del file CSV. <br /></td></tr>
+<tr class="memitem:a6f38d162d4866c90de0b1f669f638110" id="r_a6f38d162d4866c90de0b1f669f638110"><td class="memItemLeft" align="right" valign="top"><a id="a6f38d162d4866c90de0b1f669f638110" name="a6f38d162d4866c90de0b1f669f638110"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>testCaricaCSV</b> ()</td></tr>
+<tr class="memdesc:a6f38d162d4866c90de0b1f669f638110"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test del metodo caricaCSV(), della classe <a class="el" href="classit_1_1unisa_1_1diem_1_1gruppo01_1_1classi_1_1_catalogo.html" title="Classe Singleton che gestisce l&#39;inventario dei libri della biblioteca. Utilizza un TreeSet con un com...">Catalogo</a>. Verifica il caricamento dei dati da un file CSV esistente e la gestione del file non trovato. <br /></td></tr>
+<tr class="memitem:a9bfa975ab9425bd29e66f4fbeade4010" id="r_a9bfa975ab9425bd29e66f4fbeade4010"><td class="memItemLeft" align="right" valign="top"><a id="a9bfa975ab9425bd29e66f4fbeade4010" name="a9bfa975ab9425bd29e66f4fbeade4010"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>testToString</b> ()</td></tr>
+<tr class="memdesc:a9bfa975ab9425bd29e66f4fbeade4010"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test del metodo toString(), della classe <a class="el" href="classit_1_1unisa_1_1diem_1_1gruppo01_1_1classi_1_1_catalogo.html" title="Classe Singleton che gestisce l&#39;inventario dei libri della biblioteca. Utilizza un TreeSet con un com...">Catalogo</a>. Verifica che la stringa generata sia non vuota e che contenga i dati dei libri inseriti. <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Membri pubblici statici</h2></td></tr>
-<tr class="memitem:a17b546de327bb371172796c836dca284" id="r_a17b546de327bb371172796c836dca284"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a17b546de327bb371172796c836dca284">setUpClass</a> ()</td></tr>
-<tr class="memdesc:a17b546de327bb371172796c836dca284"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metodo che prepara l'ambiente prima di eseguire tutti i test: elimina il file CSV.  <br /></td></tr>
+<tr class="memitem:a17b546de327bb371172796c836dca284" id="r_a17b546de327bb371172796c836dca284"><td class="memItemLeft" align="right" valign="top"><a id="a17b546de327bb371172796c836dca284" name="a17b546de327bb371172796c836dca284"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>setUpClass</b> ()</td></tr>
+<tr class="memdesc:a17b546de327bb371172796c836dca284"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configurazione eseguita una sola volta prima di tutti i test. Non utilizzato in questo caso. <br /></td></tr>
 <tr class="memitem:a37cbf528820a4bf580791fac597324b6" id="r_a37cbf528820a4bf580791fac597324b6"><td class="memItemLeft" align="right" valign="top"><a id="a37cbf528820a4bf580791fac597324b6" name="a37cbf528820a4bf580791fac597324b6"></a>
 static void&#160;</td><td class="memItemRight" valign="bottom"><b>tearDownClass</b> ()</td></tr>
-<tr class="memdesc:a37cbf528820a4bf580791fac597324b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metodo che pulisce l'ambiente dopo l'esecuzione di tutti i test: elimina il file CSV. <br /></td></tr>
+<tr class="memdesc:a37cbf528820a4bf580791fac597324b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pulizia eseguita una sola volta dopo tutti i test. Tenta di eliminare il file CSV creato durante i test per garantire l'isolamento. <br /></td></tr>
 </table>
-<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Descrizione dettagliata</h2>
-<div class="textblock"><p>Classe di test per la classe <a class="el" href="classit_1_1unisa_1_1diem_1_1gruppo01_1_1classi_1_1_catalogo.html" title="Classe Singleton che gestisce l&#39;inventario dei libri della biblioteca. Utilizza un TreeSet con un com...">Catalogo</a>. </p>
-</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Documentazione delle funzioni membro</h2>
-<a id="a17b546de327bb371172796c836dca284" name="a17b546de327bb371172796c836dca284"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17b546de327bb371172796c836dca284">&#9670;&#160;</a></span>setUpClass()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void it.unisa.diem.gruppo01.test.CatalogoTest.setUpClass </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Metodo che prepara l'ambiente prima di eseguire tutti i test: elimina il file CSV. </p>
-<p>    *  </p>
-
-</div>
-</div>
-<a id="a48a764cf7cad277da3d4410cd13321a6" name="a48a764cf7cad277da3d4410cd13321a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a48a764cf7cad277da3d4410cd13321a6">&#9670;&#160;</a></span>testCaricaCSV_RigheMalformate()</h2>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Documentazione delle funzioni membro</h2>
+<a id="a357c085d7a20dcf4134e0200b0f10ef1" name="a357c085d7a20dcf4134e0200b0f10ef1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a357c085d7a20dcf4134e0200b0f10ef1">&#9670;&#160;</a></span>testModificaLibro()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void it.unisa.diem.gruppo01.test.CatalogoTest.testCaricaCSV_RigheMalformate </td>
+          <td class="memname">void it.unisa.diem.gruppo01.test.CatalogoTest.testModificaLibro </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">  @brief Test di robustezza: verifica che caricaCSV() gestisca e ignori righe malformate
-</pre><p>     * (es. dati mancanti o non numerici), caricando solo i dati validi </p>
 
-</div>
-</div>
-<a id="a4cc6e79d0baba347e3bd4e9ee05e5e04" name="a4cc6e79d0baba347e3bd4e9ee05e5e04"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4cc6e79d0baba347e3bd4e9ee05e5e04">&#9670;&#160;</a></span>testGetCatalogoObservableList()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void it.unisa.diem.gruppo01.test.CatalogoTest.testGetCatalogoObservableList </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<pre class="fragment">   @brief Metodo che fa il test di getCatalogoObservableList(), verificando che il contenuto del TreeSet
-</pre><p>      * sia correttamente copiato in una ObservableList </p>
-
-</div>
-</div>
-<a id="a2869e968e18738c51a1562a1f652a8b6" name="a2869e968e18738c51a1562a1f652a8b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2869e968e18738c51a1562a1f652a8b6">&#9670;&#160;</a></span>testGetInventarioLibri_StrutturaDatiEOrdinamentoTitolo()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void it.unisa.diem.gruppo01.test.CatalogoTest.testGetInventarioLibri_StrutturaDatiEOrdinamentoTitolo </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<pre class="fragment">   @brief Metodo che testa  getInventarioLibri(), verificando l'ordinamento primario per titolo
-</pre><p>      * fornito dalla struttura del treeSet </p>
-
-</div>
-</div>
-<a id="a92c32aa35f8be7bb082c0753f631542c" name="a92c32aa35f8be7bb082c0753f631542c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92c32aa35f8be7bb082c0753f631542c">&#9670;&#160;</a></span>testLibroComparator_TitoliIdentici_OrdinamentoISBN()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void it.unisa.diem.gruppo01.test.CatalogoTest.testLibroComparator_TitoliIdentici_OrdinamentoISBN </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<pre class="fragment">  @brief Metodo che fa il test del comparatore (Libro.compareTo) in caso di titoli identici, dove l'ordinamento
-</pre><p>     * secondario dovrebbe essere basato sull'ISBN </p>
-
-</div>
-</div>
-<a id="a8a776a85598b801e97a6e34b1bf87ee0" name="a8a776a85598b801e97a6e34b1bf87ee0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a776a85598b801e97a6e34b1bf87ee0">&#9670;&#160;</a></span>testModificaLibro_AutoreCambiato_Riaggiunta()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void it.unisa.diem.gruppo01.test.CatalogoTest.testModificaLibro_AutoreCambiato_Riaggiunta </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<pre class="fragment">   @brief Metodo che fa il test di modificaLibro(): caso in cui viene modificato l'autore.
-</pre><p>      * Poiché l'Autore non è il campo di ordinamento primario (è secondario in caso di stesso titolo/ISBN),      * questo assicura che il blocco di riordinamento venga attivato correttamente se l'Autore è cambiato. </p>
-
-</div>
-</div>
-<a id="a508589f8400f18aa73ce499a8b795b05" name="a508589f8400f18aa73ce499a8b795b05"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a508589f8400f18aa73ce499a8b795b05">&#9670;&#160;</a></span>testModificaLibro_CopieNegative_Eccezione()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void it.unisa.diem.gruppo01.test.CatalogoTest.testModificaLibro_CopieNegative_Eccezione </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<pre class="fragment">   @brief Metodo che fa il test di modificaLibro(): caso in cui si tenta di impostare un numero di copie negativo,
-</pre><p>      * verificando che venga lanciata l'eccezione corretta (IllegalArgumentException).       </p>
+<p>Test del metodo modificaLibro(), della classe <a class="el" href="classit_1_1unisa_1_1diem_1_1gruppo01_1_1classi_1_1_catalogo.html" title="Classe Singleton che gestisce l&#39;inventario dei libri della biblioteca. Utilizza un TreeSet con un com...">Catalogo</a>. Verifica la modifica dei dettagli di un libro e la gestione del riordinamento nel TreeSet. </p>
+<p>Test del metodo modificaLibro(), della classe <a class="el" href="classit_1_1unisa_1_1diem_1_1gruppo01_1_1classi_1_1_catalogo.html" title="Classe Singleton che gestisce l&#39;inventario dei libri della biblioteca. Utilizza un TreeSet con un com...">Catalogo</a>. Verifica la modifica dei dettagli di un libro, la gestione del riordinamento nel TreeSet e la non-modifica dell'ordinamento quando si aggiornano solo campi non chiave (es. copie). </p>
 
 </div>
 </div>

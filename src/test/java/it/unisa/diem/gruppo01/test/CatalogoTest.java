@@ -1,4 +1,5 @@
 /**
+ * @file CatalogoTest.java
  * @brief Classe di test per l'implementazione della classe Catalogo.
  * @author gruppo01
  * @version 1.0

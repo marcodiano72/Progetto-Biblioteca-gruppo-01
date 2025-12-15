@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.15.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Gestione Biblioteca: Riferimenti per il file src/test/java/it/unisa/diem/gruppo01/test/CatalogoTest.java</title>
+<title>Gestione Biblioteca: Riferimenti per il file src/main/java/it/unisa/diem/gruppo01/interfacce/GestioneStudenteController.java</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,7 +62,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(function(){initNavTree('_catalogo_test_8java.html','',''); });
+$(function(){initNavTree('_gestione_studente_controller_8java.html','',''); });
 </script>
 <div id="container">
 <div id="doc-content">
@@ -88,32 +88,47 @@ $(function(){initNavTree('_catalogo_test_8java.html','',''); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">Riferimenti per il file CatalogoTest.java</div></div>
+  <div class="headertitle"><div class="title">Riferimenti per il file GestioneStudenteController.java</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Classe di test per l'implementazione della classe Catalogo.  
+<p>Controller FXML per la schermata di gestione degli studenti. Gestisce l'interfaccia utente per l'aggiunta, la modifica, la ricerca e l'eliminazione degli studenti nel sistema bibliotecario, interagendo con l'oggetto elenco.  
 <a href="#details">Continua...</a></p>
-<div class="textblock"><code>import it.unisa.diem.gruppo01.classi.Catalogo;</code><br />
+<div class="textblock"><code>import it.unisa.diem.gruppo01.classi.Elenco;</code><br />
 <code>import it.unisa.diem.gruppo01.classi.Libro;</code><br />
-<code>import java.io.File;</code><br />
+<code>import it.unisa.diem.gruppo01.classi.Studente;</code><br />
+<code>import java.io.IOException;</code><br />
+<code>import java.net.URL;</code><br />
 <code>import java.time.LocalDate;</code><br />
-<code>import java.util.TreeSet;</code><br />
+<code>import java.util.Optional;</code><br />
+<code>import java.util.ResourceBundle;</code><br />
+<code>import javafx.collections.FXCollections;</code><br />
 <code>import javafx.collections.ObservableList;</code><br />
-<code>import org.junit.jupiter.api.AfterEach;</code><br />
-<code>import org.junit.jupiter.api.AfterAll;</code><br />
-<code>import org.junit.jupiter.api.BeforeEach;</code><br />
-<code>import org.junit.jupiter.api.BeforeAll;</code><br />
-<code>import org.junit.jupiter.api.Test;</code><br />
-<code>import org.junit.jupiter.api.Assertions.*;</code><br />
+<code>import javafx.event.ActionEvent;</code><br />
+<code>import javafx.fxml.FXML;</code><br />
+<code>import javafx.fxml.FXMLLoader;</code><br />
+<code>import javafx.fxml.Initializable;</code><br />
+<code>import javafx.scene.Node;</code><br />
+<code>import javafx.scene.Parent;</code><br />
+<code>import javafx.scene.Scene;</code><br />
+<code>import javafx.scene.control.Alert;</code><br />
+<code>import javafx.scene.control.Button;</code><br />
+<code>import javafx.scene.control.ButtonType;</code><br />
+<code>import javafx.scene.control.Label;</code><br />
+<code>import javafx.scene.control.TableColumn;</code><br />
+<code>import javafx.scene.control.TableView;</code><br />
+<code>import javafx.scene.control.TextField;</code><br />
+<code>import javafx.scene.control.cell.PropertyValueFactory;</code><br />
+<code>import javafx.stage.Stage;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Composti</h2></td></tr>
-<tr class="memitem:it_2Eunisa_2Ediem_2Egruppo01_2Etest_2ECatalogoTest" id="r_it_2Eunisa_2Ediem_2Egruppo01_2Etest_2ECatalogoTest"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classit_1_1unisa_1_1diem_1_1gruppo01_1_1test_1_1_catalogo_test.html">it.unisa.diem.gruppo01.test.CatalogoTest</a></td></tr>
+<tr class="memitem:it_2Eunisa_2Ediem_2Egruppo01_2Einterfacce_2EGestioneStudenteController" id="r_it_2Eunisa_2Ediem_2Egruppo01_2Einterfacce_2EGestioneStudenteController"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classit_1_1unisa_1_1diem_1_1gruppo01_1_1interfacce_1_1_gestione_studente_controller.html">it.unisa.diem.gruppo01.interfacce.GestioneStudenteController</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Controller FXML: <a class="el" href="classit_1_1unisa_1_1diem_1_1gruppo01_1_1interfacce_1_1_gestione_studente_controller.html" title="Controller FXML: GestioneStudenteController Implementa le funzionalità per la gestione degli studenti...">GestioneStudenteController</a> Implementa le funzionalità per la gestione degli studenti, garantendo che i dati siano correttamente visualizzati e modificati tramite la TableView e l'oggetto elenco.  <a href="classit_1_1unisa_1_1diem_1_1gruppo01_1_1interfacce_1_1_gestione_studente_controller.html#details">Continua...</a><br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Descrizione dettagliata</h2>
-<div class="textblock"><p>Classe di test per l'implementazione della classe Catalogo. </p>
-<dl class="section author"><dt>Autore</dt><dd>gruppo01 </dd></dl>
+<div class="textblock"><p>Controller FXML per la schermata di gestione degli studenti. Gestisce l'interfaccia utente per l'aggiunta, la modifica, la ricerca e l'eliminazione degli studenti nel sistema bibliotecario, interagendo con l'oggetto elenco. </p>
+<dl class="section author"><dt>Autore</dt><dd>Gruppo01 </dd></dl>
 <dl class="section version"><dt>Versione</dt><dd>1.0 </dd></dl>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
@@ -128,7 +143,7 @@ Composti</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>src</b></li><li class="navelem"><b>test</b></li><li class="navelem"><b>java</b></li><li class="navelem"><b>it</b></li><li class="navelem"><b>unisa</b></li><li class="navelem"><b>diem</b></li><li class="navelem"><b>gruppo01</b></li><li class="navelem"><b>test</b></li><li class="navelem"><a href="_catalogo_test_8java.html">CatalogoTest.java</a></li>
+    <li class="navelem"><b>src</b></li><li class="navelem"><b>main</b></li><li class="navelem"><b>java</b></li><li class="navelem"><b>it</b></li><li class="navelem"><b>unisa</b></li><li class="navelem"><b>diem</b></li><li class="navelem"><b>gruppo01</b></li><li class="navelem"><b>interfacce</b></li><li class="navelem"><a href="_gestione_studente_controller_8java.html">GestioneStudenteController.java</a></li>
     <li class="footer">Generato da <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.15.0 </li>
   </ul>
 </div>

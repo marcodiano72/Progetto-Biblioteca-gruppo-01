@@ -1,9 +1,5 @@
 var NAVTREEINDEX1 =
 {
-"classit_1_1unisa_1_1diem_1_1gruppo01_1_1test_1_1_libro_test.html#ad5957f145972de16c9deec494f9e9992":[2,0,0,0,0,0,2,2,17],
-"classit_1_1unisa_1_1diem_1_1gruppo01_1_1test_1_1_libro_test.html#ad705bb6a2909dc024fb8f60b32ee41ad":[2,0,0,0,0,0,2,2,6],
-"classit_1_1unisa_1_1diem_1_1gruppo01_1_1test_1_1_libro_test.html#ae085bcbd92763e05ff5d534070835458":[2,0,0,0,0,0,2,2,10],
-"classit_1_1unisa_1_1diem_1_1gruppo01_1_1test_1_1_libro_test.html#afa9f55d634c66d03a4f65b178ea4e945":[2,0,0,0,0,0,2,2,0],
 "classit_1_1unisa_1_1diem_1_1gruppo01_1_1test_1_1_libro_test.html#afe71c8e2b9e3be4b6171f8a3e24f0f93":[2,0,0,0,0,0,2,2,4],
 "classit_1_1unisa_1_1diem_1_1gruppo01_1_1test_1_1_main_test.html":[2,0,0,0,0,0,2,3],
 "classit_1_1unisa_1_1diem_1_1gruppo01_1_1test_1_1_main_test.html#a0062a342767c7546e28eea8061b8da2b":[2,0,0,0,0,0,2,3,5],

@@ -1,4 +1,5 @@
-/*
+/**
+ * @file CatalogoTest.java
  *@brief Classe di test unitario per la classe Catalogo.
  *
  * Questa classe è progettata per testare la classe Catalogo,
@@ -23,7 +24,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- *Classe di test per la classe Catalogo (mirata al 100% di copertura).
+ *Classe di test per la classe Catalogo 
  */
 public class CatalogoTest {
     

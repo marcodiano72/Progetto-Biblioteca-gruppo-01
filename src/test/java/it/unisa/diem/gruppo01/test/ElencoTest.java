@@ -1,4 +1,4 @@
-/*
+/**
  *@file ElencoTest.java
  *@brief Classe di test unitario per la classe Elenco.
  *

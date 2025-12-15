@@ -1,5 +1,5 @@
-/*
-*@file MainTest.java
+/**
+ *@file MainTest.java
  *@brief Classe di test unitario per la classe Main (punto di ingresso JavaFX).
  *
  * Estende ApplicationTest (da TestFX) per inizializzare l'ambiente JavaFX

@@ -1,3 +1,9 @@
+/**
+ * @file LibroTest.java
+ * @brief Test unitari per la classe libro.
+ * @author Gruppo01
+ * @version 1.0
+ */
 package it.unisa.diem.gruppo01.test;
 
 import it.unisa.diem.gruppo01.classi.Libro;
@@ -10,10 +16,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * @file LibroTest.java
- * @brief Test unitari per la classe libro.
- * @author Gruppo01
- * @version 1.0
+ *
+ * Classe di test per la classe Libro.
  */
 
 public class LibroTest {

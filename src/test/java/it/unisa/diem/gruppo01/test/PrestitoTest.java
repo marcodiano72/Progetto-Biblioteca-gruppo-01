@@ -1,166 +1,226 @@
+/**
+ * @file StudenteTest.java
+ * @brief Suite di test unitari per la classe Studente.
+ * * Questo file contiene i test per verificare la corretta gestione anagrafica,
+ * la logica dei permessi (abilitazione al prestito) e il sistema sanzionatorio.
+ * Utilizza JUnit 5 e Java Reflection per test white-box avanzati.
+ * * @author Gruppo01
+ * @version 1.0
+ */
+
+
 package it.unisa.diem.gruppo01.test;
 
 import it.unisa.diem.gruppo01.classi.Libro;
 import it.unisa.diem.gruppo01.classi.Prestito;
 import it.unisa.diem.gruppo01.classi.Studente;
 import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.*; // Import statico per le asserzioni [cite: 1165]
+import static org.junit.jupiter.api.Assertions.*; 
 import java.time.LocalDate;
 
 /**
- * @brief Classe di test per Prestito.java
- * Utilizza JUnit 5 come framework di automazione.
+ * @brief Classe di test unitari per la classe Prestito.
+ * * Questa classe definisce la suite di test per la verifica funzionale dell'entità Prestito.
+ * * @see it.unisa.diem.gruppo01.classi.Prestito
  */
 public class PrestitoTest {
 
     private Prestito prestito;
+    
+    /** @brief Stub dell'oggetto Libro necessario per l'inizializzazione. */
     private Libro libroStub;
+    
+    /** @brief Stub dell'oggetto Studente necessario per l'inizializzazione. */
     private Studente studenteStub;
+    
     private LocalDate dataInizio;
     private LocalDate dataScadenza;
 
-    // Fixture: Eseguito prima di ogni test per preparare l'ambiente 
+    /**
+     * @brief Fixture di configurazione (eseguita prima di ogni test).
+     * * Inizializza l'ambiente di test (Test Harness) resettando le variabili
+     * e definendo una finestra temporale standard per i test.
+     * Garantisce l'indipendenza dei singoli casi di test.
+     */
     @BeforeEach
     public void setUp() {
-        // Creazione di oggetti Stub minimi (necessari perché Prestito li richiede nel costruttore)
-        // In un caso reale, questi sarebbero oggetti reali o mock di Mockito.
+        // Arrange: Configurazione iniziale
+        // Utilizziamo null come stub: per questi test non serve invocare metodi su Libro o Studente
         libroStub = null; 
         studenteStub = null; 
         
-        // Impostiamo date di default
+        // Impostiamo una data di inizio nel passato (30 giorni fa)
         dataInizio = LocalDate.now().minusDays(30);
-        dataScadenza = dataInizio.plusDays(Prestito.DURATA_PRESTITO); // Scadenza futura
+        // La scadenza è calcolata sommando la durata standard prevista dalla classe Prestito
+        dataScadenza = dataInizio.plusDays(Prestito.DURATA_PRESTITO); 
     }
 
     /**
-     * Test per verificare il costruttore e i getter di base.
-     * Verifica la corretta creazione dell'oggetto.
+     * @brief Verifica il corretto funzionamento del Costruttore e dei Getter.
+     * * Controlla che l'oggetto venga istanziato correttamente e che i valori
+     * incapsulati corrispondano a quelli forniti in fase di costruzione.
      */
     @Test
     public void testCostruttoreEGetter() {
+        // Act
         prestito = new Prestito(libroStub, studenteStub, dataInizio, dataScadenza, null);
         
-        assertNotNull(prestito); // Verifica che l'oggetto non sia null [cite: 1190]
-        assertEquals(dataInizio, prestito.getDataInizio()); // [cite: 1183]
-        assertEquals(dataScadenza, prestito.getDataScadenza());
-        assertNull(prestito.getDataRestituzione()); // [cite: 1188]
+        // Assert
+        assertNotNull(prestito, "L'istanza creata non deve essere null"); 
+        assertEquals(dataInizio, prestito.getDataInizio(), "La data di inizio deve coincidere con quella fornita"); 
+        assertEquals(dataScadenza, prestito.getDataScadenza(), "La data di scadenza deve coincidere con quella calcolata");
+        assertNull(prestito.getDataRestituzione(), "Alla creazione, la data di restituzione deve essere null"); 
     }
 
     /**
-     * Test del metodo isPrestitoAttivo().
-     * Copertura: Verifica i due stati possibili (Attivo/Concluso).
+     * @brief Verifica il metodo isPrestitoAttivo().
+     * * Obiettivo: Branch Coverage.
+     * Verifica i due stati possibili del ciclo di vita del prestito:
+     * 1. Attivo (Restituzione == null).
+     * 2. Concluso (Restituzione != null).
      */
     @Test
     public void testIsPrestitoAttivo() {
-        // Caso 1: Data restituzione è null -> Prestito Attivo
+        // Branch 1: Prestito ancora in corso
         prestito = new Prestito(libroStub, studenteStub, dataInizio, dataScadenza, null);
-        assertTrue(prestito.isPrestitoAttivo(), "Il prestito dovrebbe essere attivo se dataRestituzione è null"); // [cite: 1186]
+        assertTrue(prestito.isPrestitoAttivo(), "Deve restituire true se la data di restituzione è null"); 
 
-        // Caso 2: Data restituzione valorizzata -> Prestito Concluso
+        // Branch 2: Prestito chiuso
         prestito.setDatarestituzione(LocalDate.now());
-        assertFalse(prestito.isPrestitoAttivo(), "Il prestito non dovrebbe essere attivo se dataRestituzione è settata"); // [cite: 1187]
+        assertFalse(prestito.isPrestitoAttivo(), "Deve restituire false dopo aver settato la data di restituzione"); 
     }
 
     /**
-     * Test di calcolaGiorniRitardo() - Scenario: Nessun Ritardo.
-     * Verifica che ritorni 0 se restituito in anticipo o in tempo.
+     * @brief Test calcolo giorni ritardo: Scenario "Nessun Ritardo".
+     * * Verifica che il sistema restituisca 0 se il libro viene restituito
+     * entro la data di scadenza prevista.
      */
     @Test
     public void testCalcolaGiorniRitardo_NessunRitardo() {
-        // Scadenza è tra 20 giorni (DURATA_PRESTITO è 50, inizio era -30)
-        // Restituiamo oggi (in anticipo)
+        // Arrange: Restituzione contestuale alla creazione (oggi)
+        // Poiché scadenza è futura, siamo in anticipo.
         prestito = new Prestito(libroStub, studenteStub, dataInizio, dataScadenza, LocalDate.now());
         
+        // Act
         int ritardo = prestito.calcolaGiorniRitardo();
-        assertEquals(0, ritardo, "Il ritardo dovrebbe essere 0 se restituito in anticipo");
+        
+        // Assert
+        assertEquals(0, ritardo, "Il ritardo deve essere 0 se restituito in anticipo o puntuale");
     }
 
     /**
-     * Test di calcolaGiorniRitardo() - Scenario: Ritardo Effettivo (Libro Restituito).
-     * Copertura del ramo: dataRestituzione != null
+     * @brief Test calcolo giorni ritardo: Scenario "Ritardo Consolidato".
+     * * Verifica il calcolo su un prestito già concluso (dataRestituzione != null).
+     * Il ritardo è la differenza tra Data Restituzione e Data Scadenza.
      */
     @Test
     public void testCalcolaGiorniRitardo_ConRitardoRestituito() {
-        // Simuliamo un prestito scaduto 5 giorni fa e restituito oggi
+        // Arrange: Scadenza passata (5 giorni fa), Restituito oggi
         LocalDate scadenzaPassata = LocalDate.now().minusDays(5);
         prestito = new Prestito(libroStub, studenteStub, dataInizio, scadenzaPassata, LocalDate.now());
 
-        assertEquals(5, prestito.calcolaGiorniRitardo(), "Dovrebbe calcolare 5 giorni di ritardo tra scadenza e restituzione");
+        // Act & Assert
+        assertEquals(5, prestito.calcolaGiorniRitardo(), "Deve calcolare i giorni tra la scadenza passata e la restituzione odierna");
     }
 
     /**
-     * Test di calcolaGiorniRitardo() - Scenario: Ritardo in corso (Prestito Attivo).
-     * Copertura del ramo: dataRestituzione == null (usa LocalDate.now())
+     * @brief Test calcolo giorni ritardo: Scenario "Ritardo in Corso".
+     * * Verifica il calcolo su un prestito ancora attivo (dataRestituzione == null).
+     * Il sistema deve usare LocalDate.now() come riferimento per il calcolo.
      */
     @Test
     public void testCalcolaGiorniRitardo_AttivoInRitardo() {
-        // Prestito ancora attivo (rest=null) ma scaduto 10 giorni fa
+        // Arrange: Scadenza passata (10 giorni fa), NON ancora restituito
         LocalDate scadenzaPassata = LocalDate.now().minusDays(10);
         prestito = new Prestito(libroStub, studenteStub, dataInizio, scadenzaPassata, null);
 
-        assertEquals(10, prestito.calcolaGiorniRitardo(), "Dovrebbe usare LocalDate.now() per calcolare il ritardo su prestito attivo");
+        // Act & Assert
+        assertEquals(10, prestito.calcolaGiorniRitardo(), "Per prestiti attivi, il ritardo si calcola rispetto alla data corrente");
     }
 
-    /**
-     * Test gestioneSanzioni() - Equivalence Partitioning & Boundary Testing.
-     * Classi di equivalenza identificate:
-     * 1. Ritardo <= 0 (Nessuna sanzione)
-     * 2. 1 <= Ritardo <= 10 (Categoria 1)
-     * 3. 11 <= Ritardo <= 20 (Categoria 2)
-     * 4. Ritardo > 20 (Categoria 3)
-     */
+    // =========================================================================
+    //  SEZIONE TEST GESTIONE SANZIONI
+    // =========================================================================
 
+    
+
+    /**
+     * @brief Verifica Sanzioni: Classe di Equivalenza "Nessun Ritardo".
+     * * Range: Ritardo <= 0.
+     * Expected: NESSUN_RITARDO.
+     */
     @Test
     public void testGestioneSanzioni_NessunRitardo() {
-        // Classe 1: 0 giorni di ritardo
         prestito = createPrestitoScadutoGiorniFa(0);
         assertEquals(Prestito.NESSUN_RITARDO, prestito.gestioneSanzioni());
     }
 
+    /**
+     * @brief Verifica Sanzioni: Classe "Blocco Lieve".
+     * *Range: 1 <= Ritardo <= 10.
+     * Vengono testati:
+     * - Valore intermedio (5).
+     * - <b>Boundary Value (Superiore):</b> 10.
+     */
     @Test
     public void testGestioneSanzioni_Categoria1_BloccoLieve() {
-        // Classe 2: Test valore intermedio (5 giorni)
+        // Test Valore Intermedio
         prestito = createPrestitoScadutoGiorniFa(5);
         assertTrue(prestito.gestioneSanzioni().contains("Categoria 1"));
         assertTrue(prestito.gestioneSanzioni().contains("Blocco lieve"));
 
-        // Boundary Testing: Limite superiore classe (10 giorni) 
+        // Test Valore Limite (Boundary)
         prestito = createPrestitoScadutoGiorniFa(10);
-        assertTrue(prestito.gestioneSanzioni().contains("Categoria 1"), "10 giorni dovrebbero essere ancora Categoria 1");
+        assertTrue(prestito.gestioneSanzioni().contains("Categoria 1"), "Il giorno 10 è il limite superiore della Categoria 1");
     }
 
+    /**
+     * @brief Verifica Sanzioni: Classe "Blocco 30 Giorni".
+     * * Range: 11 <= Ritardo <= 20.
+     * Vengono testati:
+     * - oundary Value (Inferiore): 11.
+     * - Valore intermedio (15).
+     * - Boundary Value (Superiore): 20.
+     */
     @Test
     public void testGestioneSanzioni_Categoria2_Blocco30Giorni() {
-        // Boundary Testing: Limite inferiore classe successiva (11 giorni)
+        // Test Valore Limite (Boundary Inferiore)
         prestito = createPrestitoScadutoGiorniFa(11);
-        assertTrue(prestito.gestioneSanzioni().contains("Categoria 2"), "11 giorni dovrebbero essere Categoria 2");
+        assertTrue(prestito.gestioneSanzioni().contains("Categoria 2"), "Il giorno 11 è il limite inferiore della Categoria 2");
 
-        // Classe 3: Test valore intermedio (15 giorni)
+        // Test Valore Intermedio
         prestito = createPrestitoScadutoGiorniFa(15);
         assertTrue(prestito.gestioneSanzioni().contains("Blocco 30 giorni"));
         
-        // Boundary Testing: Limite superiore classe (20 giorni)
+        // Test Valore Limite (Boundary Superiore)
         prestito = createPrestitoScadutoGiorniFa(20);
-        assertTrue(prestito.gestioneSanzioni().contains("Categoria 2"), "20 giorni dovrebbero essere ancora Categoria 2");
+        assertTrue(prestito.gestioneSanzioni().contains("Categoria 2"), "Il giorno 20 è il limite superiore della Categoria 2");
     }
 
+    /**
+     * @brief Verifica Sanzioni: Classe "Blocco Permanente".
+     * * Range: Ritardo > 20.
+     * Vengono testati:
+     * - Boundary Value (Inferiore): 21.
+     */
     @Test
     public void testGestioneSanzioni_Categoria3_BloccoPermanente() {
-        // Boundary Testing: Limite inferiore classe finale (21 giorni)
+        // Test Valore Limite (Boundary Inferiore)
         prestito = createPrestitoScadutoGiorniFa(21);
-        assertTrue(prestito.gestioneSanzioni().contains("Categoria 3"), "21 giorni dovrebbero essere Categoria 3");
+        assertTrue(prestito.gestioneSanzioni().contains("Categoria 3"), "Il giorno 21 è il limite inferiore della Categoria 3");
         assertTrue(prestito.gestioneSanzioni().contains("Blocco PERMANENTE"));
     }
 
-    // --- Metodi Helper ---
-    
     /**
-     * Metodo di supporto per creare rapidamente prestiti con scadenza nel passato.
-     * Utile per testare i calcoli basati su LocalDate.now().
+     * @brief Metodo helper per la creazione rapida di prestiti scaduti.
+     * * Crea un'istanza di Prestito con una data di scadenza calcolata
+     * sottraendo il numero di giorni specificato dalla data odierna.
+     * * @param giorniFa Numero di giorni trascorsi dalla scadenza (Ritardo).
+     * @return Istanza di Prestito configurata per il test.
      */
     private Prestito createPrestitoScadutoGiorniFa(int giorniFa) {
         LocalDate scadenza = LocalDate.now().minusDays(giorniFa);
-        // dataRestituzione null implica che il ritardo viene calcolato su "oggi"
+        // Passando null come dataRestituzione, forziamo il calcolo del ritardo su "Oggi"
         return new Prestito(libroStub, studenteStub, dataInizio, scadenza, null);
     }
 }

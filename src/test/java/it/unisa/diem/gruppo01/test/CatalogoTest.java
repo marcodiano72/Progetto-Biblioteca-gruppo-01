@@ -1,6 +1,6 @@
 /**
  * @file CatalogoTest.java
- *@brief Classe di test unitario per la classe Catalogo.
+ * @brief Classe di test unitario per la classe Catalogo.
  *
  * Questa classe è progettata per testare la classe Catalogo,
  * vhe gestisce l'inventario dei libri,inclusa la persistenza su file CSV
@@ -24,18 +24,20 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- *Classe di test per la classe Catalogo 
+ * @brief Classe di test per la classe Catalogo.
  */
+
 public class CatalogoTest {
     
     private final static String NOME_FILE_CSV = "Lista_Libri.csv"; ///< Nome del file CSV utilizzato per la persistenza del catalogo nei test. 
     
-    /*
+    /**
      * @brief Metodo ausiliario che utilizza la Reflection per resettare
      * l'istanza di Catalogo.
      * Questo è essenziale per garantire che ogni test ottenga una nuova istanza
      * di Catalogo, permettendo di testare il caricamento iniziale (caricaCSV)
     */
+    
     private static void resetSingleton() {
         try {
             //Accede al campo statico 'istanza' (private) nella classe Catalogo
@@ -48,11 +50,13 @@ public class CatalogoTest {
         }
     }
     
-    /*
-    * @brief Metodo ausiliario per scrivere contenuti specifici nel file CSV di test.
-     * Utililizzato per simulare file malformati e testare di caricaCSV.
-     * @param contenuto La stringa da scrivere nel file
-    */
+    
+    /**
+     * @brief Metodo ausiliario per scrivere contenuti specifici nel file CSV di test.
+     * Utililizzato per simulare file malformati e testare di caricaCSV.
+     * @param[in] contenuto
+     */
+    
     private void scriviContenutoCSV(String contenuto) {
         try (java.io.FileWriter fw = new java.io.FileWriter(NOME_FILE_CSV)) {
             fw.write(contenuto);
@@ -61,36 +65,40 @@ public class CatalogoTest {
         }
     }
     
-    /*
-     * @brief Metodo che prepara l'ambiente prima di eseguire tutti i test: elimina il file CSV.
+    /**
+    * @brief Metodo che prepara l'ambiente prima di eseguire tutti i test: elimina il file CSV.
     */
+    
     @BeforeAll
     public static void setUpClass() {
         new File(NOME_FILE_CSV).delete();
     }
     
     
-    /*
-    *@brief Metodo che pulisce l'ambiente dopo l'esecuzione di tutti i test: elimina il file CSV.
+    /**
+    * @brief Metodo che pulisce l'ambiente dopo l'esecuzione di tutti i test: elimina il file CSV.
     */
+    
     @AfterAll
     public static void tearDownClass() {
         new File(NOME_FILE_CSV).delete();
     }
     
     
-    /*
+    /**
     *@brief Metodo che pulisce l'ambiente prima di ogni test: resetta il Singleton ed elimina il file CSV.
     */
+    
     @BeforeEach
     public void setUp() {
         resetSingleton();
         new File(NOME_FILE_CSV).delete();
     }
     
-    /*
+    /**
     *@brief Metodo che pulisce l'ambiente dopo ogni test: resetta il Singleton ed elimina il file CSV.
     */
+    
     @AfterEach
     public void tearDown() {
         resetSingleton();
@@ -100,6 +108,7 @@ public class CatalogoTest {
     /**
      * @brief Metodo che effettua il test del metodo getIstanza(),
      */
+    
     @Test
     public void testGetIstanza_Singleton() {
         Catalogo istanza1 = Catalogo.getIstanza();
@@ -114,6 +123,7 @@ public class CatalogoTest {
      * @brief Metodo che testa  getInventarioLibri(), verificando l'ordinamento primario per titolo
      * fornito dalla struttura del treeSet
      */
+    
     @Test
     public void testGetInventarioLibri_StrutturaDatiEOrdinamentoTitolo() {
         Catalogo istanza = Catalogo.getIstanza();
@@ -132,7 +142,8 @@ public class CatalogoTest {
     /**
     * @brief Metodo che fa il test del comparatore (Libro.compareTo) in caso di titoli identici, dove l'ordinamento
     * secondario dovrebbe essere basato sull'ISBN
-     */
+    */
+    
     @Test
     public void testLibroComparator_TitoliIdentici_OrdinamentoISBN() {
         Catalogo istanza = Catalogo.getIstanza();
@@ -153,6 +164,7 @@ public class CatalogoTest {
      * @brief Metodo che fa il test di aggiungiLibro(), verificando il caso in cui il libro
      * esista già (stesso ISBN), e debbano essere incrementate le copie
      */
+    
     @Test
     public void testAggiungiLibro_IncrementaCopie() {
         Catalogo istanza = Catalogo.getIstanza();
@@ -182,10 +194,11 @@ public class CatalogoTest {
         assertTrue(istanza.getInventarioLibri().isEmpty());
     }
     
-    /*
+    /**
      *@brief Metodo che fa il test del metodo eliminaLibro(),
      * verificando il caso in cui il libro non esista.
     */
+    
     @Test
     public void testEliminaLibro_NonEsistente() {
         Catalogo istanza = Catalogo.getIstanza();
@@ -197,6 +210,7 @@ public class CatalogoTest {
      * @brief Metodo di test su modifica libro. 
      *Copre il caso in cui non c'è bisogno di rimuovere/riaggiungere. 
      */
+    
     @Test
     public void testModificaLibro_SoloCopie_NoRiordinamento_CoperturaIF() {
         System.out.println("Test modificaLibro: Modifica solo copie (copertura del salto IF).");
@@ -217,10 +231,11 @@ public class CatalogoTest {
        
     }
     
-    /*
+    /**
     *@brief Metodo che fa il test di modificaLibro(): 
     * caso in cui viene modificato il titolo. Il TreeSet deve riordinare l'elemento.
     */
+    
     @Test
     public void testModificaLibro_TitoloCambiato_Riordinamento() {
         Catalogo istanza = Catalogo.getIstanza();
@@ -237,11 +252,12 @@ public class CatalogoTest {
     }
     
     
-    /*
+    /**
      * @brief Metodo che fa il test di modificaLibro(): caso in cui viene modificato l'autore.
      * Poiché l'Autore non è il campo di ordinamento primario (è secondario in caso di stesso titolo/ISBN),
      * questo assicura che il blocco di riordinamento venga attivato correttamente se l'Autore è cambiato.
     */
+    
     @Test
     public void testModificaLibro_AutoreCambiato_Riaggiunta() {
         Catalogo istanza = Catalogo.getIstanza();
@@ -254,10 +270,11 @@ public class CatalogoTest {
         assertEquals("Autore-A", istanza.getInventarioLibri().first().getAutore());
     }
 
-    /*
+    /**
      * @brief Metodo che fa il test di modificaLibro(): caso in cui si tenta di impostare un numero di copie negativo,
      * verificando che venga lanciata l'eccezione corretta (IllegalArgumentException).
      */
+    
     @Test
     public void testModificaLibro_CopieNegative_Eccezione() {
         Catalogo istanza = Catalogo.getIstanza();
@@ -274,6 +291,7 @@ public class CatalogoTest {
      * @brief Metodo che fa il test di getCatalogoObservableList(), verificando che il contenuto del TreeSet
      * sia correttamente copiato in una ObservableList
      */
+    
     @Test
     public void testGetCatalogoObservableList() {
         Catalogo istanza = Catalogo.getIstanza();
@@ -288,6 +306,7 @@ public class CatalogoTest {
     /**
      * @brief Metodo che fa il test  di salvaCSV() e caricaCSV() per verificare la corretta persistenza e ripristino dei dati.
      */
+    
     @Test
     public void testSalvaECaricaCSV_Successo() {
         Catalogo istanzaOriginale = Catalogo.getIstanza();
@@ -308,10 +327,11 @@ public class CatalogoTest {
     }
     
     
-    /*
-    * Test di robustezza: verifica che caricaCSV() gestisca e ignori righe malformate
+    /**
+    * @brief Test di robustezza: verifica che caricaCSV() gestisca e ignori righe malformate
     * (es. dati mancanti o non numerici), caricando solo i dati validi
     */
+    
     @Test
     public void testCaricaCSV_RigheMalformate() {
         // Righe malformate per coprire NumberFormatException e ArrayIndexOutOfBoundsException
@@ -344,9 +364,10 @@ public class CatalogoTest {
         assertTrue(file.exists());
     }
     
-    /*
+    /**
     * @brief Metodo che testa salvaDati() quando l'istanza non è mai stata creata.
     */
+    
     @Test
     public void testSalvaDati_IstanzaNull() {
         Catalogo.salvaDati();
@@ -366,9 +387,10 @@ public class CatalogoTest {
         assertEquals("Il catalogo è vuoto.", istanza.toString());
     }
 
-    /*
+    /**
     * @brief Metodo che testa la toString() per un catalogo con elementi
     */
+    
     @Test
     public void testToString_CatalogoPieno() {
         Catalogo istanza = Catalogo.getIstanza();

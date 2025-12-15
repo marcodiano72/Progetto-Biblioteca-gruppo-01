@@ -4,9 +4,10 @@
  *
  * Estende ApplicationTest (da TestFX) per inizializzare l'ambiente JavaFX
  *
- * @author gruppo01
+ * @author Gruppo01
  * @version 1.0
-*/package it.unisa.diem.gruppo01.test;
+*/
+package it.unisa.diem.gruppo01.test;
 
 import it.unisa.diem.gruppo01.Main;
 import it.unisa.diem.gruppo01.Main;
@@ -21,10 +22,11 @@ import org.testfx.framework.junit5.ApplicationTest;
 
 
  
-/*
- *Classe di test per la classe Main (punto di ingresso JavaFX). 
+/**
+ * @brief Classe di test per la classe Main (punto di ingresso JavaFX). 
  * Estende ApplicationTest per gestire l'ambiente JavaFX
 */
+
 public class MainTest extends ApplicationTest {
     
     private static boolean catalogoSalvaDatiChiamato = false;
@@ -36,11 +38,12 @@ public class MainTest extends ApplicationTest {
     private Stage stage;
 
     
-    /*
-     * Metodo che viene chiamato da TestFX per avviare l'applicazione.
-     * @param stage Lo Stage principale fornito da JavaFX.
-     * @throws Exception se l'avvio fallisce.
-    */
+    /**
+     * @brief Metodo che viene chiamato da TestFX per avviare l'applicazione.
+     * @param[in] stage Lo Stage principale fornito da JavaFX.
+     * @throws Exception se l'avvio fallisce.
+     */
+    
     @Override
     public void start(Stage stage) throws Exception {
         mainInstance = new Main();
@@ -49,20 +52,22 @@ public class MainTest extends ApplicationTest {
         this.stage = stage;
     }
     
-    /*
-    * Setup eseguito prima di ogni test.
-    * @throws Exception
+   /**
+    * @brief Setup eseguito prima di ogni test.
+    * @throws Exception 
     */
+    
     @BeforeEach
     public void setUp() throws Exception {
         catalogoSalvaDatiChiamato = false;
         // La configurazione dell'ambiente FX è gestita automaticamente da ApplicationTest/TestFX
     }
     
-    /*
-    * @breif Metodo che efuettua una pulizia ognivolta che viene eseguito dopo ogni test. Rilascia le risorse JavaFX.
-     * @throws Exception
+   /**
+    * @brief Esegue le operazioni di pulizia dopo ogni test.
+    * @throws Exception se si verifica un errore durante la pulizia dell'ambiente JavaFX
     */
+    
     @AfterEach
     public void tearDown() throws Exception {
         // Pulizia dell'ambiente FX dopo ogni test
@@ -72,6 +77,7 @@ public class MainTest extends ApplicationTest {
     /**
      * @brief Test del metodo start(), verificando che l'interfaccia sia correttamente inizializzata.
      */
+    
     @Test
     public void testStart() throws Exception {
         // Verifica che lo Stage sia stato caricato da start()
@@ -89,6 +95,7 @@ public class MainTest extends ApplicationTest {
      * Verifica che il processo di chiusura dell'applicazione avvenga senza errori,
      * che concettualmente implica la chiamata a Catalogo.salvaDati().
      */
+    
     @Test
     public void testStop() throws Exception {
         System.out.println("stop test: verifica esecuzione logica di salvataggio.");
@@ -102,6 +109,7 @@ public class MainTest extends ApplicationTest {
      * @brief Test del metodo main(String[] args)
      * Il metodo main è un wrapper per launch(args). 
      */
+    
     @Test
     public void testMain() {
         System.out.println("main test: verifica la gestione degli argomenti.");

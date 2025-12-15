@@ -10,6 +10,7 @@
  *@author gruppo01
  *@version 1.0
 */
+
 package it.unisa.diem.gruppo01.test;
 
 import it.unisa.diem.gruppo01.classi.Elenco;
@@ -25,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
- * Classe di test per la classe Elenco.
+ * @brief Classe di test per la classe Elenco.
  */
 public class ElencoTest {
     
@@ -37,9 +38,10 @@ public class ElencoTest {
     private final String FILE_DOS = "test_export.dat"; //Nome del file per l'esportazione DOS.
 
     
-    /*
+    /**
     * @brief Setup eseguito prima di ogni test. Inizializza l'istanza di Elenco e crea due studenti di prova.
     */
+    
     @BeforeEach
     public void setUp() {
         // Inizializza l'elenco e crea studenti di prova prima di ogni test
@@ -49,9 +51,10 @@ public class ElencoTest {
         s2 = new Studente("Luigi", "Verdi", "002", "l.verdi@studenti.unisa.it", "Nessuna", false);
     }
     
-    /*
+    /**
     *@brief Pulizia eseguita dopo ogni test. Elimina i file di persistenza creati dal test.
     */
+    
     @AfterEach
     public void tearDown() {
         // Pulizia: elimina i file creati durante i test di salvataggio
@@ -71,6 +74,7 @@ public class ElencoTest {
     /**
      * @brief Test del metodo getElencoStudenti(), verifica che restituisca il TreeSet corretto.
      */
+    
     @Test
     public void testGetElencoStudenti() {
         System.out.println("getElencoStudenti");
@@ -90,6 +94,7 @@ public class ElencoTest {
     /**
      * @brief Test del metodo cercaStudenteperMatricola(), verifica la ricerca per chiave (Matricola).
      */
+    
     @Test
     public void testCercaStudenteperMatricola() {
         System.out.println("cercaStudenteperMatricola");
@@ -111,6 +116,7 @@ public class ElencoTest {
     /**
      * @brief Test del metodo aggiungiStudente(), verifica l'inserimento e la gestione dei duplicati.
      */
+    
     @Test
     public void testAggiungiStudente() {
         System.out.println("aggiungiStudente");
@@ -130,6 +136,7 @@ public class ElencoTest {
     /**
      * @brief Test del metodo modificaStudente(), verifica l'aggiornamento dei dati e il potenziale riordinamento.
      */
+    
     @Test
     public void testModificaStudente() {
         System.out.println("modificaStudente");
@@ -157,6 +164,7 @@ public class ElencoTest {
     /**
      * @brief est del metodo eliminaStudente(), verifica la rimozione di un elemento.
      */
+    
     @Test
     public void testEliminaStudente() {
         System.out.println("eliminaStudente");
@@ -178,6 +186,7 @@ public class ElencoTest {
      * @brief Test del metodo salvaDOS(), verifica il salvataggio dei dati in formato DOS (binario o serializzazione).
      * Si verifica l'esistenxa e la non vuotezza del file
      */
+    
     @Test
     public void testSalvaDOS() throws Exception {
         System.out.println("salvaDOS");
@@ -195,6 +204,7 @@ public class ElencoTest {
      * @brief Test del metodo salvaCSV(), verifica il salvataggio dei dati in formato CSV.
      *Si usa il nome file "Lista_studenti.csv"
     */
+    
     @Test
     public void testSalvaCSV() {
         System.out.println("salvaCSV");
@@ -213,6 +223,7 @@ public class ElencoTest {
     /**
      * @brief Test del metodo caricaDati(), verifica il caricamento dei dati da CSV.
      */
+    
     @Test
     public void testCaricaDati() {
         System.out.println("caricaDati");
@@ -237,6 +248,7 @@ public class ElencoTest {
     /**
      * @brief Test del metodo toString(), verifica la rappresentazione stringa dell'elenco.
      */
+    
     @Test
     public void testToString() {
         System.out.println("toString");

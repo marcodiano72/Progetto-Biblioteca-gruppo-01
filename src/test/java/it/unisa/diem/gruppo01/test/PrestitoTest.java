@@ -20,8 +20,8 @@ import java.time.LocalDate;
 
 /**
  * @brief Classe di test unitari per la classe Prestito.
- * * Questa classe definisce la suite di test per la verifica funzionale dell'entità Prestito.
- * * @see it.unisa.diem.gruppo01.classi.Prestito
+ * Questa classe definisce la suite di test per la verifica funzionale dell'entità Prestito.
+ * @see it.unisa.diem.gruppo01.classi.Prestito
  */
 public class PrestitoTest {
 
@@ -38,10 +38,11 @@ public class PrestitoTest {
 
     /**
      * @brief Fixture di configurazione (eseguita prima di ogni test).
-     * * Inizializza l'ambiente di test (Test Harness) resettando le variabili
+     * Inizializza l'ambiente di test (Test Harness) resettando le variabili
      * e definendo una finestra temporale standard per i test.
      * Garantisce l'indipendenza dei singoli casi di test.
      */
+    
     @BeforeEach
     public void setUp() {
         // Arrange: Configurazione iniziale
@@ -57,9 +58,10 @@ public class PrestitoTest {
 
     /**
      * @brief Verifica il corretto funzionamento del Costruttore e dei Getter.
-     * * Controlla che l'oggetto venga istanziato correttamente e che i valori
+     * Controlla che l'oggetto venga istanziato correttamente e che i valori
      * incapsulati corrispondano a quelli forniti in fase di costruzione.
      */
+    
     @Test
     public void testCostruttoreEGetter() {
         // Act
@@ -74,11 +76,12 @@ public class PrestitoTest {
 
     /**
      * @brief Verifica il metodo isPrestitoAttivo().
-     * * Obiettivo: Branch Coverage.
+     * Obiettivo: Branch Coverage.
      * Verifica i due stati possibili del ciclo di vita del prestito:
      * 1. Attivo (Restituzione == null).
      * 2. Concluso (Restituzione != null).
      */
+    
     @Test
     public void testIsPrestitoAttivo() {
         // Branch 1: Prestito ancora in corso
@@ -92,9 +95,10 @@ public class PrestitoTest {
 
     /**
      * @brief Test calcolo giorni ritardo: Scenario "Nessun Ritardo".
-     * * Verifica che il sistema restituisca 0 se il libro viene restituito
+     * Verifica che il sistema restituisca 0 se il libro viene restituito
      * entro la data di scadenza prevista.
      */
+    
     @Test
     public void testCalcolaGiorniRitardo_NessunRitardo() {
         // Arrange: Restituzione contestuale alla creazione (oggi)
@@ -110,9 +114,10 @@ public class PrestitoTest {
 
     /**
      * @brief Test calcolo giorni ritardo: Scenario "Ritardo Consolidato".
-     * * Verifica il calcolo su un prestito già concluso (dataRestituzione != null).
+     * Verifica il calcolo su un prestito già concluso (dataRestituzione != null).
      * Il ritardo è la differenza tra Data Restituzione e Data Scadenza.
      */
+    
     @Test
     public void testCalcolaGiorniRitardo_ConRitardoRestituito() {
         // Arrange: Scadenza passata (5 giorni fa), Restituito oggi
@@ -125,9 +130,10 @@ public class PrestitoTest {
 
     /**
      * @brief Test calcolo giorni ritardo: Scenario "Ritardo in Corso".
-     * * Verifica il calcolo su un prestito ancora attivo (dataRestituzione == null).
+     * Verifica il calcolo su un prestito ancora attivo (dataRestituzione == null).
      * Il sistema deve usare LocalDate.now() come riferimento per il calcolo.
      */
+    
     @Test
     public void testCalcolaGiorniRitardo_AttivoInRitardo() {
         // Arrange: Scadenza passata (10 giorni fa), NON ancora restituito
@@ -138,17 +144,13 @@ public class PrestitoTest {
         assertEquals(10, prestito.calcolaGiorniRitardo(), "Per prestiti attivi, il ritardo si calcola rispetto alla data corrente");
     }
 
-    // =========================================================================
-    //  SEZIONE TEST GESTIONE SANZIONI
-    // =========================================================================
-
+   
     
 
     /**
      * @brief Verifica Sanzioni: Classe di Equivalenza "Nessun Ritardo".
-     * * Range: Ritardo <= 0.
-     * Expected: NESSUN_RITARDO.
      */
+    
     @Test
     public void testGestioneSanzioni_NessunRitardo() {
         prestito = createPrestitoScadutoGiorniFa(0);
@@ -157,11 +159,13 @@ public class PrestitoTest {
 
     /**
      * @brief Verifica Sanzioni: Classe "Blocco Lieve".
-     * *Range: 1 <= Ritardo <= 10.
+     * Range: 1 <= Ritardo <= 10.
      * Vengono testati:
      * - Valore intermedio (5).
      * - <b>Boundary Value (Superiore):</b> 10.
      */
+    
+    
     @Test
     public void testGestioneSanzioni_Categoria1_BloccoLieve() {
         // Test Valore Intermedio
@@ -176,12 +180,13 @@ public class PrestitoTest {
 
     /**
      * @brief Verifica Sanzioni: Classe "Blocco 30 Giorni".
-     * * Range: 11 <= Ritardo <= 20.
+     * Range: 11 <= Ritardo <= 20.
      * Vengono testati:
      * - oundary Value (Inferiore): 11.
      * - Valore intermedio (15).
      * - Boundary Value (Superiore): 20.
      */
+    
     @Test
     public void testGestioneSanzioni_Categoria2_Blocco30Giorni() {
         // Test Valore Limite (Boundary Inferiore)
@@ -199,10 +204,11 @@ public class PrestitoTest {
 
     /**
      * @brief Verifica Sanzioni: Classe "Blocco Permanente".
-     * * Range: Ritardo > 20.
+     * Range: Ritardo > 20.
      * Vengono testati:
      * - Boundary Value (Inferiore): 21.
      */
+    
     @Test
     public void testGestioneSanzioni_Categoria3_BloccoPermanente() {
         // Test Valore Limite (Boundary Inferiore)
@@ -213,11 +219,12 @@ public class PrestitoTest {
 
     /**
      * @brief Metodo helper per la creazione rapida di prestiti scaduti.
-     * * Crea un'istanza di Prestito con una data di scadenza calcolata
+     * Crea un'istanza di Prestito con una data di scadenza calcolata
      * sottraendo il numero di giorni specificato dalla data odierna.
-     * * @param giorniFa Numero di giorni trascorsi dalla scadenza (Ritardo).
+     * @param[in] giorniFa Numero di giorni trascorsi dalla scadenza (Ritardo).
      * @return Istanza di Prestito configurata per il test.
      */
+    
     private Prestito createPrestitoScadutoGiorniFa(int giorniFa) {
         LocalDate scadenza = LocalDate.now().minusDays(giorniFa);
         // Passando null come dataRestituzione, forziamo il calcolo del ritardo su "Oggi"

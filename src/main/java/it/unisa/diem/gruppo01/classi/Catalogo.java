@@ -348,7 +348,7 @@ public class Catalogo {
                         String titolo = dati[0].trim();
                         String autore = dati[1].trim();
                         String isbn = dati[2].trim();
-                        LocalDate annoPb = LocalDate.parse(dati[3].trim());
+                        LocalDate annoPb = LocalDate.of(Integer.parseInt(dati[3].trim()), 1, 1);
                         int numCopie = Integer.parseInt(dati[4].trim());
                         
                         // Per il LocalDate, usiamo un anno fittizio,

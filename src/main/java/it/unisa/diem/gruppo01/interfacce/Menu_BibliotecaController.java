@@ -65,7 +65,7 @@ public class Menu_BibliotecaController implements Initializable {
      * @brief Metodo che imposta l'istanza del Catalogo.
      * @param catalogo L'istanza del Catalogo da utilizzare.
     */
-    public void setCatalogo(Catalogo catalogo) {
+   public void setCatalogo(Catalogo catalogo) {
         this.catalogo = catalogo;
         System.out.println("Catalogo ricevuto con successo nel Menu' Principale");
     }
@@ -135,8 +135,6 @@ public class Menu_BibliotecaController implements Initializable {
             Parent libriParent = loader.load();
 
             GestioneLibriController libriController = loader.getController();
-           
-            libriController.setCatalogo(this.catalogo); 
             
             Scene libriScene = new Scene(libriParent);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();

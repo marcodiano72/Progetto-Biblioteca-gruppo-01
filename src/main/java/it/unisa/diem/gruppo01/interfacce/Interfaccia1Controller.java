@@ -62,7 +62,7 @@ public class Interfaccia1Controller implements Initializable {
         }
         
         // Inizializza il Catalogo all'avvio dell'app 
-        Catalogo.getIstanza();
+        //Catalogo.getIstanza();
         
         // CONFIGURAZIONE INVIO DA TASTIERA
         // Imposta questo bottone come "Default Button".

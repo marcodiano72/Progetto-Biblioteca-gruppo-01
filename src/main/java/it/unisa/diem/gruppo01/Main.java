@@ -33,7 +33,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-       Catalogo.getIstanza(); ///< Assicura che il catalogo sia pronto e che i dati siano disponibili prima che l'interfaccia utente tenti di accedervi.
        Parent root = FXMLLoader.load(getClass().getResource("/it/unisa/diem/gruppo01/interfacce/Interfaccia1View.fxml"));
 
         
@@ -54,7 +53,7 @@ public class Main extends Application {
     @Override
     public void stop() throws Exception
     {
-        Catalogo.salvaDati();
+        //Catalogo.salvaDati();
         super.stop();
     }
     

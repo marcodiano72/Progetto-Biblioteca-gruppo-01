@@ -278,7 +278,6 @@ public class Elenco {
                            SEPARATORE + SEPARATORE + SEPARATORE + 
                            SEPARATORE + SEPARATORE + SEPARATORE + SEPARATORE);
             } else {
-                // AGGIUNGI QUESTO IMPORT IN CIMA AL FILE: import java.time.format.DateTimeFormatter;
                 DateTimeFormatter formatterAnno = DateTimeFormatter.ofPattern("yyyy");
                 
                 for (Prestito p : prestitiAttivi) {

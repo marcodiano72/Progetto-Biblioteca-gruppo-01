@@ -1,6 +1,6 @@
 /**
- * @file StudenteTest.java
- * @brief Suite di test unitari per la classe Studente.
+ * @file PrestitoTest.java
+ * @brief Suite di test unitari per la classe Prestito.
  * * Questo file contiene i test per verificare la corretta gestione anagrafica,
  * la logica dei permessi (abilitazione al prestito) e il sistema sanzionatorio.
  * Utilizza JUnit 5 e Java Reflection per test white-box avanzati.

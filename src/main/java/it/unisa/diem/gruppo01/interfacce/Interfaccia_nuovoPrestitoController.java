@@ -384,14 +384,18 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
            String isbnLibro = prestitoDaChiudere.getLibro().getIsbn();
            
            if(catalogoLibri != null) {
+               boolean trovato = false;
                for(Libro l : catalogoLibri.getInventarioLibri()){
                    if(l.getIsbn().equals(isbnLibro)){
                        l.incrementaCopie(1); // Incrementa il libro nel catalogo
+                       trovato=true;
                        break;
                    }
-                  else
-                  {
-                   Libro libroPrestato = prestitoDaChiudere.getLibro();
+                  
+               }
+                if(!trovato)
+                {
+                     Libro libroPrestato = prestitoDaChiudere.getLibro();
 
                     Libro nuovoLibro = new Libro(
                         libroPrestato.getIsbn(),
@@ -402,9 +406,12 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
                     );
 
                     catalogoLibri.aggiungiLibro(nuovoLibro);
-                  }
+                    
                 }
-               }
+           }
+
+                  
+    
           
           
            

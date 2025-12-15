@@ -67,7 +67,7 @@ public class CatalogoTest {
     public void setUp() {
         // Inizializzazione dei dati di prova
         LocalDate data = LocalDate.of(2000, 1, 1);
-        libro1 = new Libro("", "Il Signore degli Anelli", "J.R.R. Tolkien", data, 5);
+        libro1 = new Libro("978-3802389203", "Il Signore degli Anelli", "J.R.R. Tolkien", data, 5);
         libro2 = new Libro("978-0743273565", "Il Codice Da Vinci", "Dan Brown", data, 3);
         libro3 = new Libro("978-1503254245", "1984", "George Orwell", data, 1);
     
@@ -152,18 +152,24 @@ public class CatalogoTest {
         System.out.println("testAggiungiLibro");
         
         // Aggiunta di un nuovo libro
-        boolean aggiuntoNuovo = istanzaCatalogo.aggiungiLibro(libro1);
-        assertTrue(aggiuntoNuovo, "Dovrebbe ritornare true per un nuovo libro.");
-        assertEquals(1, istanzaCatalogo.getInventarioLibri().size(), "Ci deve essere 1 libro.");
-        
-        // Tentativo di aggiungere un libro con lo stesso ISBN (dovrebbe incrementare le copie)
-        Libro libro1b = new Libro("978-8861928090", "Titolo Diverso", "Autore Diverso", LocalDate.of(2001, 1, 1), 2);
-        boolean aggiornato = istanzaCatalogo.aggiungiLibro(libro1b);
-        assertFalse(aggiornato, "Dovrebbe ritornare false per un libro esistente.");
-        assertEquals(1, istanzaCatalogo.getInventarioLibri().size(), "Il numero di elementi deve rimanere 1.");
-        
-        Libro libroTrovato = istanzaCatalogo.getCatalogoObservableList().get(0);
-        assertEquals(7, libroTrovato.getNumCopie(), "Il numero di copie deve essere incrementato (5 + 2 = 7).");
+       boolean aggiuntoNuovo = istanzaCatalogo.aggiungiLibro(libro2); // ISBN: 978-0743273565, Copie: 3
+    assertTrue(aggiuntoNuovo, "Dovrebbe ritornare true per un nuovo libro.");
+    assertEquals(1, istanzaCatalogo.getInventarioLibri().size(), "Ci deve essere 1 libro.");
+    
+    // Tentativo di aggiungere un libro con lo STESSO ISBN (dovrebbe incrementare le copie)
+    // Usiamo lo stesso ISBN di libro2, ma copie e dettagli diversi
+    Libro libro2b = new Libro(libro2.getIsbn(), "Titolo Nuovo", "Autore Nuovo", LocalDate.of(2010, 1, 1), 2);
+    
+    // Il metodo cercaLibroPerISBN lo troverà. Dovrebbe restituire false.
+    boolean aggiornato = istanzaCatalogo.aggiungiLibro(libro2b);
+    
+    // ASSERZIONE CORRETTA
+    assertFalse(aggiornato, "Dovrebbe ritornare false per un libro esistente."); // Risolve expected:<false> but was:<true>
+    assertEquals(1, istanzaCatalogo.getInventarioLibri().size(), "Il numero di elementi deve rimanere 1.");
+    
+    // Verifica l'incremento delle copie (3 + 2 = 5)
+    Libro libroTrovato = istanzaCatalogo.getCatalogoObservableList().get(0);
+    assertEquals(5, libroTrovato.getNumCopie(), "Il numero di copie deve essere incrementato (3 + 2 = 5).");
     }
 
     /**

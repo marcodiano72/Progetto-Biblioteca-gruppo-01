@@ -1,4 +1,5 @@
 Elenco Studenti
 Cognome; Nome; Matricola; Email; Sanzione; Ritardo; PrestitoAttivo; ISBN; Titolo; Autore; AnnoPubblicazione; DataInizio; DataScadenza; DataRestituzione
-Luigi;Verdi;002;l.verdi@studenti.unisa.it;Nessuna;false;0;;;;;;;;
-Mario;Rossi;001;m.rossi@studenti.unisa.it;Nessuna;false;0;;;;;;;;
+Abete;Mario;999;m.abete@studenti.unisa.it; ;false;0;;;;;;;;
+Rossi;Mario;001;m.rossi@studenti.unisa.it;Nessuna;false;1;123;LIBRO;PROVA;2000;2025-12-15;2026-02-03;
+Verdi;Luigi;002;l.verdi@studenti.unisa.it;Nessuna;false;0;;;;;;;;

@@ -348,7 +348,7 @@ public void caricaDati() {
                         boolean ritardo = Boolean.parseBoolean(campi[5].trim()); 
                         
                         // Costruttore Studente
-                        studenteCorrente = new Studente(nome, cognome, matricola, email, sanzione, ritardo); 
+                        studenteCorrente = new Studente(cognome,nome, matricola, email, sanzione, ritardo); 
                         studentiMappa.put(matricola, studenteCorrente);
                     }
                     

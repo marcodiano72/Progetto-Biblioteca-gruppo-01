@@ -1,8 +1,15 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+ *@file ElencoTest.java
+ *@brief Classe di test unitario per la classe Elenco.
+ *
+ * Questa classe testa le funzionalità di creaziona/modifica/lettura/rimozione
+ * e di persistenza (salvataggio/caricamento) della classe Elenco, che gestisce
+ * un insieme di oggetti Studente, utilizzando un TreeSet
+ * per mantenere l'ordinamento.
+ *
+ *@author gruppo01
+ *@version 1.0
+*/
 package it.unisa.diem.gruppo01.test;
 
 import it.unisa.diem.gruppo01.classi.Elenco;
@@ -18,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
- * @author nicolaazzato
+ * Classe di test per la classe Elenco.
  */
 public class ElencoTest {
     
@@ -26,20 +33,13 @@ public class ElencoTest {
     private Elenco instance;
     private Studente s1;
     private Studente s2;
-    private final String FILE_CSV = "Lista_studenti.csv"; // Nome hardcoded nella classe Elenco
-    private final String FILE_DOS = "test_export.dat";
+    private final String FILE_CSV = "Lista_studenti.csv"; //Nome del file CSV utilizzato per la persistenza del catalogo.
+    private final String FILE_DOS = "test_export.dat"; //Nome del file per l'esportazione DOS.
 
-    public ElencoTest() {
-    }
     
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
+    /*
+    * @brief Setup eseguito prima di ogni test. Inizializza l'istanza di Elenco e crea due studenti di prova.
+    */
     @BeforeEach
     public void setUp() {
         // Inizializza l'elenco e crea studenti di prova prima di ogni test
@@ -49,6 +49,9 @@ public class ElencoTest {
         s2 = new Studente("Luigi", "Verdi", "002", "l.verdi@studenti.unisa.it", "Nessuna", false);
     }
     
+    /*
+    *@brief Pulizia eseguita dopo ogni test. Elimina i file di persistenza creati dal test.
+    */
     @AfterEach
     public void tearDown() {
         // Pulizia: elimina i file creati durante i test di salvataggio
@@ -66,7 +69,7 @@ public class ElencoTest {
     }
 
     /**
-     * Test of getElencoStudenti method, of class Elenco.
+     * @brief Test del metodo getElencoStudenti(), verifica che restituisca il TreeSet corretto.
      */
     @Test
     public void testGetElencoStudenti() {
@@ -85,7 +88,7 @@ public class ElencoTest {
     }
 
     /**
-     * Test of cercaStudenteperMatricola method, of class Elenco.
+     * @brief Test del metodo cercaStudenteperMatricola(), verifica la ricerca per chiave (Matricola).
      */
     @Test
     public void testCercaStudenteperMatricola() {
@@ -93,7 +96,7 @@ public class ElencoTest {
         
         instance.aggiungiStudente(s1);
         
-        // Caso 1: Matricola esistente
+        // Caso 1:Matricola esistente
         String matricola = "001";
         Studente result = instance.cercaStudenteperMatricola(matricola);
         assertNotNull(result);
@@ -106,7 +109,7 @@ public class ElencoTest {
     }
 
     /**
-     * Test of aggiungiStudente method, of class Elenco.
+     * @brief Test del metodo aggiungiStudente(), verifica l'inserimento e la gestione dei duplicati.
      */
     @Test
     public void testAggiungiStudente() {
@@ -121,11 +124,11 @@ public class ElencoTest {
         Studente sDuplicato = new Studente("Anna", "Bianchi", "001", "a.bianchi@test.it", "Nessuna", false);
         boolean resultDuplicato = instance.aggiungiStudente(sDuplicato);
         assertFalse(resultDuplicato, "Non dovrebbe aggiungere studenti con matricola duplicata");
-        assertEquals(1, instance.getElencoStudenti().size());
+        assertEquals(1, instance.getElencoStudenti().size()); // La dimensione rimane 1
     }
 
     /**
-     * Test of modificaStudente method, of class Elenco.
+     * @brief Test del metodo modificaStudente(), verifica l'aggiornamento dei dati e il potenziale riordinamento.
      */
     @Test
     public void testModificaStudente() {
@@ -152,7 +155,7 @@ public class ElencoTest {
     }
 
     /**
-     * Test of eliminaStudente method, of class Elenco.
+     * @brief est del metodo eliminaStudente(), verifica la rimozione di un elemento.
      */
     @Test
     public void testEliminaStudente() {
@@ -172,7 +175,8 @@ public class ElencoTest {
     }
 
     /**
-     * Test of salvaDOS method, of class Elenco.
+     * @brief Test del metodo salvaDOS(), verifica il salvataggio dei dati in formato DOS (binario o serializzazione).
+     * Si verifica l'esistenxa e la non vuotezza del file
      */
     @Test
     public void testSalvaDOS() throws Exception {
@@ -188,8 +192,9 @@ public class ElencoTest {
     }
 
     /**
-     * Test of salvaCSV method, of class Elenco.
-     */
+     * @brief Test del metodo salvaCSV(), verifica il salvataggio dei dati in formato CSV.
+     *Si usa il nome file "Lista_studenti.csv"
+    */
     @Test
     public void testSalvaCSV() {
         System.out.println("salvaCSV");
@@ -206,31 +211,31 @@ public class ElencoTest {
     }
 
     /**
-     * Test of caricaDati method, of class Elenco.
+     * @brief Test del metodo caricaDati(), verifica il caricamento dei dati da CSV.
      */
     @Test
     public void testCaricaDati() {
         System.out.println("caricaDati");
         
-        // 1. Prepara dati e salva su file
+        // Prepara dati e salva su file
         instance.aggiungiStudente(s1);
         instance.aggiungiStudente(s2);
         instance.salvaCSV();
         
-        // 2. Crea una nuova istanza pulita
+        // Crea una nuova istanza pulita
         Elenco nuovaIstanza = new Elenco();
         
-        // 3. Carica i dati
+        // Carica i dati
         nuovaIstanza.caricaDati();
         
-        // 4. Verifica
+        // Verifica che entrambi gli studenti siano stati caricati
         assertEquals(2, nuovaIstanza.getElencoStudenti().size());
         assertNotNull(nuovaIstanza.cercaStudenteperMatricola("001"));
         assertNotNull(nuovaIstanza.cercaStudenteperMatricola("002"));
     }
 
     /**
-     * Test of toString method, of class Elenco.
+     * @brief Test del metodo toString(), verifica la rappresentazione stringa dell'elenco.
      */
     @Test
     public void testToString() {
@@ -245,6 +250,7 @@ public class ElencoTest {
         instance.aggiungiStudente(s1);
         String resultFull = instance.toString();
         assertNotNull(resultFull);
+        // Verifica la presenza di dati chiave nell'output
         assertTrue(resultFull.contains("Rossi")); // Controlla che ci sia il cognome
         assertTrue(resultFull.contains("001"));   // Controlla che ci sia la matricola
     }

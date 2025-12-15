@@ -389,8 +389,23 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
                        l.incrementaCopie(1); // Incrementa il libro nel catalogo
                        break;
                    }
+                  else
+                  {
+                   Libro libroPrestato = prestitoDaChiudere.getLibro();
+
+                    Libro nuovoLibro = new Libro(
+                        libroPrestato.getIsbn(),
+                        libroPrestato.getTitolo(),
+                        libroPrestato.getAutore(),
+                        libroPrestato.getAnnoPb(),
+                         1   // almeno una copia rientrata
+                    );
+
+                    catalogoLibri.aggiungiLibro(nuovoLibro);
+                  }
+                }
                }
-           }
+          
           
            
            String esitoSanzione = prestitoDaChiudere.gestioneSanzioni();

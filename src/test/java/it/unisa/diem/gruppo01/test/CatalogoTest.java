@@ -67,9 +67,10 @@ public class CatalogoTest {
     public void setUp() {
         // Inizializzazione dei dati di prova
         LocalDate data = LocalDate.of(2000, 1, 1);
-        libro1 = new Libro("978-8861928090", "Il Signore degli Anelli", "J.R.R. Tolkien", data, 5);
+        libro1 = new Libro("", "Il Signore degli Anelli", "J.R.R. Tolkien", data, 5);
         libro2 = new Libro("978-0743273565", "Il Codice Da Vinci", "Dan Brown", data, 3);
         libro3 = new Libro("978-1503254245", "1984", "George Orwell", data, 1);
+    
         
         // Otteniamo l'istanza Singleton e la puliamo
         istanzaCatalogo = Catalogo.getIstanza();

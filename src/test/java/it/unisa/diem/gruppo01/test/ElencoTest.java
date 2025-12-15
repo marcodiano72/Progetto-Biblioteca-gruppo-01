@@ -67,20 +67,13 @@ public class ElencoTest {
         s9 = new Studente("Conti", "Luigia", "1009", "l.conti@studenti.uni.it", "Nessuna", false);
         s10 = new Studente("Pellegrini", "Luca", "1010", "l.pellegrini@studenti.unisa.it", "Nessuna", false);
     }
+    
     /**
     *@brief Pulizia eseguita dopo ogni test. Elimina i file di persistenza creati dal test.
     */
-    
     @AfterEach
     public void tearDown() {
-        // Pulizia: elimina i file creati durante i test di salvataggio
-        /*
-        File fCsv = new File(FILE_CSV);
-        if (fCsv.exists()) {
-            fCsv.delete();
-        }
-        */  //Commentiamo altrimenti il file verrebbe eliminato
-        
+       
         File fDos = new File(FILE_DOS);
         if (fDos.exists()) {
             fDos.delete();
@@ -90,7 +83,6 @@ public class ElencoTest {
     /**
      * @brief Test del metodo getElencoStudenti(), verifica che restituisca il TreeSet corretto.
      */
-    
     @Test
     public void testGetElencoStudenti() {
         System.out.println("getElencoStudenti");
@@ -110,7 +102,6 @@ public class ElencoTest {
     /**
      * @brief Test del metodo cercaStudenteperMatricola(), verifica la ricerca per chiave (Matricola).
      */
-    
     @Test
     public void testCercaStudenteperMatricola() {
         System.out.println("cercaStudenteperMatricola");
@@ -132,7 +123,6 @@ public class ElencoTest {
     /**
      * @brief Test del metodo aggiungiStudente(), verifica l'inserimento e la gestione dei duplicati.
      */
-    
     @Test
     public void testAggiungiStudente() {
         System.out.println("aggiungiStudente");
@@ -190,7 +180,6 @@ public class ElencoTest {
     /**
      * @brief Test del metodo modificaStudente(), verifica l'aggiornamento dei dati e il potenziale riordinamento.
      */
-    
     @Test
     public void testModificaStudente() {
         System.out.println("modificaStudente");
@@ -218,7 +207,6 @@ public class ElencoTest {
     /**
      * @brief est del metodo eliminaStudente(), verifica la rimozione di un elemento.
      */
-    
     @Test
     public void testEliminaStudente() {
         System.out.println("eliminaStudente");
@@ -240,7 +228,6 @@ public class ElencoTest {
      * @brief Test del metodo salvaDOS(), verifica il salvataggio dei dati in formato DOS (binario o serializzazione).
      * Si verifica l'esistenxa e la non vuotezza del file
      */
-    
     @Test
     public void testSalvaDOS() throws Exception {
         System.out.println("salvaDOS");
@@ -258,7 +245,6 @@ public class ElencoTest {
      * @brief Test del metodo salvaCSV(), verifica il salvataggio dei dati in formato CSV.
      *Si usa il nome file "Lista_studenti.csv"
     */
-    
     @Test
     public void testSalvaCSV() {
         System.out.println("salvaCSV");
@@ -286,7 +272,6 @@ public class ElencoTest {
     /**
      * @brief Test del metodo caricaDati(), verifica il caricamento dei dati da CSV.
      */
-    
     @Test
     public void testCaricaDati() {
         System.out.println("caricaDati");
@@ -327,7 +312,6 @@ public class ElencoTest {
     /**
      * @brief Test del metodo toString(), verifica la rappresentazione stringa dell'elenco.
      */
-    
     @Test
     public void testToString() {
         System.out.println("toString");

@@ -41,7 +41,6 @@ public class PrestitoTest {
      * e definendo una finestra temporale standard per i test.
      * Garantisce l'indipendenza dei singoli casi di test.
      */
-    
     @BeforeEach
     public void setUp() {
         // Arrange: Configurazione iniziale
@@ -60,7 +59,6 @@ public class PrestitoTest {
      * Controlla che l'oggetto venga istanziato correttamente e che i valori
      * incapsulati corrispondano a quelli forniti in fase di costruzione.
      */
-    
     @Test
     public void testCostruttoreEGetter() {
         // Act
@@ -80,7 +78,6 @@ public class PrestitoTest {
      * 1. Attivo (Restituzione == null).
      * 2. Concluso (Restituzione != null).
      */
-    
     @Test
     public void testIsPrestitoAttivo() {
         // Branch 1: Prestito ancora in corso
@@ -97,7 +94,6 @@ public class PrestitoTest {
      * Verifica che il sistema restituisca 0 se il libro viene restituito
      * entro la data di scadenza prevista.
      */
-    
     @Test
     public void testCalcolaGiorniRitardo_NessunRitardo() {
         // Arrange: Restituzione contestuale alla creazione (oggi)
@@ -116,7 +112,6 @@ public class PrestitoTest {
      * Verifica il calcolo su un prestito già concluso (dataRestituzione != null).
      * Il ritardo è la differenza tra Data Restituzione e Data Scadenza.
      */
-    
     @Test
     public void testCalcolaGiorniRitardo_ConRitardoRestituito() {
         // Arrange: Scadenza passata (5 giorni fa), Restituito oggi
@@ -132,7 +127,6 @@ public class PrestitoTest {
      * Verifica il calcolo su un prestito ancora attivo (dataRestituzione == null).
      * Il sistema deve usare LocalDate.now() come riferimento per il calcolo.
      */
-    
     @Test
     public void testCalcolaGiorniRitardo_AttivoInRitardo() {
         // Arrange: Scadenza passata (10 giorni fa), NON ancora restituito
@@ -149,22 +143,18 @@ public class PrestitoTest {
     /**
      * @brief Verifica Sanzioni: Classe di Equivalenza "Nessun Ritardo".
      */
-    
     @Test
     public void testGestioneSanzioni_NessunRitardo() {
         prestito = createPrestitoScadutoGiorniFa(0);
         assertEquals(Prestito.NESSUN_RITARDO, prestito.gestioneSanzioni());
     }
 
+    
+    
     /**
      * @brief Verifica Sanzioni: Classe "Blocco Lieve".
-     * Range: 1 <= Ritardo <= 10.
-     * Vengono testati:
-     * - Valore intermedio (5).
-     * - <b>Boundary Value (Superiore):</b> 10.
+     * Range: 1 < <= Ritardo <= +10
      */
-    
-    
     @Test
     public void testGestioneSanzioni_Categoria1_BloccoLieve() {
         // Test Valore Intermedio
@@ -177,15 +167,11 @@ public class PrestitoTest {
         assertTrue(prestito.gestioneSanzioni().contains("Categoria 1"), "Il giorno 10 è il limite superiore della Categoria 1");
     }
 
+    
     /**
      * @brief Verifica Sanzioni: Classe "Blocco 30 Giorni".
      * Range: 11 <= Ritardo <= 20.
-     * Vengono testati:
-     * - oundary Value (Inferiore): 11.
-     * - Valore intermedio (15).
-     * - Boundary Value (Superiore): 20.
      */
-    
     @Test
     public void testGestioneSanzioni_Categoria2_Blocco30Giorni() {
         // Test Valore Limite (Boundary Inferiore)
@@ -200,14 +186,12 @@ public class PrestitoTest {
         prestito = createPrestitoScadutoGiorniFa(20);
         assertTrue(prestito.gestioneSanzioni().contains("Categoria 2"), "Il giorno 20 è il limite superiore della Categoria 2");
     }
+    
 
     /**
      * @brief Verifica Sanzioni: Classe "Blocco Permanente".
      * Range: Ritardo > 20.
-     * Vengono testati:
-     * - Boundary Value (Inferiore): 21.
      */
-    
     @Test
     public void testGestioneSanzioni_Categoria3_BloccoPermanente() {
         // Test Valore Limite (Boundary Inferiore)
@@ -216,6 +200,7 @@ public class PrestitoTest {
         assertTrue(prestito.gestioneSanzioni().contains("Blocco PERMANENTE"));
     }
 
+    
     /**
      * @brief Metodo helper per la creazione rapida di prestiti scaduti.
      * Crea un'istanza di Prestito con una data di scadenza calcolata
@@ -223,7 +208,6 @@ public class PrestitoTest {
      * @param[in] giorniFa Numero di giorni trascorsi dalla scadenza (Ritardo).
      * @return Istanza di Prestito configurata per il test.
      */
-    
     private Prestito createPrestitoScadutoGiorniFa(int giorniFa) {
         LocalDate scadenza = LocalDate.now().minusDays(giorniFa);
         // Passando null come dataRestituzione, forziamo il calcolo del ritardo su "Oggi"

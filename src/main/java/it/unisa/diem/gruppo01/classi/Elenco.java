@@ -7,8 +7,8 @@
 * @version 1.0
 */
 
-/*
- * Questo package contiene le classi relative alla gestione degli strumenti,
+/**
+ * @brief Questo package contiene le classi relative alla gestione degli strumenti,
  * contesto: Gestione di una biblioteca.
  */
 
@@ -359,16 +359,16 @@ public void caricaDati() {
                         String isbn = campi[7].trim();
                         String titolo = campi[8].trim();
                         String autore = campi[9].trim();
-                        String annoPbStr = campi[10].trim(); // Anno Pubblicazione (ora solo "2023")
+                        String annoPbStr = campi[10].trim(); 
                         String dataInizioStr = campi[11].trim();
                         String dataScadenzaStr = campi[12].trim();
                         String dataRestituzioneStr = campi[13].trim();
                        
-                        // CONVERSIONE DATA INIZIO E SCADENZA (formato completo)
+                        // CONVERSIONE DATA INIZIO E SCADENZA 
                         LocalDate dataInizio = LocalDate.parse(dataInizioStr); 
                         LocalDate dataScadenza = LocalDate.parse(dataScadenzaStr); 
                         
-                        // CONVERSIONE ANNO PUBBLICAZIONE (MODIFICATO)
+                        // CONVERSIONE ANNO PUBBLICAZIONE
                         LocalDate annoPb;
                         if (annoPbStr.length() == 4 && annoPbStr.matches("\\d{4}")) {
                             // Solo anno: crea LocalDate 1-gennaio-anno

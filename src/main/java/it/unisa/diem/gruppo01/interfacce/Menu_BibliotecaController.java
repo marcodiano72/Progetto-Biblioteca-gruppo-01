@@ -1,4 +1,4 @@
-/*
+/**
 *@file Menu_BibliotecaController.java
  *@brief Controller FXML per la schermata del Menu Principale della Biblioteca.
  * Gestisce la navigazione verso le diverse sezioni di gestione (Libri, Studenti, Prestiti)
@@ -34,7 +34,7 @@ import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-/*
+/**
 *@brief CONTROLLER FXML: Menu_BibliotecaController
  * Responsabile dell'inizializzazione dei dati globali (Catalogo Libri e Elenco Studenti)
  * e della transizione verso le interfacce di Gestione.
@@ -61,7 +61,7 @@ public class Menu_BibliotecaController implements Initializable {
   
     
 
-    /*
+    /**
      * @brief Metodo che imposta l'istanza del Catalogo.
      * @param catalogo L'istanza del Catalogo da utilizzare.
     */
@@ -71,7 +71,7 @@ public class Menu_BibliotecaController implements Initializable {
     }
     
     
-    /*
+    /**
      * @brief Metodo che imposta l'istanza dell'Elenco Studenti.
      * @param elenco L'istanza dell'Elenco Studenti da utilizzare.
     */
@@ -80,7 +80,7 @@ public class Menu_BibliotecaController implements Initializable {
     }
     
 
-    /*
+    /**
      * @brief Metodo che inizializza il controller dopo che l'elemento radice FXML è stato elaborato.
      * Configura i Tooltip per i pulsanti.
      * Inizializza i Modelli Dati: Ottiene l'istanza del Catalogo e carica l'Elenco Studenti.
@@ -89,7 +89,7 @@ public class Menu_BibliotecaController implements Initializable {
     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // ... (Codice Tooltip e Data invariato) ...
+       
         gestioneLButton.setTooltip(new Tooltip("Accede alla sezione dedicata alla gestione dei libri"));
         gestioneSButton.setTooltip(new Tooltip("Accede alla sezione dedicata alla gestione degli studenti"));
         gestionePButton.setTooltip(new Tooltip("Accede alla sezione dedicata alla gestione dei prestiti"));
@@ -121,7 +121,7 @@ public class Menu_BibliotecaController implements Initializable {
     
     
 
-    /*
+    /**
      * @brief Metofo che gestisce l'evento di clic sul pulsante Gestione Libri (gestioneLButton).
      * Carica la vista GestioneLibri_view.fxml e passa l'istanza del Catalogo
      * al relativo controller.
@@ -149,7 +149,7 @@ public class Menu_BibliotecaController implements Initializable {
     }
     
     
-    /*
+    /**
      * @brief Metodo che gestisce l'evento di clic sul pulsante Gestione Studenti (gestioneSButton).
      * Carica la vista GestioneStudente_view.fxml.
      *
@@ -175,7 +175,7 @@ public class Menu_BibliotecaController implements Initializable {
 
     
 
-    /*
+    /**
      * @brief Metodo che gestisce l'evento di clic sul pulsante Gestione Prestiti (gestionePButton).
      * Carica la vista nterfaccia_nuovoPrestito.fxml e, 
      * passa sia l'istanza di Elenco (studenti) che l'istanza di Catalogo (libri)
@@ -207,7 +207,7 @@ public class Menu_BibliotecaController implements Initializable {
     }
 
     
-    /*
+    /**
      *@brief Metodo che gestisce l'evento di clic sul pulsante Esci (gestioneEButton).
      * Ritorna all'interfaccia di login Interfaccia1View.fxm.
      * @param event L'evento di azione generato dal clic.

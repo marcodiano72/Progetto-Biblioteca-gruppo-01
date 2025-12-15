@@ -1,10 +1,10 @@
 /**
  * @file StudenteTest.java
- * @brief Suite di test unitari per la classe Studente.
+ * @brief Testi unitari per la classe Studente.
  * * Questo file contiene i test per verificare la corretta gestione anagrafica,
  * la logica dei permessi (abilitazione al prestito) e il sistema sanzionatorio.
  * Utilizza JUnit 5 e Java Reflection per test white-box avanzati.
- * * @author Gruppo01
+ * @author gruppo01
  * @version 1.0
  */
 package it.unisa.diem.gruppo01.test;

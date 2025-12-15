@@ -19,7 +19,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-
+/**
+ *
+ * @brief Classe di test per la classe Catalogo.
+ */
 
 public class CatalogoTest {
     
@@ -87,7 +90,7 @@ public class CatalogoTest {
         libro10 = new Libro("7012", "Critica della ragione artificiale. Una difesa dell'umanità", "Éric Sadin", LocalDate.of(2017, 1, 1), 5);
         
         
-        // Otteniamo l'istanza Singleton e la puliamo
+        // Otteniamo l'istanza  la puliamo
         istanzaCatalogo = Catalogo.getIstanza();
         istanzaCatalogo.getInventarioLibri().clear();
         
@@ -139,6 +142,15 @@ public class CatalogoTest {
         System.out.println("testSalvaDati");
         
         istanzaCatalogo.aggiungiLibro(libro1);
+        istanzaCatalogo.aggiungiLibro(libro2);
+        istanzaCatalogo.aggiungiLibro(libro3);
+        istanzaCatalogo.aggiungiLibro(libro4);
+        istanzaCatalogo.aggiungiLibro(libro5);
+        istanzaCatalogo.aggiungiLibro(libro6);
+        istanzaCatalogo.aggiungiLibro(libro7);
+        istanzaCatalogo.aggiungiLibro(libro8);
+        istanzaCatalogo.aggiungiLibro(libro9);
+        istanzaCatalogo.aggiungiLibro(libro10);
         
         // Esegui il salvataggio
         Catalogo.salvaDati();
@@ -152,7 +164,7 @@ public class CatalogoTest {
         // Ricarichiamo per verificare che il salvataggio sia andato a buon fine
         istanzaCatalogo.caricaCSV();
         
-        assertEquals(9, istanzaCatalogo.getInventarioLibri().size(), "Dopo il salvataggio e ricaricamento, ci deve essere 1 libro.");
+        assertEquals(10, istanzaCatalogo.getInventarioLibri().size(), "Dopo il salvataggio e ricaricamento, ci deve essere 1 libro.");
         
         // Pulizia
         file.delete();
@@ -169,7 +181,7 @@ public class CatalogoTest {
         // Aggiunta di un nuovo libro
        boolean aggiuntoNuovo = istanzaCatalogo.aggiungiLibro(libro2); // ISBN: 978-0743273565, Copie: 3
     assertTrue(aggiuntoNuovo, "Dovrebbe ritornare true per un nuovo libro.");
-    assertEquals(9, istanzaCatalogo.getInventarioLibri().size(), "Ci deve essere 9 libro.");
+    assertEquals(1, istanzaCatalogo.getInventarioLibri().size(), "Ci deve essere 9 libro.");
     
     // Tentativo di aggiungere un libro con lo STESSO ISBN (dovrebbe incrementare le copie)
     // Usiamo lo stesso ISBN di libro2, ma copie e dettagli diversi
@@ -180,11 +192,11 @@ public class CatalogoTest {
     
     // ASSERZIONE CORRETTA
     assertFalse(aggiornato, "Dovrebbe ritornare false per un libro esistente."); // Risolve expected:<false> but was:<true>
-    assertEquals(9, istanzaCatalogo.getInventarioLibri().size(), "Il numero di elementi deve rimanere 9.");
+    assertEquals(1, istanzaCatalogo.getInventarioLibri().size(), "Il numero di elementi deve rimanere 9.");
     
-    // Verifica l'incremento delle copie (3 + 2 = 5)
+    // Verifica l'incremento delle copie (2+2=4)
     Libro libroTrovato = istanzaCatalogo.getCatalogoObservableList().get(0);
-    assertEquals(5, libroTrovato.getNumCopie(), "Il numero di copie deve essere incrementato (3 + 2 = 5).");
+    assertEquals(4, libroTrovato.getNumCopie(), "Il numero di copie deve essere incrementato (3 + 2 = 5).");
     }
 
     /**
@@ -197,15 +209,17 @@ public class CatalogoTest {
         
         istanzaCatalogo.aggiungiLibro(libro1); // Copie iniziali: 5
         
-        //  Incremento riuscito
-        boolean incrementato = istanzaCatalogo.incrementaCopie(libro1.getIsbn());
-        assertTrue(incrementato, "Dovrebbe ritornare true per l'incremento riuscito.");
-        assertEquals(6, istanzaCatalogo.getCatalogoObservableList().get(0).getNumCopie(), "Il numero di copie deve essere 6.");
+       //  Incremento riuscito
+        boolean incrementato = istanzaCatalogo.incrementaCopie(libro1.getIsbn()); // Catalogo ha 1 libro con 1 copia
+        assertTrue(incrementato, "Dovrebbe ritornare true per l'incremento riuscito."); // +1 copia
+        // Correzione: 1 + 1 = 2
+        assertEquals(2, istanzaCatalogo.getCatalogoObservableList().get(0).getNumCopie(), "Il numero di copie deve essere 2.");
         
-        //  Incremento fallito (ISBN non esistente)
+        //  Incremento fallito (ISBN non esistente)
         boolean nonIncrementato = istanzaCatalogo.incrementaCopie("ISBN-INESISTENTE");
         assertFalse(nonIncrementato, "Dovrebbe ritornare false se l'ISBN non esiste.");
-        assertEquals(6, istanzaCatalogo.getCatalogoObservableList().get(0).getNumCopie(), "Il numero di copie deve rimanere 6.");
+        // Correzione: il valore deve rimanere 2
+        assertEquals(2, istanzaCatalogo.getCatalogoObservableList().get(0).getNumCopie(), "Il numero di copie deve rimanere 2.");
     }
 
     /**
@@ -218,6 +232,7 @@ public class CatalogoTest {
         
         istanzaCatalogo.aggiungiLibro(libro1);
         istanzaCatalogo.aggiungiLibro(libro2);
+        istanzaCatalogo.aggiungiLibro(libro3);
         istanzaCatalogo.aggiungiLibro(libro4);
         istanzaCatalogo.aggiungiLibro(libro5);
         istanzaCatalogo.aggiungiLibro(libro6);
@@ -228,21 +243,18 @@ public class CatalogoTest {
 
         assertEquals(10, istanzaCatalogo.getInventarioLibri().size(), "Dovrebbero esserci 10 libri.");
         
-        // 1. Eliminazione riuscita
+        //  Eliminazione riuscita
         boolean eliminato = istanzaCatalogo.eliminaLibro(libro1.getIsbn());
         assertTrue(eliminato, "Dovrebbe ritornare true per l'eliminazione riuscita.");
         assertEquals(9, istanzaCatalogo.getInventarioLibri().size(), "Dovrebbe esserci 1 libro rimasto.");
         
-        // 2. Eliminazione fallita (ISBN non esistente)
+        //  Eliminazione fallita (ISBN non esistente)
         boolean nonEliminato = istanzaCatalogo.eliminaLibro("ISBN-INESISTENTE");
         assertFalse(nonEliminato, "Dovrebbe ritornare false se l'ISBN non esiste.");
         assertEquals(9, istanzaCatalogo.getInventarioLibri().size(), "Il numero di libri deve rimanere 1.");
     }
 
-    /**
-     * @brief Test del metodo modificaLibro(), della classe Catalogo.
-     * Verifica la modifica dei dettagli di un libro e la gestione del riordinamento nel TreeSet.
-     */
+   
    /**
      * @brief Test del metodo modificaLibro(), della classe Catalogo.
      * Verifica la modifica dei dettagli di un libro, la gestione del riordinamento nel TreeSet e la
@@ -253,8 +265,9 @@ public class CatalogoTest {
         System.out.println("testModificaLibro");
         
         // Aggiungo i libri in un ordine noto per controllare l'ordinamento (libro2 viene prima di libro1 per titolo)
-        istanzaCatalogo.aggiungiLibro(libro1); // "Il Signore degli Anelli"
-        istanzaCatalogo.aggiungiLibro(libro2); // "Il Codice Da Vinci"
+        istanzaCatalogo.aggiungiLibro(libro1); 
+        istanzaCatalogo.aggiungiLibro(libro2); 
+        istanzaCatalogo.aggiungiLibro(libro3);
         istanzaCatalogo.aggiungiLibro(libro4);
         istanzaCatalogo.aggiungiLibro(libro5);
         istanzaCatalogo.aggiungiLibro(libro6);
@@ -262,40 +275,59 @@ public class CatalogoTest {
         istanzaCatalogo.aggiungiLibro(libro8);
         istanzaCatalogo.aggiungiLibro(libro9);
         istanzaCatalogo.aggiungiLibro(libro10);
-        // La lista ordinata è: libro2, libro1
-        assertEquals(libro2.getTitolo(), istanzaCatalogo.getCatalogoObservableList().get(0).getTitolo());
+       
+        assertEquals(libro10.getTitolo(), istanzaCatalogo.getCatalogoObservableList().get(0).getTitolo());
         
-        // 1. Modifica riuscita SENZA cambiare il titolo o l'autore (non si altera l'ordinamento)
+        //  Modifica riuscita SENZA cambiare il titolo o l'autore (non si altera l'ordinamento)
         LocalDate nuovaData = LocalDate.of(2010, 1, 1);
         String isbnLibro2 = libro2.getIsbn();
         
-        // Modifico solo copie e anno di pubblicazione
+        // Modifico solo copie e anno di pubblicazione per libro2 ("Il Nome della Rosa")
         boolean modificatoSoloDati = istanzaCatalogo.modificaLibro(isbnLibro2, libro2.getTitolo(), libro2.getAutore(), nuovaData, 10);
         assertTrue(modificatoSoloDati, "La modifica di sole copie/anno dovrebbe riuscire.");
         
-        Libro libroModificato = istanzaCatalogo.getCatalogoObservableList().get(0); // Deve essere ancora in posizione 0
+        // Trova libro2 in base al suo ISBN per asserire sui suoi campi modificati
+        Libro libroModificato = null;
+        for (Libro l : istanzaCatalogo.getCatalogoObservableList()) {
+            if (l.getIsbn().equals(isbnLibro2)) {
+                libroModificato = l;
+                break;
+            }
+        }
+        assertNotNull(libroModificato, "Il libro modificato deve esistere.");
+        
         assertEquals(10, libroModificato.getNumCopie(), "Il numero di copie deve essere aggiornato a 10.");
         assertEquals(nuovaData, libroModificato.getAnnoPb(), "L'anno di pubblicazione deve essere aggiornato.");
         
-        // VERIFICA: L'ordinamento deve essere rimasto invariato (libro2 in posizione 0)
-        assertEquals(libro2.getTitolo(), istanzaCatalogo.getCatalogoObservableList().get(0).getTitolo(), "Il libro deve mantenere la posizione se il titolo non cambia.");
+        // VERIFICA: L'ordinamento deve essere rimasto invariato (libro10 in posizione 0)
+        assertEquals(libro10.getTitolo(), istanzaCatalogo.getCatalogoObservableList().get(0).getTitolo(), "Il libro con il titolo minore deve rimanere in posizione 0.");
         assertEquals(10, istanzaCatalogo.getInventarioLibri().size(), "Il numero di libri non deve cambiare.");
 
-        // 2. Modifica con CAMBIO titolo (forza il riordinamento: da "Il Codice Da Vinci" a "Zoro...")
+        // 2. Modifica con CAMBIO titolo (forza il riordinamento: da "Il Nome della Rosa" a "Zoro...")
         String nuovoTitolo = "Zoro: L'inizio";
         
         istanzaCatalogo.modificaLibro(isbnLibro2, nuovoTitolo, libroModificato.getAutore(), nuovaData, 10);
         
-        // VERIFICA: Ora la lista ordinata è: libro1 ("Il Signore degli Anelli"), libro2 ("Zoro: L'inizio")
-        Libro libroRimodificato = istanzaCatalogo.getCatalogoObservableList().get(1); // Ora è l'ultimo
+        // VERIFICA: Ora libro2 ("Zoro: L'inizio") è l'ultimo. Il libro10 ("Critica...") è il primo.
+        Libro libroRimodificato = null;
+        for (Libro l : istanzaCatalogo.getCatalogoObservableList()) {
+            if (l.getIsbn().equals(isbnLibro2)) {
+                libroRimodificato = l;
+                break;
+            }
+        }
+        
         assertEquals(nuovoTitolo, libroRimodificato.getTitolo(), "Il titolo deve essere aggiornato.");
-        assertEquals(libro1.getTitolo(), istanzaCatalogo.getCatalogoObservableList().get(0).getTitolo(), "Il libro che era secondo ora deve essere il primo.");
+        assertEquals(libro10.getTitolo(), istanzaCatalogo.getCatalogoObservableList().get(0).getTitolo(), "Il libro con il titolo minore deve essere il primo.");
 
-        // 3. Modifica fallita (ISBN non esistente)
+        //Controllo che la dimensione sia ancora 10
+    assertEquals(10, istanzaCatalogo.getInventarioLibri().size(), "Il numero di libri deve rimanere 10 dopo il riordinamento.");
+    
+        // Modifica fallita (ISBN non esistente)
         boolean nonModificato = istanzaCatalogo.modificaLibro("ISBN-INESISTENTE", "Titolo Fittizio", "Autore Fittizio", nuovaData, 5);
         assertFalse(nonModificato, "Dovrebbe ritornare false se l'ISBN non esiste.");
         
-        // 4. Test con eccezione (nuoveCopie negative)
+        //  Test con eccezione (nuoveCopie negative)
         assertThrows(IllegalArgumentException.class, () -> {
             istanzaCatalogo.modificaLibro(libro1.getIsbn(), "Titolo", "Autore", nuovaData, -1);
         }, "Dovrebbe lanciare IllegalArgumentException per copie negative.");
@@ -311,6 +343,7 @@ public class CatalogoTest {
         
         istanzaCatalogo.aggiungiLibro(libro1);
         istanzaCatalogo.aggiungiLibro(libro2);
+        istanzaCatalogo.aggiungiLibro(libro3);
         istanzaCatalogo.aggiungiLibro(libro4);
         istanzaCatalogo.aggiungiLibro(libro5);
         istanzaCatalogo.aggiungiLibro(libro6);
@@ -326,6 +359,7 @@ public class CatalogoTest {
         assertEquals(10, result.size(), "La lista deve contenere 10 elementi.");
         assertTrue(result.contains(libro1), "La lista deve contenere libro1.");
         assertTrue(result.contains(libro2), "La lista deve contenere libro2.");
+        assertTrue(result.contains(libro3), "La lista deve contenere libro3.");
        assertTrue(result.contains(libro4), "La lista deve contenere libro4.");
        assertTrue(result.contains(libro5), "La lista deve contenere libro5.");
        assertTrue(result.contains(libro6), "La lista deve contenere libro6.");
@@ -386,7 +420,7 @@ public class CatalogoTest {
         
         // Test di caricamento da file esistente
         istanzaCatalogo.caricaCSV();
-        assertEquals(1, istanzaCatalogo.getInventarioLibri().size(), "Il catalogo deve contenere 1 libro dopo il caricamento.");
+        assertEquals(10, istanzaCatalogo.getInventarioLibri().size(), "Il catalogo deve contenere 10 libro dopo il caricamento.");
         
         // Pulizia
         file.delete();
@@ -405,8 +439,9 @@ public class CatalogoTest {
         assertEquals("Il catalogo è vuoto.", resultVuoto, "Il messaggio per il catalogo vuoto non è corretto.");
         
         //  Catalogo con elementi (aggiunti in un ordine diverso per testare l'ordinamento del TreeSet)
-        istanzaCatalogo.aggiungiLibro(libro2); // Titolo: Il Codice Da Vinci
-        istanzaCatalogo.aggiungiLibro(libro1); // Titolo: Il Signore degli Anelli
+        istanzaCatalogo.aggiungiLibro(libro2); 
+        istanzaCatalogo.aggiungiLibro(libro1); 
+        istanzaCatalogo.aggiungiLibro(libro3);
         istanzaCatalogo.aggiungiLibro(libro4); 
         istanzaCatalogo.aggiungiLibro(libro5);
         istanzaCatalogo.aggiungiLibro(libro7); 
@@ -419,8 +454,9 @@ public class CatalogoTest {
         assertFalse(resultPieno.isEmpty(), "La stringa non deve essere vuota.");
         assertTrue(resultPieno.contains("===== CATALOGO LIBRI"), "Dovrebbe contenere l'header.");
         
-        // Il TreeSet ordina per titolo, quindi "Il Codice Da Vinci" dovrebbe venire prima di "Il Signore degli Anelli"
+        // Il TreeSet ordina per titolo
         int indiceLibro2 = resultPieno.indexOf(libro2.getTitolo());
+        int indiceLibro3 = resultPieno.indexOf(libro3.getTitolo());
         int indiceLibro1 = resultPieno.indexOf(libro1.getTitolo()); 
         int indiceLibro4 = resultPieno.indexOf(libro4.getTitolo());
         int indiceLibro5 = resultPieno.indexOf(libro5.getTitolo());

@@ -104,7 +104,7 @@ public class GestioneLibriController implements Initializable {
     private ObservableList<Libro> datiTabella = FXCollections.observableArrayList(); ///< Lista che punterà ai dati del Catalogo per la TableView
   
     
-    /*
+    /**
      * @brief Metodo per inserire l'istanza del Catalogo nel controller.
      * È cruciale per l'interazione con il modello di dati. Inizializza anche l'ObservableList
      * e la collega alla TableView.
@@ -120,7 +120,7 @@ public class GestioneLibriController implements Initializable {
     }
    
     
-    /*
+    /**
     * @brief Metodo che aggiorna l' ObservableList  e di conseguenza la TableView
     * con i dati  presenti nel Catalogo.
     */
@@ -130,7 +130,7 @@ public class GestioneLibriController implements Initializable {
     }
    
     
-    /*
+    /**
     * @brief Metodo chiamato per inizializzare un controller dopo che il suo elemento radice è stato completamente elaborato.
      * Configura il binding delle colonne della tabella con gli attributi dell'oggetto Libro
      * e imposta il gestore eventi per il doppio clic sulla tabella.
@@ -164,7 +164,7 @@ public class GestioneLibriController implements Initializable {
     }
     
     
-    /*
+    /**
     * @brief Metodo che carica la vista dettagliata di un libro selezionato in una nuova finestra.
     * Trasferisce i dati del libro selezionato al controller VisualizzaLibro_viewController.
     *
@@ -203,8 +203,8 @@ public class GestioneLibriController implements Initializable {
     }
      
 
-    /*
-    * @brief Metodo che gestisce l'evento di clic sul pulsante Aggiungi Libro.
+    /**
+     * @brief Metodo che gestisce l'evento di clic sul pulsante Aggiungi Libro.
      * Funzionalità: Raccoglie i dati dai campi di testo, crea un nuovo
      * oggetto Libro e lo aggiunge al Catalogo.
      * @param event L'evento di azione generato dal clic.
@@ -279,7 +279,7 @@ public class GestioneLibriController implements Initializable {
         
     }
     /**
-     * Pulisce le caselle di testo
+     * @brief Metodo che pulisce le caselle di testo
      */
     
     private void pulisciCampi(){
@@ -290,7 +290,7 @@ public class GestioneLibriController implements Initializable {
     }
 
     
-     /*
+     /**
      * @brief Metodo che gestisce l'evento di clic sul pulsante Modifica Libro.
      *  Funzionalità: Cerca un libro tramite un identificatore e aggiorna
      * i suoi dettagli (es. titolo, autore o numero di copie) con i valori presenti nei campi di testo.
@@ -391,7 +391,7 @@ if (!nuovoIsbn.isEmpty() && !nuovoIsbn.equals(libroSelezionato.getIsbn())) {
     pulisciCampi();
 }
     
-    /*
+    /**
     * @brief Metodo che gestisce l'evento di clic sul pulsante Cerca Libro (searchLButton).
     * Filtra l'inventario dei libri visualizzati nella TableView in base
     * ai criteri inseriti nei campi di ricerca (Titolo, Autore, ISBN).
@@ -519,12 +519,11 @@ if (!nuovoIsbn.isEmpty() && !nuovoIsbn.equals(libroSelezionato.getIsbn())) {
     
  
     
-    /*
-    * @brief Metodo che gestisce l'evento di clic sul pulsante Esci (exitLButton).
+    /**
+     * @brief Metodo che gestisce l'evento di clic sul pulsante Esci (exitLButton).
      * Chiude la finestra corrente.
      * @param event L'evento di azione generato dal clic.
-    
-    */
+     */
     @FXML
     private void exitL(ActionEvent event) {
         
@@ -534,11 +533,10 @@ if (!nuovoIsbn.isEmpty() && !nuovoIsbn.equals(libroSelezionato.getIsbn())) {
     }
     
     
-    /*
-    * @brief Metodo ch gestisce l'evento di clic sul pulsante Salva (saveLButton).
+    /**
+     * @brief Metodo ch gestisce l'evento di clic sul pulsante Salva (saveLButton).
      * Invocando catalogo.salvaCSV(), persiste lo stato attuale del Catalogo
      * su un file in formato CSV.
-     *
      * @param event L'evento di azione generato dal clic.
      * @throws IOException Se si verifica un errore durante la scrittura del file.
      */
@@ -550,7 +548,7 @@ if (!nuovoIsbn.isEmpty() && !nuovoIsbn.equals(libroSelezionato.getIsbn())) {
     }
     
     
-    /*
+    /**
      * @brief Metodo che gestisce l'evento di clic sul pulsante Menu' (menuButton).
      * Carica la vista del Menu Principale e trasferisce l'istanza del Catalogo
      * al nuovo controller (Menu_BibliotecaController) prima di mostrare la scena.

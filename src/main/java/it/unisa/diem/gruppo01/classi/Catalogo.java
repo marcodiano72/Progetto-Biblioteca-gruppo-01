@@ -9,7 +9,7 @@
 
 
 /**
- * Questo package contiene le classi relative alla gestione degli strumenti,
+ * @brief Questo package contiene le classi relative alla gestione degli strumenti,
  * contesto: Gestione di una biblioteca.
  */
 package it.unisa.diem.gruppo01.classi;
@@ -101,7 +101,7 @@ public class Catalogo {
     {
         if (istanza != null)
         {
-            istanza.salvaCSV(); // Usa il metodo non statico interno
+            istanza.salvaCSV();
             System.out.println("Salvataggio automatico dei dati eseguito in: " + new File(NOME_FILE_CSV).getAbsolutePath());
         }
     }
@@ -109,7 +109,6 @@ public class Catalogo {
     
    /**
     * @brief Cerca un libro all'interno del catalogo utilizzando il suo codice ISBN.
-    * Questo metodo è un utility interna.
     * @param[in] isbn Il codice ISBN del libro da cercare.
     * @return L'oggetto Libro trovato, oppure null se non presente.
     */
@@ -124,7 +123,7 @@ public class Catalogo {
     
     /**
      * @brief Implementa l'interfaccia Comparator per definire l'ordinamento dei libri.
-     * L'ordinamento è alfabetico per titolo (case-insensitive).
+     * L'ordinamento è alfabetico per titolo 
      * In caso di titoli identici, utilizza l'ISBN per garantire l'unicità nel TreeSet.
      */
     
@@ -216,19 +215,19 @@ public class Catalogo {
     
     public boolean modificaLibro(String isbn, String nuovoTitolo, String nuovoAutore, LocalDate nuovoAnnoPb, int nuoveCopie) 
     {
-        // 1. Controllo base
+        // Controllo base
     if (nuoveCopie < 0) {
         throw new IllegalArgumentException("Il numero di copie non può essere negativo.");
     }
 
-    // 2. Trova il libro da modificare
+    //  Trova il libro da modificare
     Libro libroDaModificare = cercaLibroPerISBN(isbn);
 
     if (libroDaModificare == null) {
         return false; // Libro non trovato
     }
 
-    // 3. Gestione del TreeSet per il riordinamento: 
+    //  Gestione del TreeSet per il riordinamento: 
     // Se il Titolo o l'Autore cambiano, la posizione nel TreeSet deve essere aggiornata.
     
     // Per un'efficienza ottimale con TreeSet: rimuovi l'oggetto, aggiorna i campi, e riaggiungilo.
@@ -242,13 +241,13 @@ public class Catalogo {
         inventarioLibri.remove(libroDaModificare);
     }
     
-    // 4. Aggiorna i dettagli (Titolo, Autore, AnnoPb, Copie)
+    // Aggiorna i dettagli (Titolo, Autore, AnnoPb, Copie)
     libroDaModificare.setTitolo(nuovoTitolo);
     libroDaModificare.setAutore(nuovoAutore);
     libroDaModificare.setAnnoPb(nuovoAnnoPb); // L'anno non influenza l'ordinamento, ma è un dettaglio
     libroDaModificare.setNumCopia(nuoveCopie);
     
-    // 5. Riaggiungi l'oggetto se è stato rimosso (o se è la prima volta che viene modificato)
+    // Riaggiungi l'oggetto se è stato rimosso (o se è la prima volta che viene modificato)
     if (titoloCambiato || autoreCambiato) {
         // Aggiungiamo nuovamente il libro, forzando il TreeSet a ricalcolare la posizione corretta
         inventarioLibri.add(libroDaModificare);
@@ -263,7 +262,7 @@ public class Catalogo {
     
     /**
     * @brief Fornisce una vista osservabile dell'inventario.
-    * Questo è il metodo che il Controller DEVE usare per popolare la TableView.
+    * Questo è il metodo che il Controller deve usare per popolare la TableView.
     * @return ObservableList<Libro> contenente tutti i libri dal TreeSet.
     */
     
@@ -309,7 +308,7 @@ public class Catalogo {
     /**
      * @brief Carica i dati del catalogo dal file CSV specificato.
      * In caso di errore (file non trovato), il catalogo viene inizializzato vuoto.
-     * Il file viene cercato nella working directory (solitamente la root del progetto).
+     * Il file viene cercato nella working directory .
      */
     
     public void caricaCSV() {
@@ -317,8 +316,7 @@ public class Catalogo {
         // 1. Pulisce la struttura dati prima del caricamento
         this.inventarioLibri.clear(); 
         
-        // La costante statica (che devi avere in Catalogo.java)
-        // private final static String NOME_FILE_CSV = "Lista_Libri.csv"; 
+         
         
         File file = new File(NOME_FILE_CSV);
 
@@ -330,7 +328,7 @@ public class Catalogo {
              return;
         }
         
-        // 2. Tenta la lettura del file
+        // Tenta la lettura del file
         try (BufferedReader br = new BufferedReader(new FileReader(NOME_FILE_CSV))) {
             
             // Ignora le prime due righe (Header: "Elenco Libri" e "Titolo;Autore;ISBN;Num_Copie")

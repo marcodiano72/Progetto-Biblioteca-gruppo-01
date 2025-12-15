@@ -93,7 +93,8 @@ public class GestioneStudenteController implements Initializable {
     private ObservableList<Studente> listaStudenti = FXCollections.observableArrayList(); ///< Lista osservabile per sincronizzare i dati dell'Elenco con la TableView
    
     
-    /* @brief Metodo chiamato per inizializzare un controller dopo che il suo elemento radice è stato completamente elaborato.
+    /**
+     * @brief Metodo chiamato per inizializzare un controller dopo che il suo elemento radice è stato completamente elaborato.
      * Inizializza l'oggetto Elenco.
      * Configura il binding delle colonne della tabella.
      * Carica i dati iniziali dal file CSV.
@@ -133,8 +134,8 @@ public class GestioneStudenteController implements Initializable {
         });
     }
     
-    /*
-    * @brief Metodo ch verifica che l'email inserita sia non vuota e termini con il dominio istituzionale "@studenti.unisa.it".
+    /**
+     * @brief Metodo ch verifica che l'email inserita sia non vuota e termini con il dominio istituzionale "@studenti.unisa.it".
      * @param email La stringa email da validare.
      * @return true se l'email è valida, altrimenti false
     */
@@ -143,7 +144,7 @@ public class GestioneStudenteController implements Initializable {
 }
  
      
-     /*
+     /**
      * @brief Metodo che carica la vista dettagliata di uno studente selezionato in una nuova finestra .
      * Trasferisce i dati dello studente al controller  VisualizzaStudente_viewController.
      * @param s L'oggetto Studente i cui dettagli devono essere visualizzati.
@@ -192,7 +193,7 @@ public class GestioneStudenteController implements Initializable {
     }
     
     
-    /*
+    /**
     * @brief Metodo che gestisce l'evento di clic sul pulsante Aggiungi Studente.
      * Funzionalità: Raccoglie i dati dai campi di testo, crea un nuovo
      * oggetto studente e lo aggiunge all' elenco.
@@ -253,10 +254,10 @@ if (!isValidEmail(email)) {
         
         } 
     }
+    
     /**
      * @brief Metodo che pulisce le caselle di testo
      */
-    
     private void pulisciCampi(){
         tfCognome.clear();
         tfNome.clear();
@@ -266,7 +267,7 @@ if (!isValidEmail(email)) {
     
     
 
-    /*
+    /**
     * @brief Metodo che gestisce l'evento di clic sul pulsante Modifica Studente (modSButton).
      * Aggiorna i dati dello studente selezionato, ignorando i campi lasciati vuoti.
      * L'aggiornamento viene eseguito sulla base della matricola dello studente selezionato.
@@ -341,7 +342,7 @@ if (!isValidEmail(email)) {
 }
 
     
-    /*
+    /**
      * @brief Metodo che gestisce l'evento di clic sul pulsante Cerca Studente (searchSButton).
      * Filtra la lista degli studenti in base alla Matricola e/o al Cognome.
      *
@@ -391,7 +392,7 @@ if (!isValidEmail(email)) {
             
         }
     
-    /*
+    /**
      *@brief Metodo che gestisce l'eliminazione di uno studente selezionato dalla TableView (deleteSButton).
      * Richiede una conferma esplicita all'utente prima di rimuovere lo studente dall'elenco.
      * @param event L'evento di azione generato dal clic.
@@ -453,14 +454,13 @@ if (!isValidEmail(email)) {
     
  
     
-    /*
+    /**
      * @brief Metodo che gestisce l'evento di clic sul pulsante Esci (exitSButton).
      * Chiude la finestra corrente.
      *
      * @param event L'evento di azione generato dal clic.
     
     */
-
     @FXML
     private void exitS(ActionEvent event) {
         Node exit = (Node) event.getSource();
@@ -472,7 +472,7 @@ if (!isValidEmail(email)) {
 
     
     
-    /*
+    /**
      * @brief Metodo che gestisce l'evento di clic sul pulsante Salva (saveSButton).
      * Invocando elenco.salvaCSV(), persiste lo stato attuale dell'Elenco
      * su un file in formato CSV.
@@ -488,7 +488,7 @@ if (!isValidEmail(email)) {
     }
     
     
-    /*
+    /**
      * @brief Metodo che gestisce l'evento di clic sul pulsante *enu (menuSButton).
      * Carica la vista del Menu Principale e mostra la scena.
      *
@@ -509,4 +509,6 @@ if (!isValidEmail(email)) {
             } catch (IOException ex) {
                System.out.println("ERRORE:impossibile trovare Menu_Biblioteca_view.fxml");
                ex.printStackTrace();
-            }}}
+            }
+    }
+}

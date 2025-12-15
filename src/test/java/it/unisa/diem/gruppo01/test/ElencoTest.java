@@ -34,6 +34,15 @@ public class ElencoTest {
     private Elenco instance;
     private Studente s1;
     private Studente s2;
+    private Studente s3;
+    private Studente s4;
+    private Studente s5;
+    private Studente s6;
+    private Studente s7;
+    private Studente s8;
+    private Studente s9;
+    private Studente s10;
+    
     private final String FILE_CSV = "Lista_studenti.csv"; //Nome del file CSV utilizzato per la persistenza del catalogo.
     private final String FILE_DOS = "test_export.dat"; //Nome del file per l'esportazione DOS.
 
@@ -47,10 +56,17 @@ public class ElencoTest {
         // Inizializza l'elenco e crea studenti di prova prima di ogni test
         instance = new Elenco();
         // Assumo il costruttore: Nome, Cognome, Matricola, Email, Sanzione, Ritardo
-        s1 = new Studente("Mario", "Rossi", "001", "m.rossi@studenti.unisa.it", "Nessuna", false);
-        s2 = new Studente("Luigi", "Verdi", "002", "l.verdi@studenti.unisa.it", "Nessuna", false);
+        s2 = new Studente("Verdi", "Luigi", "1002", "l.verdi@studenti.unisa.it", "Nessuna", false);
+        s1 = new Studente("Rossi", "Mario", "1001", "m.rossi@studenti.unisa.it", "Nessuna", false);
+        s3 = new Studente("Bianchi", "Luca", "1003", "l.bianchi@studenti.unisa.it", "Nessuna", false);
+        s4 = new Studente("Lombardi", "Viola", "1004", "v.lombardi@studenti.unisa.it", "Nessuna", false);
+        s5 = new Studente("Galli", "Sofia", "1005", "s.galli@studenti.unisa.it", "Nessuna", false);
+        s6 = new Studente("Marini", "Leonardo", "1006", "l.marini@studenti.uni.it", "Nessuna", false);
+        s7 = new Studente("Serra", "Federica", "1007", "f.serra@studenti.unisa.it", "Nessuna", false);
+        s8 = new Studente("Colombo", "Alessandra", "1008", "a.colombo@studenti.unisa.it", "Nessuna", false);
+        s9 = new Studente("Conti", "Luigia", "1009", "l.conti@studenti.uni.it", "Nessuna", false);
+        s10 = new Studente("Pellegrini", "Luca", "1010", "l.pellegrini@studenti.unisa.it", "Nessuna", false);
     }
-    
     /**
     *@brief Pulizia eseguita dopo ogni test. Elimina i file di persistenza creati dal test.
     */
@@ -102,7 +118,7 @@ public class ElencoTest {
         instance.aggiungiStudente(s1);
         
         // Caso 1:Matricola esistente
-        String matricola = "001";
+        String matricola = "1001";
         Studente result = instance.cercaStudenteperMatricola(matricola);
         assertNotNull(result);
         assertEquals(s1, result);
@@ -126,11 +142,49 @@ public class ElencoTest {
         assertTrue(result);
         assertEquals(1, instance.getElencoStudenti().size());
         
+        boolean result2 = instance.aggiungiStudente(s3);
+        assertTrue(result2);
+        assertEquals(2, instance.getElencoStudenti().size());        
+        
+        boolean result3 = instance.aggiungiStudente(s4);
+        assertTrue(result3);
+        assertEquals(3, instance.getElencoStudenti().size());        
+        
+        boolean result4 = instance.aggiungiStudente(s5);
+        assertTrue(result4);
+        assertEquals(4, instance.getElencoStudenti().size());        
+        
+        boolean result5 = instance.aggiungiStudente(s6);
+        assertTrue(result5);
+        assertEquals(5, instance.getElencoStudenti().size());        
+        
+        boolean result6 = instance.aggiungiStudente(s7);
+        assertTrue(result6);
+        assertEquals(6, instance.getElencoStudenti().size());        
+        
+        boolean result7 = instance.aggiungiStudente(s8);
+        assertTrue(result7);
+        assertEquals(7, instance.getElencoStudenti().size());        
+        
+        boolean result8 = instance.aggiungiStudente(s9);
+        assertTrue(result8);
+        assertEquals(8, instance.getElencoStudenti().size());
+        
+        boolean result9 = instance.aggiungiStudente(s10);
+        assertTrue(result9);
+        assertEquals(9, instance.getElencoStudenti().size());
+        
+        
+        
+        
+        
+        
+        
         // Caso 2: Tentativo di aggiunta duplicato (stessa matricola)
-        Studente sDuplicato = new Studente("Anna", "Bianchi", "001", "a.bianchi@test.it", "Nessuna", false);
+        Studente sDuplicato = new Studente("Anna", "Bianchi", "1001", "a.bianchi@studenti.unisa.it", "Nessuna", false);
         boolean resultDuplicato = instance.aggiungiStudente(sDuplicato);
         assertFalse(resultDuplicato, "Non dovrebbe aggiungere studenti con matricola duplicata");
-        assertEquals(1, instance.getElencoStudenti().size()); // La dimensione rimane 1
+        assertEquals(9, instance.getElencoStudenti().size()); // La dimensione rimane 1
     }
 
     /**
@@ -144,7 +198,7 @@ public class ElencoTest {
         instance.aggiungiStudente(s1); // Matricola 001, Rossi
         
         // Caso 1: Modifica valida
-        String matricola = "001";
+        String matricola = "1001";
         String nuovoNome = "MarioMod";
         String nuovoCognome = "RossiMod"; // Cambia cognome per testare riordinamento
         String nuovaEmail = "nuova@email.it";
@@ -152,7 +206,7 @@ public class ElencoTest {
         boolean result = instance.modificaStudente(matricola, nuovoNome, nuovoCognome, nuovaEmail);
         assertTrue(result);
         
-        Studente sModificato = instance.cercaStudenteperMatricola("001");
+        Studente sModificato = instance.cercaStudenteperMatricola("1001");
         assertEquals("RossiMod", sModificato.getCognome());
         assertEquals("nuova@email.it", sModificato.getEmail());
         
@@ -172,13 +226,13 @@ public class ElencoTest {
         instance.aggiungiStudente(s1);
         
         // Caso 1: Eliminazione riuscita
-        String matricola = "001";
+        String matricola = "1001";
         boolean result = instance.eliminaStudente(matricola);
         assertTrue(result);
         assertTrue(instance.getElencoStudenti().isEmpty());
         
         // Caso 2: Eliminazione fallita (già eliminato o mai esistito)
-        boolean resultFail = instance.eliminaStudente("001");
+        boolean resultFail = instance.eliminaStudente("1001");
         assertFalse(resultFail);
     }
 
@@ -241,8 +295,8 @@ public class ElencoTest {
         
         // Verifica che entrambi gli studenti siano stati caricati
         assertEquals(2, nuovaIstanza.getElencoStudenti().size());
-        assertNotNull(nuovaIstanza.cercaStudenteperMatricola("001"));
-        assertNotNull(nuovaIstanza.cercaStudenteperMatricola("002"));
+        assertNotNull(nuovaIstanza.cercaStudenteperMatricola("1001"));
+        assertNotNull(nuovaIstanza.cercaStudenteperMatricola("1002"));
     }
 
     /**
@@ -264,6 +318,6 @@ public class ElencoTest {
         assertNotNull(resultFull);
         // Verifica la presenza di dati chiave nell'output
         assertTrue(resultFull.contains("Rossi")); // Controlla che ci sia il cognome
-        assertTrue(resultFull.contains("001"));   // Controlla che ci sia la matricola
+        assertTrue(resultFull.contains("1001"));   // Controlla che ci sia la matricola
     }
 }

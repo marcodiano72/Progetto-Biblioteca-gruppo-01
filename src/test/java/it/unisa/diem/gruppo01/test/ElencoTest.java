@@ -265,6 +265,15 @@ public class ElencoTest {
         
         instance.aggiungiStudente(s1);
         instance.aggiungiStudente(s2);
+        instance.aggiungiStudente(s3);
+        instance.aggiungiStudente(s4);
+        instance.aggiungiStudente(s5);
+        instance.aggiungiStudente(s6);
+        instance.aggiungiStudente(s7);
+        instance.aggiungiStudente(s8);
+        instance.aggiungiStudente(s9);
+        instance.aggiungiStudente(s10);
+        
         
         // Il metodo salvaCSV usa un nome file hardcoded "Lista_studenti.csv" nella classe Elenco
         instance.salvaCSV();
@@ -285,6 +294,14 @@ public class ElencoTest {
         // Prepara dati e salva su file
         instance.aggiungiStudente(s1);
         instance.aggiungiStudente(s2);
+        instance.aggiungiStudente(s3);
+        instance.aggiungiStudente(s4);
+        instance.aggiungiStudente(s5);
+        instance.aggiungiStudente(s6);
+        instance.aggiungiStudente(s7);
+        instance.aggiungiStudente(s8);
+        instance.aggiungiStudente(s9);
+        instance.aggiungiStudente(s10);
         instance.salvaCSV();
         
         // Crea una nuova istanza pulita
@@ -294,9 +311,17 @@ public class ElencoTest {
         nuovaIstanza.caricaDati();
         
         // Verifica che entrambi gli studenti siano stati caricati
-        assertEquals(2, nuovaIstanza.getElencoStudenti().size());
+        assertEquals(10, nuovaIstanza.getElencoStudenti().size());
         assertNotNull(nuovaIstanza.cercaStudenteperMatricola("1001"));
         assertNotNull(nuovaIstanza.cercaStudenteperMatricola("1002"));
+        assertNotNull(nuovaIstanza.cercaStudenteperMatricola("1003"));
+        assertNotNull(nuovaIstanza.cercaStudenteperMatricola("1004"));
+        assertNotNull(nuovaIstanza.cercaStudenteperMatricola("1005"));
+        assertNotNull(nuovaIstanza.cercaStudenteperMatricola("1006"));
+        assertNotNull(nuovaIstanza.cercaStudenteperMatricola("1007"));
+        assertNotNull(nuovaIstanza.cercaStudenteperMatricola("1008"));
+        assertNotNull(nuovaIstanza.cercaStudenteperMatricola("1009"));
+        assertNotNull(nuovaIstanza.cercaStudenteperMatricola("1010"));
     }
 
     /**

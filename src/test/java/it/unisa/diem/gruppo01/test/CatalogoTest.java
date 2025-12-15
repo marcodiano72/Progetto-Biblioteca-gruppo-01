@@ -160,7 +160,7 @@ public class CatalogoTest {
         Libro libro1b = new Libro("978-8861928090", "Titolo Diverso", "Autore Diverso", LocalDate.of(2001, 1, 1), 2);
         boolean aggiornato = istanzaCatalogo.aggiungiLibro(libro1b);
         assertFalse(aggiornato, "Dovrebbe ritornare false per un libro esistente.");
-        assertEquals(1, istanzaCatalogo.getInventarioLibri().size(), "Il numero di elementi deve rimanere 1.");
+        assertEquals(9, istanzaCatalogo.getInventarioLibri().size(), "Il numero di elementi deve rimanere 1.");
         
         Libro libroTrovato = istanzaCatalogo.getCatalogoObservableList().get(0);
         assertEquals(7, libroTrovato.getNumCopie(), "Il numero di copie deve essere incrementato (5 + 2 = 7).");

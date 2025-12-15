@@ -1,4 +1,12 @@
 Elenco Studenti
 Cognome; Nome; Matricola; Email; Sanzione; Ritardo; PrestitoAttivo; ISBN; Titolo; Autore; AnnoPubblicazione; DataInizio; DataScadenza; DataRestituzione
+Bianchi;Luca;1003;l.bianchi@studenti.unisa.it;Nessuna;false;0;;;;;;;;
+Colombo;Alessandra;1008;a.colombo@studenti.unisa.it;Nessuna;false;0;;;;;;;;
+Conti;Luigia;1009;l.conti@studenti.uni.it;Nessuna;false;0;;;;;;;;
+Galli;Sofia;1005;s.galli@studenti.unisa.it;Nessuna;false;0;;;;;;;;
+Lombardi;Viola;1004;v.lombardi@studenti.unisa.it;Nessuna;false;0;;;;;;;;
+Marini;Leonardo;1006;l.marini@studenti.uni.it;Nessuna;false;0;;;;;;;;
+Pellegrini;Luca;1010;l.pellegrini@studenti.unisa.it;Nessuna;false;0;;;;;;;;
 Rossi;Mario;1001;m.rossi@studenti.unisa.it;Nessuna;false;0;;;;;;;;
+Serra;Federica;1007;f.serra@studenti.unisa.it;Nessuna;false;0;;;;;;;;
 Verdi;Luigi;1002;l.verdi@studenti.unisa.it;Nessuna;false;0;;;;;;;;

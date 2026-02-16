@@ -13,7 +13,6 @@
    <children>
        <Label fx:id="errorMessageLabel" layoutX="200.0" layoutY="360.0" prefHeight="20.0" prefWidth="300.0" textFill="RED" />
     <Button fx:id="accessButton" layoutX="278.0" layoutY="398.0" mnemonicParsing="false" onAction="#openMenu" prefHeight="42.0" prefWidth="143.0" text="ACCEDI" textAlignment="JUSTIFY" />
-      <PasswordField fx:id="passwordFile" layoutX="362.0" layoutY="318.0" />
       <Label alignment="CENTER_RIGHT" layoutX="189.0" layoutY="264.0" prefHeight="27.0" prefWidth="150.0" text="NOME UTENTE">
          <font>
             <Font size="18.0" />
@@ -25,6 +24,7 @@
          </font>
       </Label>
       <TextField fx:id="usernameField" layoutX="362.0" layoutY="265.0" />
+      <PasswordField fx:id="passwordFile" layoutX="362.0" layoutY="318.0" />
       <ImageView fitHeight="146.0" fitWidth="150.0" layoutX="277.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
     <image>
         <Image url="@/images/logo.png" /> 

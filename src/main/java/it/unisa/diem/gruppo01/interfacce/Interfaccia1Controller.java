@@ -45,9 +45,9 @@ public class Interfaccia1Controller implements Initializable {
     @FXML
     private Button accessButton;
     @FXML
-    private PasswordField passwordFile;
-    @FXML
     private TextField usernameField;
+    @FXML
+    private PasswordField passwordFile;
     @FXML
     private Label errorMessageLabel; 
 

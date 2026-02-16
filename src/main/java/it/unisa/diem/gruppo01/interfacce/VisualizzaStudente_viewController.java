@@ -104,7 +104,7 @@ public class VisualizzaStudente_viewController implements Initializable {
         cognomeField.setText(s.getCognome());
         emailField.setText(s.getEmail());
         matricolaField.setText(s.getMatricola());
-
+        sanzioneFIeld.setText(s.getSanzione());
         // 2. Popola i prestiti attivi
         List<Prestito> prestiti = s.getPrestitiAttivi();
         

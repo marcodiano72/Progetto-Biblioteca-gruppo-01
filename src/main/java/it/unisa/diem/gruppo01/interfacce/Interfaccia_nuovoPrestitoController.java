@@ -354,7 +354,7 @@ public class Interfaccia_nuovoPrestitoController implements Initializable {
           
            
            String esitoSanzione = prestitoDaChiudere.gestioneSanzioni();
-           
+           studente.setSanzione(prestitoDaChiudere.gestioneSanzioni());
            studente.rimuoviPrestito(prestitoDaChiudere);
            
            // Salva le modifiche su file

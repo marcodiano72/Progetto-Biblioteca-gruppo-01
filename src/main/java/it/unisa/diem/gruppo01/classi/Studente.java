@@ -14,6 +14,8 @@
  */
 package it.unisa.diem.gruppo01.classi;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -162,22 +164,19 @@ public String getSanzione(){ return sanzione; }
         this.sanzione = sanzione;
     }
     
-    public boolean isRitardo(){ return ritardo; }
+    public boolean isRitardo(){
+        if(!this.isAbilitato() && this.prestitiAttivi.size()<3)
+            return true;
+        else return false;
+    }
     
     /**
      * Imposta il flag ritardo.
      * Scansiona i prestiti attivi. Se ne trova uno con giorni > 0, scatta il flag.
      */
     public void setRitardo(boolean ritardo){
-        this.ritardo = false; // Reset
-        
-        for(Prestito p : prestitiAttivi){
-            // Ora p.calcolaGiorniRitardo() funziona anche se dataRestituzione è null
-            if(p.calcolaGiorniRitardo() > 0){
-                this.ritardo = true;
-                break; // Trovato un ritardo, inutile continuare
-            }
-        }
+        this.ritardo = ritardo; // Reset
+  
     }
     
     /**
@@ -185,18 +184,16 @@ public String getSanzione(){ return sanzione; }
      * Forza il ricalcolo dello stato prima di rispondere.
      */
     public boolean isAbilitato(){
-        // 1. Aggiorna lo stato attuale (i parametri passati sono ininfluenti)
-        this.setRitardo(false); 
-        this.setSanzione(null);
-
-        // 2. Controllo Limite
-        boolean limiteSuperato = this.contaPrestitiAttivi() >= Prestito.LIMITE_PRESTITI;
-        
-        // 3. Controllo Ritardo (appena ricalcolato)
-        boolean inRitardo = this.isRitardo();
-
-        // ABILITATO SE: Non ha troppi libri E non è in ritardo
-        return !limiteSuperato && !inRitardo;
+        if(this.prestitiAttivi.size()>=3)
+            return false;
+        if(this.sanzione.startsWith("Categoria 3")){
+            return false;
+        }
+        else if(this.sanzione.startsWith("Categoria 2")){
+            if(ChronoUnit.DAYS.between(prestito.getDataRestituzione(), LocalDate.now())<30)
+                return false;
+        }
+            return true;
     }
     
     public void rimuoviPrestito(Prestito p){

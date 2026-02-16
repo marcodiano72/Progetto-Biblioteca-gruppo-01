@@ -38,8 +38,8 @@ import javafx.scene.control.Label;
 public class Interfaccia1Controller implements Initializable {
 
     // Costanti per le credenziali corrette
-    private static final String NOME_UTENTE_CORRETTO = "MARCO"; ///< Nome utente corretto per l'accesso
-    private static final String PASSWORD_CORRETTA = "1234"; ///< Password corretta per l'accesso.
+    //private static final String NOME_UTENTE_CORRETTO = "MARCO"; ///< Nome utente corretto per l'accesso
+   // private static final String PASSWORD_CORRETTA = "1234"; ///< Password corretta per l'accesso.
     
     // FXML Elements
     @FXML
@@ -81,7 +81,10 @@ public class Interfaccia1Controller implements Initializable {
         String usernameInserito = usernameField.getText();
         String passwordInserita = passwordFile.getText();
 
-        if (usernameInserito.equals(NOME_UTENTE_CORRETTO) && passwordInserita.equals(PASSWORD_CORRETTA)) {
+        if (usernameInserito.equals("MARCO") && passwordInserita.equals("9099")
+                || usernameInserito.equals("GIO") && passwordInserita.equals("9647") 
+                || usernameInserito.equals("NICK") && passwordInserita.equals("1075") 
+                || usernameInserito.equals("MACUCC") && passwordInserita.equals("9473")) {
             
             // ACCESSO RIUSCITO
             System.out.println("Accesso Eseguito con successo! Caricamento del Menu...");
